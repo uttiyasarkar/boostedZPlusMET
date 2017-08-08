@@ -3,7 +3,7 @@ CFLAGS=
 LIBS=`root-config --cflags --glibs` -L $(ROOTSYS)/lib -I$(ROOTSYS)/include
 ROOFITLIBS=-lRooFit -lHtml -lMinuit -lRooFitCore
 INCLUDES=-I$(CMSSW_BASE)/src/AnalysisTools/src/ -I$(CMSSW_BASE)/src/ -I$(CMSSW_BASE)/src/Analysis/btag/
-EXECS=fitWpeak flavorFit plotObs_photon_baseline plotObs_singleEleCR_baseline plotObs_lowDPhi_baseline plotObs_singleHiggsTag plotObs_doubleHiggsTag plotObs_antitag plotObs_baseline plotObs_singleMuCR_baseline frankSynch cutFlow NminusOne ALPHABET ALPHABET_photon plotHiggsPt_TChiHH datacardInputs photonSkim WtaggingEfficiency.cc plotWtagDist.cc unblindSignalRegion.cc
+EXECS=fitWpeak flavorFit plotObs_photon_baseline plotObs_singleEleCR_baseline plotObs_lowDPhi_baseline plotObs_singleHiggsTag plotObs_doubleHiggsTag plotObs_antitag plotObs_baseline plotObs_singleMuCR_baseline cutFlow ALPHABET ALPHABET_photon datacardInputs photonSkim WtaggingEfficiency.cc plotWtagDist.cc unblindSignalRegion.cc
 $(EXECS):RA2bTree.cc definitions.cc skimSamples.cc plotterUtils.cc
 flavorFit:flavorFit.cc
 fitWpeak:fitWpeak.cc
@@ -15,10 +15,7 @@ plotObs_photon_baseline:plotObs_photon_baseline.cc
 plotObs_lowDPhi_baseline:plotObs_lowDPhi_baseline.cc
 plotObs_doubleHiggsTag:plotObs_doubleHiggsTag.cc
 plotObs_singleHiggsTag:
-plotHiggsPt_TChiHH:plotHiggsPt_TChiHH.cc
 cutFlow:cutFlow.cc RA2bTree.cc skimSamples.cc
-frankSynch:frankSynch.cc RA2bTree.cc skimSamples.cc
-NminusOne:NminusOne.cc RA2bTree.cc skimSamples.cc
 ALPHABET:ALPHABET.cc
 ALPHABET_photon:ALPHABET_photon.cc
 datacardInputs:datacardInputs.cc
@@ -49,10 +46,6 @@ ALPHABET_photon:
 	$(CC) $(CFLAGS) $(LIBS) $(INCLUDES) ALPHABET_photon.cc -o ../bin/$@
 cutFlow:
 	$(CC) $(CFLAGS) $(LIBS) $(INCLUDES) cutFlow.cc -o ../bin/$@
-frankSynch:
-	$(CC) $(CFLAGS) $(LIBS) $(INCLUDES) frankSynch.cc -o ../bin/$@
-NminusOne:
-	$(CC) $(CFLAGS) $(LIBS) $(INCLUDES) NminusOne.cc -o ../bin/$@
 plotObs_photon_baseline:
 	$(CC) $(CFLAGS) $(LIBS) $(INCLUDES) plotObs_photon_baseline.cc -o ../bin/$@
 plotObs_lowDPhi_baseline:
@@ -69,8 +62,6 @@ plotObs_singleEleCR_baseline:
 	$(CC) $(CFLAGS) $(LIBS) $(INCLUDES) plotObs_singleEleCR_baseline.cc -o ../bin/$@	
 plotObs_singleMuCR_baseline:
 	$(CC) $(CFLAGS) $(LIBS) $(INCLUDES) plotObs_singleMuCR_baseline.cc -o ../bin/$@	
-plotHiggsPt_TChiHH:
-	$(CC) $(CFLAGS) $(LIBS) $(ROOFITLIBS) $(INCLUDES) plotHiggsPt_TChiHH.cc -o ../bin/$@
 datacardInputs:
 	$(CC) $(CFLAGS) $(LIBS) $(ROOFITLIBS) $(INCLUDES) datacardInputs.cc -o ../bin/$@
 clean : 
