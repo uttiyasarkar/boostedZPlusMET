@@ -1,4 +1,4 @@
-Repo for studying boosted Higgs tools with the RA2b trees.  This package relies on another package for setting up some basic 
+Repo for studying boosted Z tools with the RA2b trees.  
 classes to facilitate some things.  
 
 #General Stuff:
@@ -8,7 +8,11 @@ classes to facilitate some things.
 cmsrel CMSSW_7_4_2
 cd CMSSW_7_4_2/src/
 cmsenv
-git clone https://github.com/awhitbeck/boostedHiggsPlusMET.git
+git clone https://github.com/awhitbeck/boostedZPlusMET.git
+cd boostedZPlusMET
+source setup.csh
+cd src
+make all
 </pre>
 
 NEEDS UPDATING
