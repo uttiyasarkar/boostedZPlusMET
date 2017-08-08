@@ -28,7 +28,6 @@ int main(int argc, char** argv){
   plot HTplot(*fillHT<RA2bTree>,"HT_singleEleCR_baseline","H_{T} [GeV]",17,300,2000.);
   plot NJetsplot(*fillNJets<RA2bTree>,"NJets_singleEleCR_baseline","n_{j}",14,1.5,15.5);
   plot BTagsplot(*fillBTags<RA2bTree>,"BTags_singleEleCR_baseline","n_{b}",6,-0.5,5.5);
-  plot Binsplot(*fillAnalysisBins<RA2bTree>,"AnalysisBins_singleEleCR_baseline","i^th Bin",8,0.5,8.5);
 
   plot J1dR_Massplot(*leadJetMuondR_mass<RA2bTree>,"J1dR_Mass_singleEleCR_baseline","m_{J} [GeV]",20,50.,250.);
   plot J2dR_Massplot(*subleadJetMuondR_mass<RA2bTree>,"J2dR_Mass_singleEleCR_baseline","m_{J} [GeV]",20,50.,250.);
@@ -69,7 +68,6 @@ int main(int argc, char** argv){
   plots.push_back(HTplot);
   plots.push_back(NJetsplot);
   plots.push_back(BTagsplot);
-  plots.push_back(Binsplot);
   plots.push_back(J1dR_Massplot);
   plots.push_back(J2dR_Massplot);
   plots.push_back(J1dR_BBplot);

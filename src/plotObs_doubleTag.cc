@@ -28,7 +28,6 @@ int main(int argc, char** argv){
 
   plot METplot(*fillMET<RA2bTree>,"MET_doubleHiggsTag","MET [GeV]",15,300.,1800.);
   plot HTplot(*fillHT<RA2bTree>,"HT_doubleHiggsTag","H_{T} [GeV]",15,300,2800.);
-  plot Binsplot(*fillAnalysisBins<RA2bTree>,"AnalysisBins_doubleHiggsTag","i^th Bin",8,0.5,8.5);
   plot NJetsplot(*fillNJets<RA2bTree>,"NJets_doubleHiggsTag","n_{j}",14,1.5,15.5);
   plot BTagsplot(*fillBTags<RA2bTree>,"BTags_doubleHiggsTag","n_{b}",6,-0.5,5.5);
 
@@ -53,7 +52,6 @@ int main(int argc, char** argv){
   vector<plot> plots;
   plots.push_back(METplot);
   plots.push_back(HTplot);
-  plots.push_back(Binsplot);
   plots.push_back(NJetsplot);
   plots.push_back(BTagsplot);
   plots.push_back(DeltaPhi1plot);

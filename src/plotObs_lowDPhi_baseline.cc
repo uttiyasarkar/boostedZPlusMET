@@ -33,7 +33,6 @@ int main(int argc, char** argv){
     plot HTplot(*fillHT<RA2bTree>,"HT_lowDPhi_baseline","H_{T} [GeV]",17,300,2000.);
     plot NJetsplot(*fillNJets<RA2bTree>,"NJets_lowDPhi_baseline","n_{j}",14,1.5,15.5);
     plot BTagsplot(*fillBTags<RA2bTree>,"BTags_lowDPhi_baseline","n_{b}",6,-0.5,5.5);
-    plot Binsplot(*fillAnalysisBins<RA2bTree>,"AnalysisBins_lowDPhi_baseline","i^th Bin",8,0.5,8.5);
 
     plot J2NbhadronPlot(*fillLeadingNbHadrons<RA2bTree>,"J1pt_numBhadrons_baseline","n_{b-had}",5,-0.5,4.5);
     plot J1NbhadronPlot(*fillSubLeadingNbHadrons<RA2bTree>,"J2pt_numBhadrons_baseline","n_{b-had}",5,-0.5,4.5);
@@ -93,7 +92,6 @@ int main(int argc, char** argv){
     plots.push_back(DeltaPhi3plot);
     plots.push_back(DeltaPhi4plot);
 
-    plots.push_back(Binsplot);
     plots.push_back(J1pt_Massplot);
     plots.push_back(J2pt_Massplot);
     plots.push_back(J1bbtag_Massplot);

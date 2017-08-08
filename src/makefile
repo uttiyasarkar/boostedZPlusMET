@@ -3,7 +3,7 @@ CFLAGS=
 LIBS=`root-config --cflags --glibs` -L $(ROOTSYS)/lib -I$(ROOTSYS)/include
 ROOFITLIBS=-lRooFit -lHtml -lMinuit -lRooFitCore
 INCLUDES=-I$(CMSSW_BASE)/src/AnalysisTools/src/ -I$(CMSSW_BASE)/src/ -I$(CMSSW_BASE)/src/Analysis/btag/
-EXECS=fitWpeak flavorFit plotObs_photon_baseline plotObs_singleEleCR_baseline plotObs_lowDPhi_baseline plotObs_singleHiggsTag plotObs_doubleHiggsTag plotObs_antitag plotObs_baseline plotObs_singleMuCR_baseline cutFlow ALPHABET ALPHABET_photon datacardInputs photonSkim WtaggingEfficiency.cc plotWtagDist.cc unblindSignalRegion.cc
+EXECS=fitWpeak flavorFit plotObs_photon_baseline plotObs_singleEleCR_baseline plotObs_lowDPhi_baseline plotObs_singleTag plotObs_doubleTag plotObs_antitag plotObs_baseline plotObs_singleMuCR_baseline cutFlow ALPHABET ALPHABET_photon datacardInputs photonSkim WtaggingEfficiency.cc plotWtagDist.cc unblindSignalRegion.cc
 $(EXECS):RA2bTree.cc definitions.cc skimSamples.cc plotterUtils.cc
 flavorFit:flavorFit.cc
 fitWpeak:fitWpeak.cc
@@ -13,8 +13,8 @@ plotObs_baseline:plotObs_baseline.cc
 plotObs_antitag:plotObs_antitag.cc
 plotObs_photon_baseline:plotObs_photon_baseline.cc
 plotObs_lowDPhi_baseline:plotObs_lowDPhi_baseline.cc
-plotObs_doubleHiggsTag:plotObs_doubleHiggsTag.cc
-plotObs_singleHiggsTag:
+plotObs_doubleTag:plotObs_doubleTag.cc
+plotObs_singleTag:
 cutFlow:cutFlow.cc RA2bTree.cc skimSamples.cc
 ALPHABET:ALPHABET.cc
 ALPHABET_photon:ALPHABET_photon.cc
@@ -50,10 +50,10 @@ plotObs_photon_baseline:
 	$(CC) $(CFLAGS) $(LIBS) $(INCLUDES) plotObs_photon_baseline.cc -o ../bin/$@
 plotObs_lowDPhi_baseline:
 	$(CC) $(CFLAGS) $(LIBS) $(INCLUDES) plotObs_lowDPhi_baseline.cc -o ../bin/$@
-plotObs_singleHiggsTag:
-	$(CC) $(CFLAGS) $(LIBS) $(INCLUDES) plotObs_singleHiggsTag.cc -o ../bin/$@
-plotObs_doubleHiggsTag:
-	$(CC) $(CFLAGS) $(LIBS) $(INCLUDES) plotObs_doubleHiggsTag.cc -o ../bin/$@
+plotObs_singleTag:
+	$(CC) $(CFLAGS) $(LIBS) $(INCLUDES) plotObs_singleTag.cc -o ../bin/$@
+plotObs_doubleTag:
+	$(CC) $(CFLAGS) $(LIBS) $(INCLUDES) plotObs_doubleTag.cc -o ../bin/$@
 plotObs_antitag:
 	$(CC) $(CFLAGS) $(LIBS) $(INCLUDES) plotObs_antitag.cc -o ../bin/$@
 plotObs_baseline:

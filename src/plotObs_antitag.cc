@@ -31,8 +31,6 @@ int main(int argc, char** argv){
     plot NJetsplot(*fillNJets<RA2bTree>,"NJets_antitag","n_{j}",14,1.5,15.5);
     plot BTagsplot(*fillBTags<RA2bTree>,"BTags_antitag","n_{b}",6,-0.5,5.5);
   
-    plot Binsplot(*fillAnalysisBins<RA2bTree>,"AnalysisBins_antitag","i^th Bin",8,0.5,8.5);
-  
     plot DeltaPhi1plot(*fillDeltaPhi1<RA2bTree>,"DeltaPhi1_antitag","#Delta#Phi_{1}",20,0,3.1415);
     plot DeltaPhi2plot(*fillDeltaPhi2<RA2bTree>,"DeltaPhi2_antitag","#Delta#Phi_{2}",20,0,3.1415);
     plot DeltaPhi3plot(*fillDeltaPhi3<RA2bTree>,"DeltaPhi3_antitag","#Delta#Phi_{3}",20,0,3.1415);
@@ -67,7 +65,6 @@ int main(int argc, char** argv){
     plots.push_back(HTplot);
     plots.push_back(NJetsplot);
     plots.push_back(BTagsplot);
-    plots.push_back(Binsplot);
   
     plots.push_back(DeltaPhi1plot);
     plots.push_back(DeltaPhi2plot);

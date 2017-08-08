@@ -31,7 +31,6 @@ int main(int argc, char** argv){
   plot HTplot(*fillHT<RA2bTree>,"HT_singleHiggsTag","H_{T} [GeV]",15,300,2800.);
   plot NJetsplot(*fillNJets<RA2bTree>,"NJets_singleHiggsTag","n_{j}",14,1.5,15.5);
   plot BTagsplot(*fillBTags<RA2bTree>,"BTags_singleHiggsTag","n_{b}",6,-0.5,5.5);
-  plot Binsplot(*fillAnalysisBins<RA2bTree>,"AnalysisBins_singleHiggsTag","i^th Bin",8,0.5,8.5);
 
   plot J1pt_Massplot(*fillLeadingJetMass<RA2bTree>,"J1pt_Mass_singleHiggsTag","m_{J} [GeV]",40,50.,250.);
   plot J2pt_Massplot(*fillSubLeadingJetMass<RA2bTree>,"J2pt_Mass_singleHiggsTag","m_{J} [GeV]",40,50.,250.);
@@ -61,7 +60,6 @@ int main(int argc, char** argv){
   plots.push_back(HTplot);
   plots.push_back(NJetsplot);
   plots.push_back(BTagsplot);
-  plots.push_back(Binsplot);
   plots.push_back(J1pt_Massplot);
   plots.push_back(J2pt_Massplot);
   plots.push_back(J1bbtag_Massplot);
