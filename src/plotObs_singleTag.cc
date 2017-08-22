@@ -27,30 +27,30 @@ int main(int argc, char** argv){
   skimSamples skims;
   typedef plot<RA2bTree> plot;
   
-  plot METplot(*fillMET<RA2bTree>,"MET_singleHiggsTag","MET [GeV]",15,300.,1800.);
-  plot HTplot(*fillHT<RA2bTree>,"HT_singleHiggsTag","H_{T} [GeV]",15,300,2800.);
-  plot NJetsplot(*fillNJets<RA2bTree>,"NJets_singleHiggsTag","n_{j}",14,1.5,15.5);
-  plot BTagsplot(*fillBTags<RA2bTree>,"BTags_singleHiggsTag","n_{b}",6,-0.5,5.5);
+  plot METplot(*fillMET<RA2bTree>,"MET_singleTag","MET [GeV]",15,300.,1800.);
+  plot HTplot(*fillHT<RA2bTree>,"HT_singleTag","H_{T} [GeV]",15,300,2800.);
+  plot NJetsplot(*fillNJets<RA2bTree>,"NJets_singleTag","n_{j}",14,1.5,15.5);
+  plot BTagsplot(*fillBTags<RA2bTree>,"BTags_singleTag","n_{b}",6,-0.5,5.5);
 
-  plot J1pt_Massplot(*fillLeadingJetMass<RA2bTree>,"J1pt_Mass_singleHiggsTag","m_{J} [GeV]",40,50.,250.);
-  plot J2pt_Massplot(*fillSubLeadingJetMass<RA2bTree>,"J2pt_Mass_singleHiggsTag","m_{J} [GeV]",40,50.,250.);
-  plot J1bbtag_Massplot(*fillLeadingBBtagJetMass<RA2bTree>,"J1bbtag_Mass_singleHiggsTag","m_{J} [GeV]",40,50.,250.);
-  plot J2bbtag_Massplot(*fillSubLeadingBBtagJetMass<RA2bTree>,"J2bbtag_Mass_singleHiggsTag","m_{J} [GeV]",40,50.,250.);
+  plot J1pt_Massplot(*fillLeadingJetMass<RA2bTree>,"J1pt_Mass_singleTag","m_{J} [GeV]",40,50.,250.);
+  plot J2pt_Massplot(*fillSubLeadingJetMass<RA2bTree>,"J2pt_Mass_singleTag","m_{J} [GeV]",40,50.,250.);
+  plot J1bbtag_Massplot(*fillLeadingBBtagJetMass<RA2bTree>,"J1bbtag_Mass_singleTag","m_{J} [GeV]",40,50.,250.);
+  plot J2bbtag_Massplot(*fillSubLeadingBBtagJetMass<RA2bTree>,"J2bbtag_Mass_singleTag","m_{J} [GeV]",40,50.,250.);
 
-  plot J1pt_BBplot(*fillLeadingBBtag<RA2bTree>,"J1pt_BBtag_singleHiggsTag","bb-tag",20,-1.,1.);
-  plot J2pt_BBplot(*fillSubLeadingBBtag<RA2bTree>,"J2pt_BBtag_singleHiggsTag","bb-tag",20,-1.,1.);
-  plot J1bbtag_BBplot(*fillLeadingBBtagJetBBtag<RA2bTree>,"J1bbtag_BBtag_singleHiggsTag","bb-tag",20,-1.,1.);
-  plot J2bbtag_BBplot(*fillSubLeadingBBtagJetBBtag<RA2bTree>,"J2bbtag_BBtag_singleHiggsTag","bb-tag",20,-1.,1.);
+  plot J1pt_BBplot(*fillLeadingBBtag<RA2bTree>,"J1pt_BBtag_singleTag","bb-tag",20,-1.,1.);
+  plot J2pt_BBplot(*fillSubLeadingBBtag<RA2bTree>,"J2pt_BBtag_singleTag","bb-tag",20,-1.,1.);
+  plot J1bbtag_BBplot(*fillLeadingBBtagJetBBtag<RA2bTree>,"J1bbtag_BBtag_singleTag","bb-tag",20,-1.,1.);
+  plot J2bbtag_BBplot(*fillSubLeadingBBtagJetBBtag<RA2bTree>,"J2bbtag_BBtag_singleTag","bb-tag",20,-1.,1.);
 
-  plot J1pt_Tau21plot(*fillLeadingTau21<RA2bTree>,"J1pt_Tau21_singleHiggsTag","#tau_{21}",20,0.,1.);
-  plot J2pt_Tau21plot(*fillSubLeadingTau21<RA2bTree>,"J2pt_Tau21_singleHiggsTag","#tau_{21}",20,0.,1.);
-  plot J1bbtag_Tau21plot(*fillLeadingBBtagJetTau21<RA2bTree>,"J1bbtag_Tau21_singleHiggsTag","#tau_{21}",20,0.,1.);
-  plot J2bbtag_Tau21plot(*fillSubLeadingBBtagJetTau21<RA2bTree>,"J2bbtag_Tau21_singleHiggsTag","#tau_{21}",20,0.,1.);
+  plot J1pt_Tau21plot(*fillLeadingTau21<RA2bTree>,"J1pt_Tau21_singleTag","#tau_{21}",20,0.,1.);
+  plot J2pt_Tau21plot(*fillSubLeadingTau21<RA2bTree>,"J2pt_Tau21_singleTag","#tau_{21}",20,0.,1.);
+  plot J1bbtag_Tau21plot(*fillLeadingBBtagJetTau21<RA2bTree>,"J1bbtag_Tau21_singleTag","#tau_{21}",20,0.,1.);
+  plot J2bbtag_Tau21plot(*fillSubLeadingBBtagJetTau21<RA2bTree>,"J2bbtag_Tau21_singleTag","#tau_{21}",20,0.,1.);
 
-  plot J1pt_Ptplot(*fillLeadingJetPt<RA2bTree>,"J1pt_Pt_singleHiggsTag","p_{T,J} [GeV]",40,300.,2300.);
-  plot J2pt_Ptplot(*fillSubLeadingJetPt<RA2bTree>,"J2pt_Pt_singleHiggsTag","p_{T,J} [GeV]",40,300.,2300.);
-  plot J1bbtag_Ptplot(*fillLeadingBBtagJetPt<RA2bTree>,"J1bbtag_Pt_singleHiggsTag","p_{T,J} [GeV]",40,300.,2300.);
-  plot J2bbtag_Ptplot(*fillSubLeadingBBtagJetPt<RA2bTree>,"J2bbtag_Pt_singleHiggsTag","p_{T,J} [GeV]",40,300.,2300.);
+  plot J1pt_Ptplot(*fillLeadingJetPt<RA2bTree>,"J1pt_Pt_singleTag","p_{T,J} [GeV]",40,300.,2300.);
+  plot J2pt_Ptplot(*fillSubLeadingJetPt<RA2bTree>,"J2pt_Pt_singleTag","p_{T,J} [GeV]",40,300.,2300.);
+  plot J1bbtag_Ptplot(*fillLeadingBBtagJetPt<RA2bTree>,"J1bbtag_Pt_singleTag","p_{T,J} [GeV]",40,300.,2300.);
+  plot J2bbtag_Ptplot(*fillSubLeadingBBtagJetPt<RA2bTree>,"J2bbtag_Pt_singleTag","p_{T,J} [GeV]",40,300.,2300.);
 
   plot J1pt_JetFlavorPlot(*fillLeadingJetFlavor<RA2bTree>,"J1pt_JetFlavorPlot","Jet Flavor",22,0.5,21.5);
   plot J2pt_JetFlavorPlot(*fillSubLeadingJetFlavor<RA2bTree>,"J2pt_JetFlavorPlot","Jet Flavor",22,0.5,21.5);
@@ -140,6 +140,6 @@ int main(int argc, char** argv){
   for( int iPlot = 0 ; iPlot < plots.size() ; iPlot++){
       TCanvas* can = new TCanvas("can","can",500,500);
       plots[iPlot].dataHist = NULL;
-      plots[iPlot].DrawNoRatio(can,skims.ntuples,sigNtuples,"../plots/plotObs_singleHiggsTag_plots");
+      plots[iPlot].DrawNoRatio(can,skims.ntuples,sigNtuples,"../plots/plotObs_singleTag_plots");
   }
 }

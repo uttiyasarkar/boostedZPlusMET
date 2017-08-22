@@ -26,27 +26,27 @@ int main(int argc, char** argv){
   skimSamples skims;
   typedef plot<RA2bTree> plot;
 
-  plot METplot(*fillMET<RA2bTree>,"MET_doubleHiggsTag","MET [GeV]",15,300.,1800.);
-  plot HTplot(*fillHT<RA2bTree>,"HT_doubleHiggsTag","H_{T} [GeV]",15,300,2800.);
-  plot NJetsplot(*fillNJets<RA2bTree>,"NJets_doubleHiggsTag","n_{j}",14,1.5,15.5);
-  plot BTagsplot(*fillBTags<RA2bTree>,"BTags_doubleHiggsTag","n_{b}",6,-0.5,5.5);
+  plot METplot(*fillMET<RA2bTree>,"MET_doubleTag","MET [GeV]",15,300.,1800.);
+  plot HTplot(*fillHT<RA2bTree>,"HT_doubleTag","H_{T} [GeV]",15,300,2800.);
+  plot NJetsplot(*fillNJets<RA2bTree>,"NJets_doubleTag","n_{j}",14,1.5,15.5);
+  plot BTagsplot(*fillBTags<RA2bTree>,"BTags_doubleTag","n_{b}",6,-0.5,5.5);
 
-  plot DeltaPhi1plot(*fillDeltaPhi1<RA2bTree>,"DeltaPhi1_doubleHiggsTag","#Delta#Phi_{1}",20,0,3.1415);
-  plot DeltaPhi2plot(*fillDeltaPhi2<RA2bTree>,"DeltaPhi2_doubleHiggsTag","#Delta#Phi_{2}",20,0,3.1415);
-  plot DeltaPhi3plot(*fillDeltaPhi3<RA2bTree>,"DeltaPhi3_doubleHiggsTag","#Delta#Phi_{3}",20,0,3.1415);
-  plot DeltaPhi4plot(*fillDeltaPhi4<RA2bTree>,"DeltaPhi4_doubleHiggsTag","#Delta#Phi_{4}",20,0,3.1415);
+  plot DeltaPhi1plot(*fillDeltaPhi1<RA2bTree>,"DeltaPhi1_doubleTag","#Delta#Phi_{1}",20,0,3.1415);
+  plot DeltaPhi2plot(*fillDeltaPhi2<RA2bTree>,"DeltaPhi2_doubleTag","#Delta#Phi_{2}",20,0,3.1415);
+  plot DeltaPhi3plot(*fillDeltaPhi3<RA2bTree>,"DeltaPhi3_doubleTag","#Delta#Phi_{3}",20,0,3.1415);
+  plot DeltaPhi4plot(*fillDeltaPhi4<RA2bTree>,"DeltaPhi4_doubleTag","#Delta#Phi_{4}",20,0,3.1415);
 
 
-  plot J1Mplot(*fillLeadingJetMass<RA2bTree>,"J1M_doubleHiggsTag","leading m_{J} [GeV]",40,50.,250.);
-  plot J1BBplot(*fillLeadingBBtag<RA2bTree>,"J1BB_doubleHiggsTag","leading bb-tag",20,-1.,1.);
-  plot J1Tau21plot(*fillLeadingTau21<RA2bTree>,"J1Tau21_doubleHiggsTag","leading #tau_{21}",20,0.,1.);
-  plot J1Ptplot(*fillLeadingJetPt<RA2bTree>,"J1Pt_doubleHiggsTag","leading p_{T,J} [GeV]",40,300.,2300.);
-  plot J2Mplot(*fillSubLeadingJetMass<RA2bTree>,"J2M_doubleHiggsTag","subleading m_{J} [GeV]",40,50.,250.);
-  plot J2BBplot(*fillSubLeadingBBtag<RA2bTree>,"J2BB_doubleHiggsTag","subleading bb-tag",20,-1.,1.);
-  plot J2Tau21plot(*fillSubLeadingTau21<RA2bTree>,"J2Tau21_doubleHiggsTag","subleading #tau_{21}",20,0.,1.);
-  plot J2Ptplot(*fillSubLeadingJetPt<RA2bTree>,"J2Pt_doubleHiggsTag","subleading p_{T,J} [GeV]",40,300.,2300.);
-  plot J1pt_JetFlavorPlot(*fillLeadingJetFlavor<RA2bTree>,"J1pt_JetFlavorPlot_doubleHiggsTag","Jet Flavor",22,0.5,21.5);
-  plot J2pt_JetFlavorPlot(*fillSubLeadingJetFlavor<RA2bTree>,"J2pt_JetFlavorPlot_doubleHiggsTag","Jet Flavor",22,0.5,21.5);
+  plot J1Mplot(*fillLeadingJetMass<RA2bTree>,"J1M_doubleTag","leading m_{J} [GeV]",40,50.,250.);
+  plot J1BBplot(*fillLeadingBBtag<RA2bTree>,"J1BB_doubleTag","leading bb-tag",20,-1.,1.);
+  plot J1Tau21plot(*fillLeadingTau21<RA2bTree>,"J1Tau21_doubleTag","leading #tau_{21}",20,0.,1.);
+  plot J1Ptplot(*fillLeadingJetPt<RA2bTree>,"J1Pt_doubleTag","leading p_{T,J} [GeV]",40,300.,2300.);
+  plot J2Mplot(*fillSubLeadingJetMass<RA2bTree>,"J2M_doubleTag","subleading m_{J} [GeV]",40,50.,250.);
+  plot J2BBplot(*fillSubLeadingBBtag<RA2bTree>,"J2BB_doubleTag","subleading bb-tag",20,-1.,1.);
+  plot J2Tau21plot(*fillSubLeadingTau21<RA2bTree>,"J2Tau21_doubleTag","subleading #tau_{21}",20,0.,1.);
+  plot J2Ptplot(*fillSubLeadingJetPt<RA2bTree>,"J2Pt_doubleTag","subleading p_{T,J} [GeV]",40,300.,2300.);
+  plot J1pt_JetFlavorPlot(*fillLeadingJetFlavor<RA2bTree>,"J1pt_JetFlavorPlot_doubleTag","Jet Flavor",22,0.5,21.5);
+  plot J2pt_JetFlavorPlot(*fillSubLeadingJetFlavor<RA2bTree>,"J2pt_JetFlavorPlot_doubleTag","Jet Flavor",22,0.5,21.5);
 
 
   vector<plot> plots;
@@ -148,6 +148,6 @@ int main(int argc, char** argv){
   for( int iPlot = 0 ; iPlot < plots.size() ; iPlot++){
       TCanvas* can = new TCanvas("can","can",500,500);
       plots[iPlot].dataHist = NULL;
-      plots[iPlot].DrawNoRatio(can,skims.ntuples,sigSamples,"../plots/plotObs_doubleHiggsTag_plots");
+      plots[iPlot].DrawNoRatio(can,skims.ntuples,sigSamples,"../plots/plotObs_doubleTag_plots");
   }
 }
