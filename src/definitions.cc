@@ -1193,7 +1193,7 @@ template<typename ntupleType> bool photonBaselineCut_loose(ntupleType* ntuple){
              ntuple->JetIDclean == 1);
 }
 
-template<typename ntupleType> bool singleHiggsTagLooseCut(ntupleType* ntuple ){ 
+template<typename ntupleType> bool singleTagLooseCut(ntupleType* ntuple ){ 
     return ( ( ntuple->JetsAK8_NsubjettinessTau2->at(0)/ntuple->JetsAK8_NsubjettinessTau1->at(0) > tau21Cut ) 
              && ( ntuple->JetsAK8_NsubjettinessTau2->at(1)/ntuple->JetsAK8_NsubjettinessTau1->at(1) < tau21Cut ) ) ||
         ( ( ntuple->JetsAK8_NsubjettinessTau2->at(0)/ntuple->JetsAK8_NsubjettinessTau1->at(0) < tau21Cut ) 
@@ -1220,7 +1220,7 @@ template<typename ntupleType> bool doubleMassCut(ntupleType* ntuple ){
              );
 }
 
-template<typename ntupleType> bool singleHiggsTagCut(ntupleType* ntuple ){
+template<typename ntupleType> bool singleTagCut(ntupleType* ntuple ){
   return ( (ntuple->JetsAK8_prunedMass->at(0) > 70. && 
             ntuple->JetsAK8_prunedMass->at(0) < 100. && 
             ntuple->JetsAK8_NsubjettinessTau2->at(0)/ntuple->JetsAK8_NsubjettinessTau1->at(0) > tau21Cut ) ||
@@ -1229,7 +1229,7 @@ template<typename ntupleType> bool singleHiggsTagCut(ntupleType* ntuple ){
             ntuple->JetsAK8_NsubjettinessTau2->at(1)/ntuple->JetsAK8_NsubjettinessTau1->at(1) > tau21Cut ) );
 }
 
-template<typename ntupleType> bool doubleHiggsTagCut(ntupleType* ntuple ){
+template<typename ntupleType> bool doubleTagCut(ntupleType* ntuple ){
   return ( ntuple->JetsAK8_prunedMass->at(0) > 70. && 
            ntuple->JetsAK8_prunedMass->at(0) < 100. && 
            ntuple->JetsAK8_NsubjettinessTau2->at(0)/ntuple->JetsAK8_NsubjettinessTau1->at(0) > tau21Cut && 
@@ -1325,7 +1325,7 @@ template<typename ntupleType> double fillPhotonPt(ntupleType* ntuple ){
         return ntuple->Photons->at(0).Pt();
 }
 
-template<typename ntupleType> bool singleHiggsTagLooseCut_photon(ntupleType* ntuple ){ 
+template<typename ntupleType> bool singleTagLooseCut_photon(ntupleType* ntuple ){ 
     return ( ( ntuple->JetsAK8_NsubjettinessTau2->at(0)/ntuple->JetsAK8_NsubjettinessTau1->at(0) > tau21Cut )
              && ( ntuple->JetsAK8_NsubjettinessTau2->at(1)/ntuple->JetsAK8_NsubjettinessTau1->at(1) < tau21Cut ) ) ||
         ( ( ntuple->JetsAK8_NsubjettinessTau2->at(0)/ntuple->JetsAK8_NsubjettinessTau1->at(0) < tau21Cut ) 
@@ -1351,7 +1351,7 @@ template<typename ntupleType> bool doubleMassCut_photon(ntupleType* ntuple ){
              ntuple->JetsAK8Clean_prunedMass->at(1) < 100. );
 }
 
-template<typename ntupleType> bool singleHiggsTagCut_photon(ntupleType* ntuple ){
+template<typename ntupleType> bool singleTagCut_photon(ntupleType* ntuple ){
     return ( (ntuple->JetsAK8Clean_prunedMass->at(0) > 70. && 
               ntuple->JetsAK8Clean_prunedMass->at(0) < 100. && 
               ntuple->JetsAK8_NsubjettinessTau2->at(0)/ntuple->JetsAK8_NsubjettinessTau1->at(0) > tau21Cut ) || 
@@ -1360,7 +1360,7 @@ template<typename ntupleType> bool singleHiggsTagCut_photon(ntupleType* ntuple )
               ntuple->JetsAK8_NsubjettinessTau2->at(1)/ntuple->JetsAK8_NsubjettinessTau1->at(1) > tau21Cut ) ) ;
 }
 
-template<typename ntupleType> bool doubleHiggsTagCut_photon(ntupleType* ntuple ){
+template<typename ntupleType> bool doubleTagCut_photon(ntupleType* ntuple ){
     return ( ntuple->JetsAK8Clean_prunedMass->at(0) > 70. && 
              ntuple->JetsAK8Clean_prunedMass->at(0) < 100. && 
              ntuple->JetsAK8_NsubjettinessTau2->at(0)/ntuple->JetsAK8_NsubjettinessTau1->at(0) > tau21Cut && 
