@@ -1207,15 +1207,15 @@ template<typename ntupleType> bool singleTagLooseCut(ntupleType* ntuple ){
 }
 
 template<typename ntupleType> bool antiTaggingLooseCut(ntupleType* ntuple ){
-    return ( ( ( ntuple->JetsAK8_NsubjettinessTau2->at(0)/ntuple->JetsAK8_NsubjettinessTau1->at(0) < tau21Cut
+    return ( ( ( ntuple->JetsAK8_NsubjettinessTau2->at(0)/ntuple->JetsAK8_NsubjettinessTau1->at(0) > tau21Cut
                ) &&
-               ( ntuple->JetsAK8_NsubjettinessTau2->at(1)/ntuple->JetsAK8_NsubjettinessTau1->at(1) < tau21Cut 
+               ( ntuple->JetsAK8_NsubjettinessTau2->at(1)/ntuple->JetsAK8_NsubjettinessTau1->at(1) > tau21Cut 
                ) ) ) ;
 }
 
 template<typename ntupleType> bool doubleTaggingLooseCut(ntupleType* ntuple ){
-    return ( ntuple->JetsAK8_NsubjettinessTau2->at(0)/ntuple->JetsAK8_NsubjettinessTau1->at(0) > tau21Cut && 
-             ntuple->JetsAK8_NsubjettinessTau2->at(1)/ntuple->JetsAK8_NsubjettinessTau1->at(1) > tau21Cut );
+    return ( ntuple->JetsAK8_NsubjettinessTau2->at(0)/ntuple->JetsAK8_NsubjettinessTau1->at(0) < tau21Cut && 
+             ntuple->JetsAK8_NsubjettinessTau2->at(1)/ntuple->JetsAK8_NsubjettinessTau1->at(1) < tau21Cut );
 }
 
 template<typename ntupleType> bool doubleMassCut(ntupleType* ntuple ){
@@ -1238,16 +1238,16 @@ template<typename ntupleType> bool singleTagCut(ntupleType* ntuple ){
 template<typename ntupleType> bool doubleTagCut(ntupleType* ntuple ){
   return ( ntuple->JetsAK8_prunedMass->at(0) > 70. && 
            ntuple->JetsAK8_prunedMass->at(0) < 100. && 
-           ntuple->JetsAK8_NsubjettinessTau2->at(0)/ntuple->JetsAK8_NsubjettinessTau1->at(0) > tau21Cut && 
+           ntuple->JetsAK8_NsubjettinessTau2->at(0)/ntuple->JetsAK8_NsubjettinessTau1->at(0) < tau21Cut && 
            ntuple->JetsAK8_prunedMass->at(1) > 70. && 
            ntuple->JetsAK8_prunedMass->at(1) < 100. && 
-           ntuple->JetsAK8_NsubjettinessTau2->at(1)/ntuple->JetsAK8_NsubjettinessTau1->at(1) > tau21Cut );
+           ntuple->JetsAK8_NsubjettinessTau2->at(1)/ntuple->JetsAK8_NsubjettinessTau1->at(1) < tau21Cut );
 }
 
 template<typename ntupleType> bool tagSR(ntupleType* ntuple, int i){
     if( ntuple->JetsAK8_doubleBDiscriminator->size() <= i || 
         ntuple->JetsAK8_prunedMass->size() <= i ) return false;
-    return ( ntuple->JetsAK8_NsubjettinessTau2->at(i)/ntuple->JetsAK8_NsubjettinessTau1->at(i) > tau21Cut &&
+    return ( ntuple->JetsAK8_NsubjettinessTau2->at(i)/ntuple->JetsAK8_NsubjettinessTau1->at(i) < tau21Cut &&
              ntuple->JetsAK8_prunedMass->at(i) > 70. && 
              ntuple->JetsAK8_prunedMass->at(i) < 100. );
 }
@@ -1255,7 +1255,7 @@ template<typename ntupleType> bool tagSR(ntupleType* ntuple, int i){
 template<typename ntupleType> bool tagSB(ntupleType* ntuple, int i ){
     if( ntuple->JetsAK8_doubleBDiscriminator->size() <= i || 
         ntuple->JetsAK8_prunedMass->size() <= i ) return false;
-    return ( ntuple->JetsAK8_NsubjettinessTau2->at(i)/ntuple->JetsAK8_NsubjettinessTau1->at(i) > tau21Cut &&
+    return ( ntuple->JetsAK8_NsubjettinessTau2->at(i)/ntuple->JetsAK8_NsubjettinessTau1->at(i) < tau21Cut &&
              (
               ( ntuple->JetsAK8_prunedMass->at(i) < 70. &&
                 ntuple->JetsAK8_prunedMass->at(i) > 50. ) ||
@@ -1268,7 +1268,7 @@ template<typename ntupleType> bool tagSB(ntupleType* ntuple, int i ){
 template<typename ntupleType> bool antitagSR(ntupleType* ntuple, int i){
         if( ntuple->JetsAK8_doubleBDiscriminator->size() <= i || 
         ntuple->JetsAK8_prunedMass->size() <= i ) return false;
-        return ( ntuple->JetsAK8_NsubjettinessTau2->at(i)/ntuple->JetsAK8_NsubjettinessTau1->at(i) < tau21Cut && 
+        return ( ntuple->JetsAK8_NsubjettinessTau2->at(i)/ntuple->JetsAK8_NsubjettinessTau1->at(i) > tau21Cut && 
              ( ntuple->JetsAK8_prunedMass->at(i) > 70. &&
                ntuple->JetsAK8_prunedMass->at(i) < 100. ) );
 }
@@ -1276,7 +1276,7 @@ template<typename ntupleType> bool antitagSR(ntupleType* ntuple, int i){
 template<typename ntupleType> bool antitagSB(ntupleType* ntuple, int i){
     if( ntuple->JetsAK8_doubleBDiscriminator->size() <= i || 
         ntuple->JetsAK8_prunedMass->size() <= i ) return false;
-    return ( ntuple->JetsAK8_NsubjettinessTau2->at(i)/ntuple->JetsAK8_NsubjettinessTau1->at(i) < tau21Cut && 
+    return ( ntuple->JetsAK8_NsubjettinessTau2->at(i)/ntuple->JetsAK8_NsubjettinessTau1->at(i) > tau21Cut && 
              (
               ( ntuple->JetsAK8_prunedMass->at(i) < 70. &&
                 ntuple->JetsAK8_prunedMass->at(i) > 50. ) ||
