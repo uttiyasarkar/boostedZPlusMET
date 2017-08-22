@@ -83,7 +83,7 @@ int main(int argc, char** argv){
     cutFlow.push_back(*AK8JetLooseMassCut<RA2bTree>);
     cutName.push_back("LooseJetMass");
     cutFlow.push_back(*doubleTaggingLooseCut<RA2bTree>);
-    cutName.push_back("doubleBBtag");
+    cutName.push_back("doubleTag");
     cutFlow.push_back(*doubleMassCut<RA2bTree>);
     cutName.push_back("doubleMass");
 
