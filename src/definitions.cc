@@ -1062,6 +1062,7 @@ template<typename ntupleType> bool baselineCut(ntupleType* ntuple){
  
   return ( ntuple->MET > 300.             &&
            ntuple->HT > 600.                         &&
+           ntuple->Jets->size() >=4 && 
            ntuple->JetsAK8->size() >= 2 &&
            ntuple->JetsAK8->at(0).Pt() > 200. && 
            ntuple->JetsAK8_prunedMass->at(0) > 50. && 
@@ -1091,6 +1092,7 @@ template<typename ntupleType> bool singleMuBaselineCut(ntupleType* ntuple){
     return ( singleMuCut(ntuple) && 
              ntuple->MET > 100.             &&
              ntuple->HT > 600.                         &&
+             ntuple->Jets->size() >=4 && 
              ntuple->JetsAK8->size() >= 2 &&
              ntuple->JetsAK8->at(0).Pt() > 200. && 
              ntuple->JetsAK8_prunedMass->at(0) > 50. && 
@@ -1116,6 +1118,7 @@ template<typename ntupleType> bool singleEleBaselineCut(ntupleType* ntuple){
     return ( singleEleCut(ntuple) && 
              ntuple->MET > 100.             &&
              ntuple->HT > 600.                         &&
+             ntuple->Jets->size() >=4 && 
              ntuple->JetsAK8->size() >= 2 &&
              ntuple->JetsAK8->at(0).Pt() > 200. && 
              ntuple->JetsAK8_prunedMass->at(0) > 50. && 
@@ -1133,6 +1136,7 @@ template<typename ntupleType> bool lowDphiBaselineCut(ntupleType* ntuple){
 
     return ( ntuple->MET > 300.             &&
              ntuple->HT > 600.                         &&
+             ntuple->Jets->size() >=4 && 
              ntuple->JetsAK8->size() >= 2 &&
              ntuple->JetsAK8->at(0).Pt() > 200. && 
              ntuple->JetsAK8_prunedMass->at(0) > 50. && 
@@ -1152,6 +1156,7 @@ template<typename ntupleType> bool photonBaselineCut(ntupleType* ntuple){
              ntuple->Photons_fullID->at(0) == 1 &&
              ntuple->METclean > 100.             &&
              ntuple->HTclean > 400.                         &&
+             ntuple->Jets->size() >=4 && 
              ntuple->JetsAK8Clean->size()>=2 && 
              ntuple->JetsAK8Clean->at(0).Pt() > 200. && 
              ntuple->JetsAK8Clean_prunedMass->at(0) > 50. && 
@@ -1179,6 +1184,7 @@ template<typename ntupleType> bool photonBaselineCut_loose(ntupleType* ntuple){
              ntuple->Photons_fullID->at(0) == 1 &&
              ntuple->METclean > 100.             &&
              ntuple->HTclean > 400.                         &&
+             ntuple->Jets->size() >=4 && 
              ntuple->JetsAK8Clean->size()>=2 && 
              ntuple->DeltaPhi1clean>0.5 && 
              ntuple->DeltaPhi2clean>0.5 &&

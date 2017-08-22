@@ -4,9 +4,9 @@ submitDir=$PWD
 branch=$1
 hash=`git rev-parse origin/${branch}`
 
-if [ ! -e /eos/uscms/store/user/${USER}/boostedHiggsPlusMET/ ] 
+if [ ! -e /eos/uscms/store/user/${USER}/boostedZPlusMET/ ] 
     then
-    echo "I need /eos/uscms/store/user/${USER}/boostedHiggsPlusMET/"
+    echo "I need /eos/uscms/store/user/${USER}/boosteZPlusMET/"
     exit
 fi
 
@@ -23,8 +23,8 @@ condor_submit batchExecute.jdl exec_name="cutFlow_lowDphi" arguments="${hash} cu
 
 condor_submit batchExecute.jdl exec_name="plotObs_baseline" arguments="${hash} plotObs_baseline"
 condor_submit batchExecute.jdl exec_name="plotObs_antitag" arguments="${hash} plotObs_antitag"
-condor_submit batchExecute.jdl exec_name="plotObs_doubleHiggsTag" arguments="${hash} plotObs_doubleHiggsTag"
-condor_submit batchExecute.jdl exec_name="plotObs_singleHiggsTag" arguments="${hash} plotObs_singleHiggsTag"
+condor_submit batchExecute.jdl exec_name="plotObs_doubleTag" arguments="${hash} plotObs_doubleTag"
+condor_submit batchExecute.jdl exec_name="plotObs_singleTag" arguments="${hash} plotObs_singleTag"
 
 condor_submit batchExecute.jdl exec_name="plotObs_singleEleCR_baseline" arguments="${hash} plotObs_singleEleCR_baseline"
 condor_submit batchExecute.jdl exec_name="plotObs_singleMuCR_baseline" arguments="${hash} plotObs_singleMuCR_baseline"

@@ -163,7 +163,7 @@ int main(int argc, char** argv){
 
                 }
             }else{
-                if( singleHiggsTagLooseCut(ntuple) ){
+                if( singleTagLooseCut(ntuple) ){
                 //    jetMass1 = fillLeadingJetMass(ntuple);
                 //    jetMass2 = fillSubLeadingJetMass(ntuple);
                     double SingleTagSF=1.;//doubleBSFDn(ntuple,0)*1.0/doubleBSFDn(ntuple,1);

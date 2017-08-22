@@ -14,7 +14,7 @@ tar -xf workingArea.tar
 cd CMSSW_7_4_2/src/
 eval `scramv1 runtime -sh`
 echo "step 2"
-cd boostedHiggsPlusMET
+cd boostedZPlusMET
 export PATH=$PWD/bin/:$PATH
 echo "PWD ${PWD}"
 echo "PATH ${PATH}"
@@ -28,11 +28,11 @@ ls ../plots/*/*
 
 for file in $(ls *root)
 do
-    xrdcp -f $file root://cmseos.fnal.gov//store/user/${USER}/boostedHiggsPlusMET/$output_dir/$file
+    xrdcp -f $file root://cmseos.fnal.gov//store/user/${USER}/boostedZPlusMET/$output_dir/$file
 done
 
 cd ../
 for file in $(ls plots/*/*)
 do 
-    xrdcp -f $file root://cmseos.fnal.gov//store/user/${USER}/boostedHiggsPlusMET/$output_dir/$file
+    xrdcp -f $file root://cmseos.fnal.gov//store/user/${USER}/boostedZPlusMET/$output_dir/$file
 done
