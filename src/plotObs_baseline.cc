@@ -17,8 +17,11 @@
 
 using namespace std;
 
-const int MAX_EVENTS = 99999999;
 int main(int argc, char** argv){
+
+    int MAX_EVENTS(99999999);
+    if( argc > 1 )
+        MAX_EVENTS = atoi(argv[1]);
 
     gROOT->ProcessLine(".L tdrstyle.C");
     gROOT->ProcessLine("setTDRStyle()");
