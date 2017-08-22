@@ -126,7 +126,7 @@ int main(int argc, char** argv){
           if( iEvt % 100000 == 0 ) cout << skims.signalSampleName[iSample] << ": " << iEvt << "/" << numEvents << endl;
           if( !baselineCut(ntuple) ) continue;
           if( !tagSRCut(ntuple) ) continue;
-          if( !genLevelHHcut(ntuple) ) continue;
+          if( !genLevelZZcut(ntuple) ) continue;
           if( !signalTriggerCut(ntuple) ) continue;
           for( int iPlot = 0 ; iPlot < plots.size() ; iPlot++){
               if( skims.signalSampleName[iSample] == "T5HH1300" )

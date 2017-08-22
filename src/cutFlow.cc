@@ -191,7 +191,7 @@ int main(int argc, char** argv){
         for( int iEvt = 0 ; iEvt < min(MAX_EVENTS,numEvents) ; iEvt++ ){
             ntuple->GetEntry(iEvt);
             if( iEvt % 100000 == 0 ) cout << skims.signalSampleName[iSample] << ": " << iEvt << "/" << numEvents << endl;
-            if( !genLevelHHcut(ntuple) ) continue;
+            if( !genLevelZZcut(ntuple) ) continue;
             for( int iCut = 0 ; iCut < cutFlow.size() ; iCut++ ){
                 if( ! cutFlow[iCut](ntuple) ) break;
                 for( int iPlot = 0 ; iPlot < plots[iCut].size() ; iPlot++ ){
