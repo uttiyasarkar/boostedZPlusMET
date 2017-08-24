@@ -12,7 +12,7 @@
 #include "TStyle.h"
 void SetRatioErr(TH1F*TotalBkg, TH1F*Pred, TGraphAsymmErrors &Closure){
     TRandom3 rand;
-    TH2F* kappaDist = new TH2F("kappaDist","kappaDist",3,300.,900.,1000,0.,5.);
+    TH2F* kappaDist = new TH2F("kappaDist","kappaDist",4,100.,900.,1000,0.,5.);
     kappaDist->Reset();
     for( int m=1; m<=3; ++m){
     for(int i=0; i<10000; ++i){
@@ -46,21 +46,20 @@ void SetRatioErr(TH1F*TotalBkg, TH1F*Pred, TGraphAsymmErrors &Closure){
     
 }	
 
-void MCclosure(TString tag = "", bool doubleHiggsRegion = false, TString baseDir="./"){
+void MCclosure(bool doubleHiggsRegion = false, TString baseDir="./"){
 
     gROOT->ProcessLine(".L tdrstyle.C");
     gROOT->ProcessLine("setTDRStyle()");
-    TFile* f = new TFile(baseDir+"ALPHABEThistosTTSingleLept.root","READ");
-    //TFile* f = new TFile("./c754f9d68b4c310fa189e7a91a4feb84da28388b/ALPHABEThistos_lowDphi.root","READ");
+    TFile* f = new TFile(baseDir+"ALPHABEThistos.root","READ");
+
     TH1F* hdata,*hmc;
 
     const int numSamples = 2;
-    const int numMETbins = 2;
-    double METbins[numMETbins+2] = {300,500,700,1500};
+    const int numMETbins = 3;
+    double METbins[numMETbins+2] = {100,300,500,700,900};
 
     const int numRegions = 4;
     TString sampleLabels[numSamples]={"TTJets"};
-    //TString METlabels[numMETbins] = {"300","500","700"};
     TString regionLabels[numRegions] = {"doubletagSR","antitagSR","doubletagSB","antitagSB"};
     if( ! doubleHiggsRegion ){
         regionLabels[0] = "tagSR";
@@ -70,11 +69,8 @@ void MCclosure(TString tag = "", bool doubleHiggsRegion = false, TString baseDir
     TH1F* MC[numRegions];
 
     for( int r = 0 ; r < numRegions ; r++ ){
-        temp[r] = (TH1F*) f->Get("MET_"+regionLabels[r]+"_TT");
-        //temp[r] = (TH1F*) f->Get("MET_"+regionLabels[r]+"_ZJets");
-        //temp[r]=(TH1F*)f->Get("MET_"+regionLabels[r]+"_ZJets");
+        temp[r] = (TH1F*) f->Get("MET_"+regionLabels[r]+"_sum");
         MC[r] = new TH1F("MC_"+regionLabels[r],"MC_"+regionLabels[r],numMETbins+1,METbins);
-        //MC[r]->SetFillStyle(3490);
         MC[r]->SetLineColor(1);
         MC[r]->SetFillColor(2);
         MC[r]->GetXaxis()->SetTitle("MET [GeV]");
@@ -97,23 +93,21 @@ void MCclosure(TString tag = "", bool doubleHiggsRegion = false, TString baseDir
             MC[r]->SetBinError(b,temp[r]->GetBinError(b));
             cout << " & " <<  MC[r]->GetBinContent(b) << " $\\pm$ " << MC[r]->GetBinError(b) ;
         }
+        cout << endl;
     }
 
     TH1F* MCprediction = new TH1F(*MC[1]);
     MCprediction->SetNameTitle("MCprediction","MCprediction");
     MCprediction->Multiply(MC[2]);
     MCprediction->Divide(MC[3]);
-    //MCprediction->SetMarkerColor(1);
     MCprediction->SetMarkerSize(0.01);
-    //MCprediction->SetMarkerStyle(8);
-    //MCprediction->SetMarkerColor(kBlue);
     MCprediction->SetLineColor(kBlue);
     MCprediction->SetFillStyle(3490);
     MCprediction->SetFillColor(2);
     TH1F* Closure = new TH1F(*MC[0]);
     Closure->SetNameTitle("Closure","Closure");
     Closure->Divide(MCprediction);
-   TGraphAsymmErrors* grClose=new TGraphAsymmErrors(Closure);
+    TGraphAsymmErrors* grClose=new TGraphAsymmErrors(Closure);
     SetRatioErr(MC[0], MCprediction, *grClose);
     Closure->Reset();
     Closure->GetYaxis()->SetTitle("#kappa");
@@ -187,7 +181,7 @@ void MCclosure(TString tag = "", bool doubleHiggsRegion = false, TString baseDir
     for( int b = 1 ; b <= numMETbins+1 ; b++ ){
         cout << std::setprecision(3) << MC[0]->GetBinLowEdge(b) << "-" << MC[0]->GetBinLowEdge(b+1) ;
         for( int r = 0 ; r < numRegions ; r++ ){
-            cout << " & " << temp[r]->GetBinContent(b) << " $\\pm$ " << temp[r]->GetBinError(b);
+            cout << " & " << MC[r]->GetBinContent(b) << " $\\pm$ " << MC[r]->GetBinError(b);
         }
         cout << " & " <<  MCprediction->GetBinContent(b) << " $\\pm$ " << MCprediction->GetBinError(b) ;
 	
