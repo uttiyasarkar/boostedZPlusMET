@@ -1332,22 +1332,22 @@ template<typename ntupleType> double fillPhotonPt(ntupleType* ntuple ){
 }
 
 template<typename ntupleType> bool singleTagLooseCut_photon(ntupleType* ntuple ){ 
-    return ( ( ntuple->JetsAK8_NsubjettinessTau2->at(0)/ntuple->JetsAK8_NsubjettinessTau1->at(0) > tau21Cut )
-             && ( ntuple->JetsAK8_NsubjettinessTau2->at(1)/ntuple->JetsAK8_NsubjettinessTau1->at(1) < tau21Cut ) ) ||
-        ( ( ntuple->JetsAK8_NsubjettinessTau2->at(0)/ntuple->JetsAK8_NsubjettinessTau1->at(0) < tau21Cut ) 
-          && ( ntuple->JetsAK8_NsubjettinessTau2->at(1)/ntuple->JetsAK8_NsubjettinessTau1->at(1) > tau21Cut ) );
+    return ( ( ntuple->JetsAK8Clean_NsubjettinessTau2->at(0)/ntuple->JetsAK8Clean_NsubjettinessTau1->at(0) > tau21Cut )
+             && ( ntuple->JetsAK8Clean_NsubjettinessTau2->at(1)/ntuple->JetsAK8Clean_NsubjettinessTau1->at(1) < tau21Cut ) ) ||
+        ( ( ntuple->JetsAK8Clean_NsubjettinessTau2->at(0)/ntuple->JetsAK8Clean_NsubjettinessTau1->at(0) < tau21Cut ) 
+          && ( ntuple->JetsAK8Clean_NsubjettinessTau2->at(1)/ntuple->JetsAK8Clean_NsubjettinessTau1->at(1) > tau21Cut ) );
 }
 
 template<typename ntupleType> bool antiTaggingLooseCut_photon(ntupleType* ntuple ){
-    return ( ( ( ntuple->JetsAK8_NsubjettinessTau2->at(0)/ntuple->JetsAK8_NsubjettinessTau1->at(0) < tau21Cut
+    return ( ( ( ntuple->JetsAK8Clean_NsubjettinessTau2->at(0)/ntuple->JetsAK8Clean_NsubjettinessTau1->at(0) < tau21Cut
                ) &&
-               ( ntuple->JetsAK8_NsubjettinessTau2->at(1)/ntuple->JetsAK8_NsubjettinessTau1->at(1) < tau21Cut
+               ( ntuple->JetsAK8Clean_NsubjettinessTau2->at(1)/ntuple->JetsAK8Clean_NsubjettinessTau1->at(1) < tau21Cut
                ) ) ) ;
 }
 
 template<typename ntupleType> bool doubleTaggingLooseCut_photon(ntupleType* ntuple ){
-    return ( ntuple->JetsAK8_NsubjettinessTau2->at(0)/ntuple->JetsAK8_NsubjettinessTau1->at(0) > tau21Cut && 
-             ntuple->JetsAK8_NsubjettinessTau2->at(1)/ntuple->JetsAK8_NsubjettinessTau1->at(1) > tau21Cut ) ;
+    return ( ntuple->JetsAK8Clean_NsubjettinessTau2->at(0)/ntuple->JetsAK8Clean_NsubjettinessTau1->at(0) > tau21Cut && 
+             ntuple->JetsAK8Clean_NsubjettinessTau2->at(1)/ntuple->JetsAK8Clean_NsubjettinessTau1->at(1) > tau21Cut ) ;
 }
 
 template<typename ntupleType> bool doubleMassCut_photon(ntupleType* ntuple ){
@@ -1360,25 +1360,25 @@ template<typename ntupleType> bool doubleMassCut_photon(ntupleType* ntuple ){
 template<typename ntupleType> bool singleTagCut_photon(ntupleType* ntuple ){
     return ( (ntuple->JetsAK8Clean_prunedMass->at(0) > 70. && 
               ntuple->JetsAK8Clean_prunedMass->at(0) < 100. && 
-              ntuple->JetsAK8_NsubjettinessTau2->at(0)/ntuple->JetsAK8_NsubjettinessTau1->at(0) > tau21Cut ) || 
+              ntuple->JetsAK8Clean_NsubjettinessTau2->at(0)/ntuple->JetsAK8Clean_NsubjettinessTau1->at(0) > tau21Cut ) || 
              (ntuple->JetsAK8Clean_prunedMass->at(1) > 70. && 
               ntuple->JetsAK8Clean_prunedMass->at(1) < 100. && 
-              ntuple->JetsAK8_NsubjettinessTau2->at(1)/ntuple->JetsAK8_NsubjettinessTau1->at(1) > tau21Cut ) ) ;
+              ntuple->JetsAK8Clean_NsubjettinessTau2->at(1)/ntuple->JetsAK8Clean_NsubjettinessTau1->at(1) > tau21Cut ) ) ;
 }
 
 template<typename ntupleType> bool doubleTagCut_photon(ntupleType* ntuple ){
     return ( ntuple->JetsAK8Clean_prunedMass->at(0) > 70. && 
              ntuple->JetsAK8Clean_prunedMass->at(0) < 100. && 
-             ntuple->JetsAK8_NsubjettinessTau2->at(0)/ntuple->JetsAK8_NsubjettinessTau1->at(0) > tau21Cut && 
+             ntuple->JetsAK8Clean_NsubjettinessTau2->at(0)/ntuple->JetsAK8Clean_NsubjettinessTau1->at(0) > tau21Cut && 
              ntuple->JetsAK8Clean_prunedMass->at(1) > 70. && 
              ntuple->JetsAK8Clean_prunedMass->at(1) < 100. && 
-             ntuple->JetsAK8_NsubjettinessTau2->at(1)/ntuple->JetsAK8_NsubjettinessTau1->at(1) > tau21Cut ) ;
+             ntuple->JetsAK8Clean_NsubjettinessTau2->at(1)/ntuple->JetsAK8Clean_NsubjettinessTau1->at(1) > tau21Cut ) ;
 }
 
 template<typename ntupleType> bool tagSR_photon(ntupleType* ntuple, int i){
     if( ntuple->JetsAK8Clean_doubleBDiscriminator->size() <= i || 
-        ntuple->JetsAK8_prunedMass->size() <= i ) return false;
-    return ( ntuple->JetsAK8_NsubjettinessTau2->at(i)/ntuple->JetsAK8_NsubjettinessTau1->at(i) > tau21Cut && 
+        ntuple->JetsAK8Clean_prunedMass->size() <= i ) return false;
+    return ( ntuple->JetsAK8Clean_NsubjettinessTau2->at(i)/ntuple->JetsAK8Clean_NsubjettinessTau1->at(i) > tau21Cut && 
              ntuple->JetsAK8Clean_prunedMass->at(i) > 70. && 
              ntuple->JetsAK8Clean_prunedMass->at(i) < 100. );
 }
@@ -1386,7 +1386,7 @@ template<typename ntupleType> bool tagSR_photon(ntupleType* ntuple, int i){
 template<typename ntupleType> bool tagSB_photon(ntupleType* ntuple, int i ){
     if( ntuple->JetsAK8Clean_doubleBDiscriminator->size() <= i || 
         ntuple->JetsAK8Clean_prunedMass->size() <= i ) return false;
-    return ( ntuple->JetsAK8_NsubjettinessTau2->at(i)/ntuple->JetsAK8_NsubjettinessTau1->at(i) > tau21Cut &&
+    return ( ntuple->JetsAK8Clean_NsubjettinessTau2->at(i)/ntuple->JetsAK8Clean_NsubjettinessTau1->at(i) > tau21Cut &&
              (
               ( ntuple->JetsAK8Clean_prunedMass->at(i) < 70. &&
                 ntuple->JetsAK8Clean_prunedMass->at(i) > 50. ) ||
@@ -1399,7 +1399,7 @@ template<typename ntupleType> bool tagSB_photon(ntupleType* ntuple, int i ){
 template<typename ntupleType> bool antitagSR_photon(ntupleType* ntuple, int i){
         if( ntuple->JetsAK8Clean_doubleBDiscriminator->size() <= i || 
         ntuple->JetsAK8Clean_prunedMass->size() <= i ) return false;
-        return ( ntuple->JetsAK8_NsubjettinessTau2->at(i)/ntuple->JetsAK8_NsubjettinessTau1->at(i) < tau21Cut && 
+        return ( ntuple->JetsAK8Clean_NsubjettinessTau2->at(i)/ntuple->JetsAK8Clean_NsubjettinessTau1->at(i) < tau21Cut && 
              ( ntuple->JetsAK8Clean_prunedMass->at(i) > 70. &&
                ntuple->JetsAK8Clean_prunedMass->at(i) < 100. ) );
 }
@@ -1407,7 +1407,7 @@ template<typename ntupleType> bool antitagSR_photon(ntupleType* ntuple, int i){
 template<typename ntupleType> bool antitagSB_photon(ntupleType* ntuple, int i){
     if( ntuple->JetsAK8Clean_doubleBDiscriminator->size() <= i || 
         ntuple->JetsAK8Clean_prunedMass->size() <= i ) return false;
-    return ( ntuple->JetsAK8_NsubjettinessTau2->at(i)/ntuple->JetsAK8_NsubjettinessTau1->at(i) < tau21Cut &&
+    return ( ntuple->JetsAK8Clean_NsubjettinessTau2->at(i)/ntuple->JetsAK8Clean_NsubjettinessTau1->at(i) < tau21Cut &&
              (
               ( ntuple->JetsAK8Clean_prunedMass->at(i) < 70. &&
                 ntuple->JetsAK8Clean_prunedMass->at(i) > 50. ) ||
