@@ -21,5 +21,8 @@ class defaultOptions{
 
     }
 
+    ~defaultOptions(){
+        delete opts;
+    }
 
 };
