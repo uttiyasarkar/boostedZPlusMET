@@ -41,7 +41,7 @@ flavorFit:
 plotObs_fastFullComp:
 	$(CC) $(CFLAGS) $(LIBS) $(INCLUDES) plotObs_fastFullComp.cc -o ../bin/$@
 ALPHABET:
-	$(CC) $(CFLAGS) $(LIBS) $(INCLUDES) ALPHABET.cc -o ../bin/$@
+	$(CC) $(CFLAGS) $(LIBS) $(INCLUDES) -I$(CMSSW_BASE)/src/cxxopts/include/ ALPHABET.cc -o ../bin/$@
 ALPHABET_photon:
 	$(CC) $(CFLAGS) $(LIBS) $(INCLUDES) ALPHABET_photon.cc -o ../bin/$@
 cutFlow:

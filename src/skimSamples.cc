@@ -22,8 +22,8 @@ public :
     std::vector<TString> dataSampleName; 
     std::vector<int> fillColor, lineColor, sigLineColor;
 
-    enum region {kSignal,kPhoton,kSLm,kSLe,kLowDphi, kNumRegions};
-    TString regionNames[kNumRegions]={"signal","photon","SLm","SLe","kLowDphi"};
+    enum region {kSignal,kSLm,kSLe,kLowDphi,kPhoton,kNumRegions};
+    TString regionNames[kNumRegions]={"signal","SLm","SLe","kLowDphi","photon"};
 
     TString skimType;
 

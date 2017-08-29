@@ -16,66 +16,53 @@
 #include "RA2bTree.cc"
 #include "ALPHABET.h"
 #include "TriggerEfficiencySextet.cc"
+#include "defaultArgs.h"
 
 using namespace std;
 using namespace alphabet;
 
 int main(int argc, char** argv){
 
-    int region(0);
+    skimSamples::region reg;
+    int reg_(0);
     bool looseCuts(false);
-    int MAX_EVENTS(99999999);
+    defaultOptions options(argv[0],"");
+    options.opts->add_options()("l,loose_cuts","apply loose jet pt cuts",cxxopts::value<bool>(looseCuts))("r,region","region to analyze",cxxopts::value<int>(reg_));
+    options.opts->parse(argc, argv);
 
-    if( argc >= 2 ){
-        region = atoi(argv[1]);
-        if( argc >= 3 )
-            looseCuts = atoi(argv[2]);    
-        if( argc >= 4 )
-            MAX_EVENTS = atoi(argv[3]);
-    }else
-        cout << "Running over the defautl (signal) region ... " << endl;
-
+    reg = static_cast<skimSamples::region>(reg_);
+    
     gROOT->ProcessLine(".L tdrstyle.C");
     gROOT->ProcessLine("setTDRStyle()");
     
-    skimSamples* skims_;
-    if( region == 0 ) 
-        skims_ = new skimSamples(skimSamples::kSignal);
-    else if( region == 1 )
-        skims_ = new skimSamples(skimSamples::kSLm);
-    else if( region == 2 )
-        skims_ = new skimSamples(skimSamples::kSLe);
-    else if( region == 3 )
-        skims_ = new skimSamples(skimSamples::kLowDphi);
-    else        
-        assert(1);
-    
+    skimSamples* skims_ = new skimSamples(reg);
+
     typedef bool(*cuts)(RA2bTree*);
     vector<cuts> baselineCuts;
 
     if( looseCuts ){
         baselineCuts.push_back(*FiltersCut<RA2bTree>);
-        if( region == 3 ){ 
+        if( reg == skimSamples::kLowDphi ){ 
             baselineCuts.push_back(*lowDPhiCuts<RA2bTree>);
         }else{
             baselineCuts.push_back(*DeltaPhiCuts<RA2bTree>);
         }
-        if( region == 1 ){
+        if( reg == skimSamples::kSLm ){
             baselineCuts.push_back(*singleMuCut<RA2bTree>);
         }
-        if( region == 2 ){
+        if( reg == skimSamples::kSLe ){
             baselineCuts.push_back(*singleEleCut<RA2bTree>);
         }
         baselineCuts.push_back(*METHTlooseCut<RA2bTree>);
         baselineCuts.push_back(*AK8MultCut<RA2bTree>);
     }else{
-        if( region == 0 ){
+        if( reg == skimSamples::kSignal ){
             baselineCuts.push_back(*baselineCut<RA2bTree>);
-        }else if( region == 1){
+        }else if( reg == skimSamples::kSLm ){
             baselineCuts.push_back(*singleMuBaselineCut<RA2bTree>);
-        }else if( region == 2){
+        }else if( reg == skimSamples::kSLe ){
             baselineCuts.push_back(*singleEleBaselineCut<RA2bTree>);
-        }else if( region == 3){ 
+        }else if( reg == skimSamples::kLowDphi ){ 
             baselineCuts.push_back(*lowDphiBaselineCut<RA2bTree>);
         }else
             assert(1);
@@ -219,18 +206,18 @@ int main(int argc, char** argv){
         bool passBaseline;
         double jetMass1,jetMass2;
         TString filename;
-        for( int iEvt = 0 ; iEvt < min(MAX_EVENTS,numEvents) ; iEvt++ ){
+        for( int iEvt = 0 ; iEvt < min(options.MAX_EVENTS,numEvents) ; iEvt++ ){
             ntuple->GetEntry(iEvt);
-            if( iEvt % 100000 == 0 ) cout << skims.sampleName[iSample] << ": " << iEvt << "/" << min(MAX_EVENTS,numEvents) << endl;
+            if( iEvt % 100000 == 0 ) cout << skims.sampleName[iSample] << ": " << iEvt << "/" << min(options.MAX_EVENTS,numEvents) << endl;
             
-            if(region==0){
+            if(reg == skimSamples::kSignal ){
                 std::vector<double> EfficiencyCenterUpDown = Eff_MetMhtSextetReal_CenterUpDown(ntuple->HT, ntuple->MHT, ntuple->NJets);
                 trigWeight=EfficiencyCenterUpDown[0];
-            }else if( region == 1 ){
+            }else if( reg == skimSamples::kSLm ){
                 trigWeight=singleMuonTrigWeights(ntuple);
-            }else if( region == 2 ){
+            }else if( reg == skimSamples::kSLe ){
                 trigWeight=singleElectronTrigWeights(ntuple);
-            }else if( region == 3 ){
+            }else if( reg == skimSamples::kLowDphi ){
                 trigWeight=lowDphiTrigWeights(ntuple);
             }
 
@@ -317,9 +304,9 @@ int main(int argc, char** argv){
     ntupleBranchStatus<RA2bTree>(ntuple);
     bool passBaseline;
     double jetMass1,jetMass2;
-    for( int iEvt = 0 ; iEvt < min(MAX_EVENTS,numEvents) ; iEvt++ ){
+    for( int iEvt = 0 ; iEvt < min(options.MAX_EVENTS,numEvents) ; iEvt++ ){
         ntuple->GetEntry(iEvt);
-        if( iEvt % 100000 == 0 ) cout << "data: " << iEvt << "/" << min(MAX_EVENTS,numEvents) << endl;
+        if( iEvt % 100000 == 0 ) cout << "data: " << iEvt << "/" << min(options.MAX_EVENTS,numEvents) << endl;
 
         passBaseline=true;
         for( auto baselineCut : baselineCuts ){
@@ -327,13 +314,13 @@ int main(int argc, char** argv){
         }
         if( ! passBaseline ) continue;
 
-        if( region == 0 ){
+        if( reg == skimSamples::kSignal ){
             if( !signalTriggerCut(ntuple) ) continue;
-        }else if( region == 1){
+        }else if( reg == skimSamples::kSLm ){
             if( !singleMuTriggerCut(ntuple) ) continue;
-        }else if( region == 2){
+        }else if( reg == skimSamples::kSLe ){
             if( !singleEleTriggerCut(ntuple) ) continue;
-        }else if( region == 3 ){ 
+        }else if( reg == skimSamples::kLowDphi ){ 
             if( !lowDphiTriggerCut(ntuple) ) continue;
         }
 
@@ -349,7 +336,7 @@ int main(int argc, char** argv){
         if( bin < 0 ) continue;
 
         if( doubletagSRCut( ntuple ) ){
-            if( !blind || region != 0 ){
+            if( !blind || reg != skimSamples::kSignal ){
                 plots[bin][4].fillData(ntuple);
                 for( int i = 0 ; i < doubletagSRPlots.size() ; i++ )
                     doubletagSRPlots[i].fillData(ntuple);
@@ -359,7 +346,7 @@ int main(int argc, char** argv){
             for( int i = 0 ; i < doubletagSBPlots.size() ; i++ )
                 doubletagSBPlots[i].fillData(ntuple);
         }else if( tagSRCut( ntuple ) ){
-            if( !blind || region != 0 ){
+            if( !blind || reg != skimSamples::kSignal ){
                 plots[bin][0].fillData(ntuple);
                 for( int i = 0 ; i < tagSRPlots.size() ; i++ )
                     tagSRPlots[i].fillData(ntuple);
@@ -384,13 +371,13 @@ int main(int argc, char** argv){
     TString cutName="";
     if( looseCuts )
         cutName="_looseCuts";
-    if( region == 0 )
+    if( reg == skimSamples::kSignal )
         regionName="";
-    if( region == 1 )
+    if( reg == skimSamples::kSLm )
         regionName="_singleMu";
-    if( region == 2 )
+    if( reg == skimSamples::kSLe )
         regionName="_singleEle";
-    if( region == 3 )
+    if( reg == skimSamples::kLowDphi )
         regionName="_lowDphi";
     outputFile = new TFile("ALPHABEThistos"+cutName+regionName+".root","RECREATE");
 
