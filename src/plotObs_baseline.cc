@@ -23,7 +23,6 @@ int main(int argc, char** argv){
     defaultOptions options(argv[0],"");
     options.opts->parse(argc, argv);
 
-
     gROOT->ProcessLine(".L tdrstyle.C");
     gROOT->ProcessLine("setTDRStyle()");
   
