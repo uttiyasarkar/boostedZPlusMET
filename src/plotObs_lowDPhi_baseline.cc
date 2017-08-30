@@ -37,20 +37,6 @@ int main(int argc, char** argv){
     plot J2NbhadronPlot(*fillLeadingNbHadrons<RA2bTree>,"J1pt_numBhadrons_baseline","n_{b-had}",5,-0.5,4.5);
     plot J1NbhadronPlot(*fillSubLeadingNbHadrons<RA2bTree>,"J2pt_numBhadrons_baseline","n_{b-had}",5,-0.5,4.5);
 
-    vector<plot> LeadingBBdiscVersusNbHad;
-    TString binLabel;
-    for( int i=0; i<5 ; i++){    
-        binLabel="";
-        binLabel+=i;
-        LeadingBBdiscVersusNbHad.push_back(plot(*fillLeadingBBtag<RA2bTree>,"J1pt_BBtag_lowDPhi_NbHad"+binLabel,"bb-disc",20,-1,1));
-    }
-    vector<plot> SubLeadingBBdiscVersusNbHad;
-    for( int i=0; i<5 ; i++){    
-        binLabel="";
-        binLabel+=i;
-        SubLeadingBBdiscVersusNbHad.push_back(plot(*fillSubLeadingBBtag<RA2bTree>,"J2pt_BBtag_lowDPhi_NbHad"+binLabel,"bb-disc",20,-1,1));
-    }
-
     plot DeltaPhi1plot(*fillDeltaPhi1<RA2bTree>,"DeltaPhi1_lowDPhi_baseline","#Delta#Phi_{1}",20,0,3.1415);
     plot DeltaPhi2plot(*fillDeltaPhi2<RA2bTree>,"DeltaPhi2_lowDPhi_baseline","#Delta#Phi_{2}",20,0,3.1415);
     plot DeltaPhi3plot(*fillDeltaPhi3<RA2bTree>,"DeltaPhi3_lowDPhi_baseline","#Delta#Phi_{3}",20,0,3.1415);
@@ -120,14 +106,6 @@ int main(int argc, char** argv){
             plots[iPlot].addNtuple(ntuple,skims.sampleName[iSample]);
             plots[iPlot].setFillColor(ntuple,skims.fillColor[iSample]);
         }
-        for( int iPlot = 0 ; iPlot < LeadingBBdiscVersusNbHad.size() ; iPlot++){
-            LeadingBBdiscVersusNbHad[iPlot].addNtuple(ntuple,skims.sampleName[iSample]);
-            LeadingBBdiscVersusNbHad[iPlot].setFillColor(ntuple,skims.fillColor[iSample]);
-        }
-        for( int iPlot = 0 ; iPlot < SubLeadingBBdiscVersusNbHad.size() ; iPlot++){
-            SubLeadingBBdiscVersusNbHad[iPlot].addNtuple(ntuple,skims.sampleName[iSample]);
-            SubLeadingBBdiscVersusNbHad[iPlot].setFillColor(ntuple,skims.fillColor[iSample]);
-        }
 
         int numEvents = ntuple->fChain->GetEntries();
         ntupleBranchStatus<RA2bTree>(ntuple);
@@ -151,11 +129,6 @@ int main(int argc, char** argv){
             weight = ntuple->Weight*lumi*customPUweights(ntuple)*trigWeight;
             for( int iPlot = 0 ; iPlot < plots.size() ; iPlot++ ){
                 iBin = plots[iPlot].fill(ntuple,weight);
-                if( plots[iPlot].label == "J1pt_numBhadrons_baseline" && iBin > 0 && iBin <= 5 ){
-                    LeadingBBdiscVersusNbHad[iBin-1].fill(ntuple,weight);
-                }
-                if( plots[iPlot].label == "J2pt_numBhadrons_baseline" && iBin > 0 && iBin <= 5 )
-                    SubLeadingBBdiscVersusNbHad[iBin-1].fill(ntuple,weight);
             }
         }
     }
@@ -164,12 +137,6 @@ int main(int argc, char** argv){
     RA2bTree* ntuple = skims.dataNtuple;
     for( int iPlot = 0 ; iPlot < plots.size() ; iPlot++){
         plots[iPlot].addDataNtuple(ntuple,"data_HTMHT");
-    }
-    for( int iPlot = 0 ; iPlot < LeadingBBdiscVersusNbHad.size() ; iPlot++){
-        LeadingBBdiscVersusNbHad[iPlot].addDataNtuple(ntuple,"data");
-    }
-    for( int iPlot = 0 ; iPlot < SubLeadingBBdiscVersusNbHad.size() ; iPlot++){
-        SubLeadingBBdiscVersusNbHad[iPlot].addDataNtuple(ntuple,"data");
     }
   
     int numEvents = ntuple->fChain->GetEntries();
@@ -182,30 +149,9 @@ int main(int argc, char** argv){
         if( !lowDphiTriggerCut(ntuple) ) continue;
         for( int iPlot = 0 ; iPlot < plots.size() ; iPlot++){
             iBin = plots[iPlot].fillData(ntuple);
-            if( plots[iPlot].label == "J1pt_numBhadrons_baseline" && iBin > 0 && iBin <= 5 )
-                LeadingBBdiscVersusNbHad[iBin-1].fillData(ntuple);
-            if( plots[iPlot].label == "J2pt_numBhadrons_baseline" && iBin > 0 && iBin <= 5 )
-                SubLeadingBBdiscVersusNbHad[iBin-1].fillData(ntuple);
         }
     }
     TFile* outputFile = new TFile("plotObs_lowDPhi_baseline.root","RECREATE");
-
-    for( int iPlot = 0 ; iPlot < LeadingBBdiscVersusNbHad.size() ; iPlot++){
-        LeadingBBdiscVersusNbHad[iPlot].buildSum();
-        LeadingBBdiscVersusNbHad[iPlot].Write();
-        LeadingBBdiscVersusNbHad[iPlot].sum->Write();
-        TCanvas* can = new TCanvas("can","can",500,500);
-        can->SetTopMargin(0.05);
-        LeadingBBdiscVersusNbHad[iPlot].Draw(can,skims.ntuples,skims.signalNtuples,"../plots/plotObs_lowDPhi_baseline_plots",0.1,2.0,true);
-    }
-    for( int iPlot = 0 ; iPlot < SubLeadingBBdiscVersusNbHad.size() ; iPlot++){
-        SubLeadingBBdiscVersusNbHad[iPlot].buildSum();
-        SubLeadingBBdiscVersusNbHad[iPlot].Write();
-        SubLeadingBBdiscVersusNbHad[iPlot].sum->Write();
-        TCanvas* can = new TCanvas("can","can",500,500);
-        can->SetTopMargin(0.05);
-        SubLeadingBBdiscVersusNbHad[iPlot].Draw(can,skims.ntuples,skims.signalNtuples,"../plots/plotObs_lowDPhi_baseline_plots",0.1,2.0,true);
-    }
 
     for( int iPlot = 0 ; iPlot < plots.size() ; iPlot++){
         plots[iPlot].Write();

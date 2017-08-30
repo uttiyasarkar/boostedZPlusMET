@@ -50,26 +50,6 @@ int main(int argc, char** argv){
     plot J2NbhadronPlot(*fillLeadingNbHadrons<RA2bTree>,"J1pt_numBhadrons_baseline","n_{b-had}",5,-0.5,4.5);
     plot J1NbhadronPlot(*fillSubLeadingNbHadrons<RA2bTree>,"J2pt_numBhadrons_baseline","n_{b-had}",5,-0.5,4.5);
 
-    vector<plot> LeadingBBdiscVersusNbHad;
-    TString binLabel;
-    for( int i=0; i<5 ; i++){    
-        binLabel="";
-        binLabel+=i;
-        LeadingBBdiscVersusNbHad.push_back(plot(*fillLeadingBBtag<RA2bTree>,"J1pt_BBtag_singleMuCR_NbHad"+binLabel,"bb-disc",20,-1,1));
-    }
-    vector<plot> SubLeadingBBdiscVersusNbHad;
-    for( int i=0; i<5 ; i++){    
-        binLabel="";
-        binLabel+=i;
-        SubLeadingBBdiscVersusNbHad.push_back(plot(*fillSubLeadingBBtag<RA2bTree>,"J2pt_BBtag_singleMuCR_NbHad"+binLabel,"bb-disc",20,-1,1));
-    }
-    vector<plot> HTversusNJetsplots;
-    for( int i=0; i<14 ; i++){
-        binLabel="";
-        binLabel+=i;
-        HTversusNJetsplots.push_back(plot(*fillHT<RA2bTree>,"HT_singleMuCR_HT"+binLabel,"H_{T} [GeV]",15,300,2800.));
-    }
-  
     plot J1dR_Massplot(*leadJetMuondR_mass<RA2bTree>,"J1dR_Mass_singleMuCR_baseline","m_{J} [GeV]",20,50.,250.);
     plot J2dR_Massplot(*subleadJetMuondR_mass<RA2bTree>,"J2dR_Mass_singleMuCR_baseline","m_{J} [GeV]",20,50.,250.);
     plot J1dR_BBplot(*leadJetMuondR_bbdisc<RA2bTree>,"J1dR_BBdisc_singleMuCR_baseline","bb-disc",20,-1.,1.);
@@ -165,21 +145,7 @@ int main(int argc, char** argv){
             plots[iPlot].setFillColor(ntuple,skims.fillColor[iSample]);
             plots[iPlot].setLineColor(ntuple,skims.lineColor[iSample]);
         }
-        for( int iPlot = 0 ; iPlot < HTversusNJetsplots.size() ; iPlot++){
-            HTversusNJetsplots[iPlot].addNtuple(ntuple,skims.sampleName[iSample]);
-            HTversusNJetsplots[iPlot].setFillColor(ntuple,skims.fillColor[iSample]);
-            HTversusNJetsplots[iPlot].setLineColor(ntuple,skims.lineColor[iSample]);
-        }
-        for( int iPlot = 0 ; iPlot < LeadingBBdiscVersusNbHad.size() ; iPlot++){
-            LeadingBBdiscVersusNbHad[iPlot].addNtuple(ntuple,skims.sampleName[iSample]);
-            LeadingBBdiscVersusNbHad[iPlot].setFillColor(ntuple,skims.fillColor[iSample]);
-            LeadingBBdiscVersusNbHad[iPlot].setLineColor(ntuple,skims.lineColor[iSample]);
-        }
-        for( int iPlot = 0 ; iPlot < SubLeadingBBdiscVersusNbHad.size() ; iPlot++){
-            SubLeadingBBdiscVersusNbHad[iPlot].addNtuple(ntuple,skims.sampleName[iSample]);
-            SubLeadingBBdiscVersusNbHad[iPlot].setFillColor(ntuple,skims.fillColor[iSample]);
-            SubLeadingBBdiscVersusNbHad[iPlot].setLineColor(ntuple,skims.lineColor[iSample]);
-        }
+
 
         int numEvents = ntuple->fChain->GetEntries();
         ntupleBranchStatus<RA2bTree>(ntuple);
@@ -200,53 +166,14 @@ int main(int argc, char** argv){
             //    weight *= ISRweights(ntuple);
             for( int iPlot = 0 ; iPlot < plots.size() ; iPlot++ ){
                 iBin=plots[iPlot].fill(ntuple,weight);
-                if( plots[iPlot].label == "NJets_singleMuCR_baseline" && iBin>0 && iBin <=14 )
-                    HTversusNJetsplots[iBin-1].fill(ntuple,weight);
-                if( plots[iPlot].label == "J1pt_numBhadrons_baseline" && iBin > 0 && iBin <= 5 ){
-                    LeadingBBdiscVersusNbHad[iBin-1].fill(ntuple,weight);
-                }
-                if( plots[iPlot].label == "J2pt_numBhadrons_baseline" && iBin > 0 && iBin <= 5 )
-                    SubLeadingBBdiscVersusNbHad[iBin-1].fill(ntuple,weight);
             }
         }
     }
-
-    /*
-    // Signal samples
-    for( int iSample = 0 ; iSample < skims.signalNtuples.size() ; iSample++){
-
-    RA2bTree* ntuple = skims.signalNtuples[iSample];
-    for( int iPlot = 0 ; iPlot < plots.size() ; iPlot++){
-    plots[iPlot].addSignalNtuple(ntuple,skims.signalSampleName[iSample]);
-    plots[iPlot].setLineColor(ntuple,skims.sigLineColor[iSample]);
-    }
-
-    int numEvents = ntuple->fChain->GetEntries();
-    ntupleBranchStatus<RA2bTree>(ntuple);
-    for( int iEvt = 0 ; iEvt < min(options.MAX_EVENTS,numEvents) ; iEvt++ ){
-    ntuple->GetEntry(iEvt);
-    if( iEvt % 1000000 == 0 ) cout << skims.signalSampleName[iSample] << ": " << iEvt << "/" << min(options.MAX_EVENTS,numEvents) << endl;
-    if(! singleMuBaselineCut(ntuple) ) continue;
-    for( int iPlot = 0 ; iPlot < plots.size() ; iPlot++){
-	plots[iPlot].fillSignal(ntuple,ntuple->Weight*lumi*ntuple->puWeight);
-    }
-    }
-    }
-    */
 
     // Data samples
     RA2bTree* ntuple = skims.dataNtuple;
     for( int iPlot = 0 ; iPlot < plots.size() ; iPlot++){
         plots[iPlot].addDataNtuple(ntuple,"data");
-    }
-    for( int iPlot = 0 ; iPlot < HTversusNJetsplots.size() ; iPlot++){
-        HTversusNJetsplots[iPlot].addDataNtuple(ntuple,"data");
-    }
-    for( int iPlot = 0 ; iPlot < LeadingBBdiscVersusNbHad.size() ; iPlot++){
-        LeadingBBdiscVersusNbHad[iPlot].addDataNtuple(ntuple,"data");
-    }
-    for( int iPlot = 0 ; iPlot < SubLeadingBBdiscVersusNbHad.size() ; iPlot++){
-        SubLeadingBBdiscVersusNbHad[iPlot].addDataNtuple(ntuple,"data");
     }
   
     int numEvents = ntuple->fChain->GetEntries();
@@ -259,43 +186,12 @@ int main(int argc, char** argv){
         if( singleMuTriggerCut(ntuple) ){
             for( int iPlot = 0 ; iPlot < plots.size() ; iPlot++){
                 iBin = plots[iPlot].fillData(ntuple);
-                if( plots[iPlot].label == "NJets_singleMuCR_baseline" && iBin>0 && iBin <=14 )
-                    HTversusNJetsplots[iBin-1].fillData(ntuple);
-                if( plots[iPlot].label == "J1pt_numBhadrons_baseline" && iBin > 0 && iBin <= 5 )
-                    LeadingBBdiscVersusNbHad[iBin-1].fillData(ntuple);
-                if( plots[iPlot].label == "J2pt_numBhadrons_baseline" && iBin > 0 && iBin <= 5 )
-                    SubLeadingBBdiscVersusNbHad[iBin-1].fillData(ntuple);
             }
         }
     }
 
     TFile* outputFile = new TFile("plotObs_singleMuCR_baseline.root","RECREATE");
 
-
-    for( int iPlot = 0 ; iPlot < HTversusNJetsplots.size() ; iPlot++){
-        HTversusNJetsplots[iPlot].buildSum();
-        HTversusNJetsplots[iPlot].Write();
-        HTversusNJetsplots[iPlot].sum->Write();
-        TCanvas* can = new TCanvas("can","can",500,500);
-        can->SetTopMargin(0.05);
-        HTversusNJetsplots[iPlot].Draw(can,skims.ntuples,skims.signalNtuples,"../plots/plotObs_singleMuCR_baseline_plots",0.1,2.0,true);
-    }
-    for( int iPlot = 0 ; iPlot < LeadingBBdiscVersusNbHad.size() ; iPlot++){
-        LeadingBBdiscVersusNbHad[iPlot].buildSum();
-        LeadingBBdiscVersusNbHad[iPlot].Write();
-        LeadingBBdiscVersusNbHad[iPlot].sum->Write();
-        TCanvas* can = new TCanvas("can","can",500,500);
-        can->SetTopMargin(0.05);
-        LeadingBBdiscVersusNbHad[iPlot].Draw(can,skims.ntuples,skims.signalNtuples,"../plots/plotObs_singleMuCR_baseline_plots",0.1,2.0,true);
-    }
-    for( int iPlot = 0 ; iPlot < SubLeadingBBdiscVersusNbHad.size() ; iPlot++){
-        SubLeadingBBdiscVersusNbHad[iPlot].buildSum();
-        SubLeadingBBdiscVersusNbHad[iPlot].Write();
-        SubLeadingBBdiscVersusNbHad[iPlot].sum->Write();
-        TCanvas* can = new TCanvas("can","can",500,500);
-        can->SetTopMargin(0.05);
-        SubLeadingBBdiscVersusNbHad[iPlot].Draw(can,skims.ntuples,skims.signalNtuples,"../plots/plotObs_singleMuCR_baseline_plots",0.1,2.0,true);
-    }
     for( int iPlot = 0 ; iPlot < plots.size() ; iPlot++){
         plots[iPlot].Write();
         TCanvas* can = new TCanvas("can","can",500,500);

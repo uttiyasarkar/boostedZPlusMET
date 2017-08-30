@@ -35,22 +35,13 @@ int main(int argc, char** argv){
     plot BTagsplot(*fillBTags<RA2bTree>,"BTags_photon_baseline","n_{b}",6,-0.5,5.5);
     plot PhotonPtplot(*fillPhotonPt<RA2bTree>,"PhotonPt_photon_baseline","p_{T,#gamma} [GeV]",50,100.,1100.);
 
+    plot Ak4JetPt1(*fillJetPt1<RA2bTree>,"Ak4JetPt1_photon_baseline","p_{T,j1} [GeV]",40,0,600);
+    plot Ak4JetPt2(*fillJetPt2<RA2bTree>,"Ak4JetPt2_photon_baseline","p_{T,j2} [GeV]",40,0,600);
+    plot Ak4JetPt3(*fillJetPt3<RA2bTree>,"Ak4JetPt3_photon_baseline","p_{T,j3} [GeV]",40,0,600);
+    plot Ak4JetPt4(*fillJetPt4<RA2bTree>,"Ak4JetPt4_photon_baseline","p_{T,j4} [GeV]",40,0,600);
+
     plot J2NbhadronPlot(*fillLeadingNbHadrons<RA2bTree>,"J1pt_numBhadrons_baseline","n_{b-had}",5,-0.5,4.5);
     plot J1NbhadronPlot(*fillSubLeadingNbHadrons<RA2bTree>,"J2pt_numBhadrons_baseline","n_{b-had}",5,-0.5,4.5);
-
-    vector<plot> LeadingBBdiscVersusNbHad;
-    TString binLabel;
-    for( int i=0; i<5 ; i++){    
-        binLabel="";
-        binLabel+=i;
-        LeadingBBdiscVersusNbHad.push_back(plot(*fillLeadingBBtag_photon<RA2bTree>,"J1pt_BBtag_photon_NbHad"+binLabel,"bb-disc",20,-1,1));
-    }
-    vector<plot> SubLeadingBBdiscVersusNbHad;
-    for( int i=0; i<5 ; i++){    
-        binLabel="";
-        binLabel+=i;
-        SubLeadingBBdiscVersusNbHad.push_back(plot(*fillSubLeadingBBtag<RA2bTree>,"J2pt_BBtag_photon_NbHad"+binLabel,"bb-disc",20,-1,1));
-    }
 
     plot J1pt_Massplot(*fillLeadingJetMass_photon<RA2bTree>,"J1pt_Mass_photon_baseline","m_{J} [GeV]",20,50.,250.);
     plot J2pt_Massplot(*fillSubLeadingJetMass_photon<RA2bTree>,"J2pt_Mass_photon_baseline","m_{J} [GeV]",20,50.,250.);
@@ -67,6 +58,9 @@ int main(int argc, char** argv){
 
     plot J1pt_JetFlavorPlot(*fillLeadingJetFlavor_photon<RA2bTree>,"J1pt_JetFlavorPlot","Jet Flavor",22,0.5,21.5);
     plot J2pt_JetFlavorPlot(*fillSubLeadingJetFlavor_photon<RA2bTree>,"J2pt_JetFlavorPlot","Jet Flavor",22,0.5,21.5);
+
+    plot J1pt_Tau21plot(*fillLeadingTau21<RA2bTree>,"J1pt_Tau21_photon_baseline","#tau_{21}",20,0.,1.);
+    plot J2pt_Tau21plot(*fillSubLeadingTau21<RA2bTree>,"J2pt_Tau21_photon_baseline","#tau_{21}",20,0.,1.);
 
     vector<plot> plots;
     plots.push_back(J1NbhadronPlot);
@@ -88,6 +82,8 @@ int main(int argc, char** argv){
     plots.push_back(J2pt_PtWideplot);
     plots.push_back(J1pt_JetFlavorPlot);
     plots.push_back(J2pt_JetFlavorPlot);
+    plots.push_back(J1pt_Tau21plot);
+    plots.push_back(J2pt_Tau21plot);
 
     // background MC samples
     for( int iSample = 0 ; iSample < skims.ntuples.size() ; iSample++){
@@ -97,14 +93,6 @@ int main(int argc, char** argv){
         for( int iPlot = 0 ; iPlot < plots.size() ; iPlot++){
             plots[iPlot].addNtuple(ntuple,skims.sampleName[iSample]);
             plots[iPlot].setFillColor(ntuple,skims.fillColor[iSample]);
-        }
-        for( int iPlot = 0 ; iPlot < LeadingBBdiscVersusNbHad.size() ; iPlot++){
-            LeadingBBdiscVersusNbHad[iPlot].addNtuple(ntuple,skims.sampleName[iSample]);
-            LeadingBBdiscVersusNbHad[iPlot].setFillColor(ntuple,skims.fillColor[iSample]);
-        }
-        for( int iPlot = 0 ; iPlot < SubLeadingBBdiscVersusNbHad.size() ; iPlot++){
-            SubLeadingBBdiscVersusNbHad[iPlot].addNtuple(ntuple,skims.sampleName[iSample]);
-            SubLeadingBBdiscVersusNbHad[iPlot].setFillColor(ntuple,skims.fillColor[iSample]);
         }
 
         int numEvents = ntuple->fChain->GetEntries();
@@ -131,49 +119,17 @@ int main(int argc, char** argv){
             }
             for( int iPlot = 0 ; iPlot < plots.size() ; iPlot++ ){
                 iBin=plots[iPlot].fill(ntuple,weight);
-                if( plots[iPlot].label == "J1pt_numBhadrons_baseline" && iBin > 0 && iBin <= 5 ){
-                    LeadingBBdiscVersusNbHad[iBin-1].fill(ntuple,weight);
-                }
-                if( plots[iPlot].label == "J2pt_numBhadrons_baseline" && iBin > 0 && iBin <= 5 )
-                    SubLeadingBBdiscVersusNbHad[iBin-1].fill(ntuple,weight);
             }
         }
     }
 
-    /*
-    // Signal samples
-    for( int iSample = 0 ; iSample < skims.signalNtuples.size() ; iSample++){
-
-    RA2bTree* ntuple = skims.signalNtuples[iSample];
-    for( int iPlot = 0 ; iPlot < plots.size() ; iPlot++){
-    plots[iPlot].addSignalNtuple(ntuple,skims.signalSampleName[iSample]);
-    plots[iPlot].setLineColor(ntuple,skims.lineColor[iSample]);
-    }
-
-    int numEvents = ntuple->fChain->GetEntries();
-    ntupleBranchStatus<RA2bTree>(ntuple);
-    for( int iEvt = 0 ; iEvt < min(options.MAX_EVENTS,numEvents) ; iEvt++ ){
-    ntuple->GetEntry(iEvt);
-    if( iEvt % 1000000 == 0 ) cout << skims.signalSampleName[iSample] << ": " << iEvt << "/" << min(options.MAX_EVENTS,numEvents) << endl;
-    if(! singleMuBaselineCut(ntuple) ) continue;
-    for( int iPlot = 0 ; iPlot < plots.size() ; iPlot++){
-	plots[iPlot].fillSignal(ntuple,ntuple->Weight*lumi);
-    }
-    }
-    }
-    */
 
     // Data samples
     RA2bTree* ntuple = skims.dataNtuple;
     for( int iPlot = 0 ; iPlot < plots.size() ; iPlot++){
         plots[iPlot].addDataNtuple(ntuple,"data");
     }
-    for( int iPlot = 0 ; iPlot < LeadingBBdiscVersusNbHad.size() ; iPlot++){
-        LeadingBBdiscVersusNbHad[iPlot].addDataNtuple(ntuple,"data");
-    }
-    for( int iPlot = 0 ; iPlot < SubLeadingBBdiscVersusNbHad.size() ; iPlot++){
-        SubLeadingBBdiscVersusNbHad[iPlot].addDataNtuple(ntuple,"data");
-    }
+
     int numEvents = ntuple->fChain->GetEntries();
     ntupleBranchStatus<RA2bTree>(ntuple);
     int iBin=0;
@@ -189,32 +145,12 @@ int main(int argc, char** argv){
         if( !photonTriggerCut(ntuple) ) continue;
         for( int iPlot = 0 ; iPlot < plots.size() ; iPlot++){
             iBin=plots[iPlot].fillData(ntuple);
-            if( plots[iPlot].label == "J1pt_numBhadrons_baseline" && iBin > 0 && iBin <= 5 )
-                LeadingBBdiscVersusNbHad[iBin-1].fillData(ntuple);
-            if( plots[iPlot].label == "J2pt_numBhadrons_baseline" && iBin > 0 && iBin <= 5 )
-                SubLeadingBBdiscVersusNbHad[iBin-1].fillData(ntuple);
         }
     }
   
     TString outputTag = (looseCuts?"looseCuts_":"");
     TFile* outputFile = new TFile("plotObs_photon_"+outputTag+"baseline.root","RECREATE");
 
-    for( int iPlot = 0 ; iPlot < LeadingBBdiscVersusNbHad.size() ; iPlot++){
-        LeadingBBdiscVersusNbHad[iPlot].buildSum();
-        LeadingBBdiscVersusNbHad[iPlot].Write();
-        LeadingBBdiscVersusNbHad[iPlot].sum->Write();
-        TCanvas* can = new TCanvas("can","can",500,500);
-        can->SetTopMargin(0.05);
-        LeadingBBdiscVersusNbHad[iPlot].Draw(can,skims.ntuples,skims.signalNtuples,"../plots/plotObs_photon_"+outputTag+"baseline_plots",0.,2.,true);
-    }
-    for( int iPlot = 0 ; iPlot < SubLeadingBBdiscVersusNbHad.size() ; iPlot++){
-        SubLeadingBBdiscVersusNbHad[iPlot].buildSum();
-        SubLeadingBBdiscVersusNbHad[iPlot].Write();
-        SubLeadingBBdiscVersusNbHad[iPlot].sum->Write();
-        TCanvas* can = new TCanvas("can","can",500,500);
-        can->SetTopMargin(0.05);
-        SubLeadingBBdiscVersusNbHad[iPlot].Draw(can,skims.ntuples,skims.signalNtuples,"../plots/plotObs_photon_"+outputTag+"baseline_plots",0.,2.,true);
-    }
     for( int iPlot = 0 ; iPlot < plots.size() ; iPlot++){
         plots[iPlot].Write();
         TCanvas* can = new TCanvas("can","can",500,500);
