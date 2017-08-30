@@ -2,7 +2,7 @@ CC=g++
 CFLAGS=
 LIBS=`root-config --cflags --glibs` -L $(ROOTSYS)/lib -I$(ROOTSYS)/include
 ROOFITLIBS=-lRooFit -lHtml -lMinuit -lRooFitCore
-INCLUDES=-I$(CMSSW_BASE)/src/AnalysisTools/src/ -I$(CMSSW_BASE)/src/ -I$(CMSSW_BASE)/src/Analysis/btag/
+INCLUDES=-I$(CMSSW_BASE)/src/AnalysisTools/src/ -I$(CMSSW_BASE)/src/ -I$(CMSSW_BASE)/src/Analysis/btag/ -I$(CMSSW_BASE)/src/cxxopts/include/
 EXECS=fitWpeak flavorFit plotObs_photon_baseline plotObs_singleEleCR_baseline plotObs_lowDPhi_baseline plotObs_singleTag plotObs_doubleTag plotObs_antitag plotObs_baseline plotObs_singleMuCR_baseline cutFlow ALPHABET ALPHABET_photon datacardInputs photonSkim WtaggingEfficiency.cc plotWtagDist.cc unblindSignalRegion.cc
 $(EXECS):RA2bTree.cc definitions.cc skimSamples.cc plotterUtils.cc
 flavorFit:flavorFit.cc
@@ -41,7 +41,7 @@ flavorFit:
 plotObs_fastFullComp:
 	$(CC) $(CFLAGS) $(LIBS) $(INCLUDES) plotObs_fastFullComp.cc -o ../bin/$@
 ALPHABET:
-	$(CC) $(CFLAGS) $(LIBS) $(INCLUDES) -I$(CMSSW_BASE)/src/cxxopts/include/ ALPHABET.cc -o ../bin/$@
+	$(CC) $(CFLAGS) $(LIBS) $(INCLUDES) ALPHABET.cc -o ../bin/$@
 ALPHABET_photon:
 	$(CC) $(CFLAGS) $(LIBS) $(INCLUDES) ALPHABET_photon.cc -o ../bin/$@
 cutFlow:
