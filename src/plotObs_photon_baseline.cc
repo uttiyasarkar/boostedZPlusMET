@@ -21,8 +21,9 @@ int main(int argc, char** argv){
 
     bool looseCuts(false);
     defaultOptions options(argv[0],"");
-    options.opts->parse(argc, argv);
     options.opts->add_options()("l,loose_cuts","apply loose jet pt cuts",cxxopts::value<bool>(looseCuts));
+    options.opts->parse(argc, argv);
+
     gROOT->ProcessLine(".L tdrstyle.C");
     gROOT->ProcessLine("setTDRStyle()");
   
