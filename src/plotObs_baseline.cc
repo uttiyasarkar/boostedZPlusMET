@@ -14,14 +14,14 @@
 #include "definitions.cc"
 #include "RA2bTree.cc"
 #include "TriggerEfficiencySextet.cc"
+#include "defaultArgs.h"
 
 using namespace std;
 
 int main(int argc, char** argv){
 
-    int MAX_EVENTS(99999999);
-    if( argc > 1 )
-        MAX_EVENTS = atoi(argv[1]);
+    defaultOptions options(argv[0],"");
+    options.opts->parse(argc, argv);
 
     gROOT->ProcessLine(".L tdrstyle.C");
     gROOT->ProcessLine("setTDRStyle()");
@@ -122,9 +122,9 @@ int main(int argc, char** argv){
         ntupleBranchStatus<RA2bTree>(ntuple);
         TString filename;
         double weight = 0.;
-        for( int iEvt = 0 ; iEvt < min(MAX_EVENTS,numEvents) ; iEvt++ ){
+        for( int iEvt = 0 ; iEvt < min(options.MAX_EVENTS,numEvents) ; iEvt++ ){
             ntuple->GetEntry(iEvt);
-            if( iEvt % 1000000 == 0 ) cout << skims.sampleName[iSample] << ": " << iEvt << "/" << numEvents << endl;
+            if( iEvt % 1000000 == 0 ) cout << skims.sampleName[iSample] << ": " << iEvt << "/" << min(options.MAX_EVENTS,numEvents) << endl;
 
             filename = ntuple->fChain->GetFile()->GetName();
             if( ( filename.Contains("SingleLept") || filename.Contains("DiLept") ) && ntuple->madHT>600. )continue;
@@ -162,9 +162,9 @@ int main(int argc, char** argv){
 
         int numEvents = ntuple->fChain->GetEntries();
         ntupleBranchStatus<RA2bTree>(ntuple);
-        for( int iEvt = 0 ; iEvt < min(MAX_EVENTS,numEvents) ; iEvt++ ){
+        for( int iEvt = 0 ; iEvt < min(options.MAX_EVENTS,numEvents) ; iEvt++ ){
             ntuple->GetEntry(iEvt);
-            if( iEvt % 1000000 == 0 ) cout << skims.signalSampleName[iSample] << ": " << iEvt << "/" << numEvents << endl;
+            if( iEvt % 1000000 == 0 ) cout << skims.signalSampleName[iSample] << ": " << iEvt << "/" << min(options.MAX_EVENTS,numEvents) << endl;
             if(! baselineCut(ntuple) ) continue;
             if( !genLevelZZcut(ntuple) ) continue;
             for( int iPlot = 0 ; iPlot < plots.size() ; iPlot++){
@@ -184,7 +184,7 @@ int main(int argc, char** argv){
   
     int numEvents = ntuple->fChain->GetEntries();
     ntupleBranchStatus<RA2bTree>(ntuple);
-    for( int iEvt = 0 ; iEvt < 0/*min(MAX_EVENTS,numEvents)*/ ; iEvt++ ){
+    for( int iEvt = 0 ; iEvt < 0/*min(options.MAX_EVENTS,numEvents)*/ ; iEvt++ ){
         ntuple->GetEntry(iEvt);
         if( iEvt % 1000000 == 0 ) cout << "data_HTMHT: " << iEvt << "/" << numEvents << endl;
         if(! baselineCut(ntuple) ) continue;

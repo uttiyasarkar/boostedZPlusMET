@@ -15,38 +15,25 @@
 #include "definitions.cc"
 #include "RA2bTree.cc"
 #include "TriggerEfficiencySextet.cc"
+#include "defaultArgs.h"
 
 using namespace std;
 
 int main(int argc, char** argv){
 
-    gROOT->ProcessLine(".L tdrstyle.C");
-    gROOT->ProcessLine("setTDRStyle()");
+    skimSamples::region reg;
+    int reg_(0);
+    defaultOptions options(argv[0],"");
+    options.opts->add_options()("r,region","region to analyze",cxxopts::value<int>(reg_));
+    options.opts->parse(argc, argv);
 
-    int region(0);
-    int MAX_EVENTS(99999999);
-    if( argc >= 2 ) 
-        region = atoi(argv[1]);
-    if( argc >= 3 ) 
-        MAX_EVENTS = atoi(argv[2]);
+    reg = static_cast<skimSamples::region>(reg_);    
 
     gROOT->ProcessLine(".L tdrstyle.C");
     gROOT->ProcessLine("setTDRStyle()");
-    
-    skimSamples* skims_;
-    if( region == 0 ) 
-        skims_ = new skimSamples(skimSamples::kSignal);
-    else if( region == 1 )
-        skims_ = new skimSamples(skimSamples::kSLm);
-    else if( region == 2 )
-        skims_ = new skimSamples(skimSamples::kSLe);
-    else if( region == 3 )
-        skims_ = new skimSamples(skimSamples::kLowDphi);
-    else        
-        assert(1);
-    
-    skimSamples skims = *skims_;
 
+    skimSamples skims(reg);
+    
     typedef plot<RA2bTree> plot;
     typedef bool(*cutFunc)(RA2bTree*);
     vector<cutFunc> cutFlow;
@@ -55,7 +42,7 @@ int main(int argc, char** argv){
     cutFlow.push_back(*FiltersCut<RA2bTree>);
     cutName.push_back("Filters");
     
-    if( region == 3 ){ 
+    if( reg == skimSamples::kLowDphi ){ 
         cutFlow.push_back(*lowDPhiCuts<RA2bTree>);
         cutName.push_back("lowDeltaPhi");
     }else{
@@ -63,11 +50,11 @@ int main(int argc, char** argv){
         cutName.push_back("DeltaPhi");
     }
     
-    if( region == 1 ){
+    if( reg == skimSamples::kSLm ){
         cutFlow.push_back(*singleMuCut<RA2bTree>);
         cutName.push_back("SingleMu");
     }
-    if( region == 2 ){
+    if( reg == skimSamples::kSLe ){
         cutFlow.push_back(*singleEleCut<RA2bTree>);
         cutName.push_back("SingleEle");
     }
@@ -138,9 +125,9 @@ int main(int argc, char** argv){
         ntupleBranchStatus<RA2bTree>(ntuple);
         double weight = 0.;
         TString filename;
-        for( int iEvt = 0 ; iEvt < min(MAX_EVENTS,numEvents) ; iEvt++ ){
+        for( int iEvt = 0 ; iEvt < min(options.MAX_EVENTS,numEvents) ; iEvt++ ){
             ntuple->GetEntry(iEvt);
-            if( iEvt % 100000 == 0 ) cout << skims.sampleName[iSample] << ": " << iEvt << "/" << numEvents << endl;
+            if( iEvt % 100000 == 0 ) cout << skims.sampleName[iSample] << ": " << iEvt << "/" << min(options.MAX_EVENTS,numEvents) << endl;
             
             filename = ntuple->fChain->GetFile()->GetName();
             if( ( filename.Contains("SingleLept") || filename.Contains("DiLept") ) && ntuple->madHT>600. )continue;
@@ -152,14 +139,14 @@ int main(int argc, char** argv){
             //    weight *= ISRweights(ntuple);
             //    //cout << "ISR: " << ISRweights(ntuple) << endl;
             // }
-            if(region==0){
+            if(reg == skimSamples::kSignal ){
                 std::vector<double> EfficiencyCenterUpDown = Eff_MetMhtSextetReal_CenterUpDown(ntuple->HT, ntuple->MHT, ntuple->NJets);
                 weight*=EfficiencyCenterUpDown[0];
-            }else if( region == 1 ){
+            }else if( reg == skimSamples::kSLm ){
                 weight*=singleMuonTrigWeights(ntuple);
-            }else if( region == 2 ){
+            }else if( reg == skimSamples::kSLe ){
                 weight*=singleElectronTrigWeights(ntuple);
-            }else if( region == 3 ){
+            }else if( reg == skimSamples::kLowDphi ){
                 weight*=lowDphiTrigWeights(ntuple);
             }
             // ------------------------------------------
@@ -174,7 +161,7 @@ int main(int argc, char** argv){
     
     // Signal samples
     vector<RA2bTree*> sigSamples;
-    for( int iSample = 0 ; iSample < ( region == 0 ? skims.signalNtuples.size() : 0 )  ; iSample++){
+    for( int iSample = 0 ; iSample < ( reg == skimSamples::kSignal ? skims.signalNtuples.size() : 0 )  ; iSample++){
         if( skims.signalSampleName[iSample] != "T5HH1300" && skims.signalSampleName[iSample] != "T5HH1700" ) continue;
             
         RA2bTree* ntuple = skims.signalNtuples[iSample];
@@ -188,9 +175,9 @@ int main(int argc, char** argv){
 
         int numEvents = ntuple->fChain->GetEntries();
         ntupleBranchStatus<RA2bTree>(ntuple);
-        for( int iEvt = 0 ; iEvt < min(MAX_EVENTS,numEvents) ; iEvt++ ){
+        for( int iEvt = 0 ; iEvt < min(options.MAX_EVENTS,numEvents) ; iEvt++ ){
             ntuple->GetEntry(iEvt);
-            if( iEvt % 100000 == 0 ) cout << skims.signalSampleName[iSample] << ": " << iEvt << "/" << numEvents << endl;
+            if( iEvt % 100000 == 0 ) cout << skims.signalSampleName[iSample] << ": " << iEvt << "/" << min(options.MAX_EVENTS,numEvents) << endl;
             if( !genLevelZZcut(ntuple) ) continue;
             for( int iCut = 0 ; iCut < cutFlow.size() ; iCut++ ){
                 if( ! cutFlow[iCut](ntuple) ) break;
@@ -214,16 +201,16 @@ int main(int argc, char** argv){
   
     int numEvents = ntuple->fChain->GetEntries();
     ntupleBranchStatus<RA2bTree>(ntuple);
-    for( int iEvt = 0 ; iEvt < min(MAX_EVENTS,( region == 0 ? 0 : numEvents )) ; iEvt++ ){
+    for( int iEvt = 0 ; iEvt < min(options.MAX_EVENTS,( reg == skimSamples::kSignal ? 0 : min(options.MAX_EVENTS,numEvents) )) ; iEvt++ ){
         ntuple->GetEntry(iEvt);
         if( iEvt % 100000 == 0 ) cout << "data: " << iEvt << "/" << numEvents << endl;
-        if( region == 0 ){
+        if( reg == skimSamples::kSignal ){
             if( !signalTriggerCut(ntuple) ) continue;
-        }else if( region == 1){
+        }else if( reg == skimSamples::kSLm ){
             if( !singleMuTriggerCut(ntuple) ) continue;
-        }else if( region == 2){
+        }else if( reg == skimSamples::kSLe ){
             if( !singleEleTriggerCut(ntuple) ) continue;
-        }else if( region == 3 ){ 
+        }else if( reg == skimSamples::kLowDphi ){ 
             if( !lowDphiTriggerCut(ntuple) ) continue;
         }
         for( int iCut = 0 ; iCut < cutFlow.size() ; iCut++ ){
@@ -238,10 +225,10 @@ int main(int argc, char** argv){
     for( int iCut = 0 ; iCut < cutFlow.size() ; iCut++ ){
         for( int iPlot = 0 ; iPlot < plots[iCut].size() ; iPlot++){
             TCanvas* can = new TCanvas("can","can",500,500);
-            if( region == 0 )
-                plots[iCut][iPlot].DrawNoRatio(can,skims.ntuples,sigSamples,outputDir[region]);
+            if( reg == skimSamples::kSignal )
+                plots[iCut][iPlot].DrawNoRatio(can,skims.ntuples,sigSamples,outputDir[reg]);
             else
-                plots[iCut][iPlot].Draw(can,skims.ntuples,sigSamples,outputDir[region],0.1,2.0,true);
+                plots[iCut][iPlot].Draw(can,skims.ntuples,sigSamples,outputDir[reg],0.1,2.0,true);
         }
     }
 
@@ -249,23 +236,23 @@ int main(int argc, char** argv){
     for( int iSample = 0 ; iSample < skims.ntuples.size() ; iSample++){ 
         cout << " & " << skims.sampleName[iSample] ; 
     }
-    for( int iSample = 0 ; iSample < ( region == 0 ? skims.signalNtuples.size() : 0 ) ; iSample++){
+    for( int iSample = 0 ; iSample < ( reg == skimSamples::kSignal ? skims.signalNtuples.size() : 0 ) ; iSample++){
         cout << " & " << skims.signalSampleName[iSample] ;
     }
     cout << endl;
     cout << "% ------------------------------------------------------------------" << endl;
     for( int iCut = 0 ; iCut < cutFlow.size() ; iCut++ ){
         plots[iCut][0].buildSum();
-        cout << cutName[iCut] << " & " << plots[iCut][0].sum->Integral();
+        cout << cutName[iCut] << " & " << (plots[iCut][0].sum?plots[iCut][0].sum->Integral():0.);
         for( int iSample = 0 ; iSample < skims.ntuples.size() ; iSample++){ 
             RA2bTree* ntuple = skims.ntuples[iSample];
-            cout << " & " << plots[iCut][0].histoMap[ntuple]->Integral();
+            cout << " & " << (plots[iCut][0].histoMap[ntuple]?plots[iCut][0].histoMap[ntuple]->Integral():0.);
         }
-        for( int iSample = 0 ; iSample < ( region == 0 ? skims.signalNtuples.size() : 0 ) ; iSample++){
+        for( int iSample = 0 ; iSample < ( reg == skimSamples::kSignal ? skims.signalNtuples.size() : 0 ) ; iSample++){
             RA2bTree* ntuple = skims.signalNtuples[iSample];
-            cout << " & " << plots[iCut][0].signalHistoMap[ntuple]->Integral();
+            cout << " & " << (plots[iCut][0].signalHistoMap[ntuple]?plots[iCut][0].signalHistoMap[ntuple]->Integral():0.);
         }
-        cout << " & " << plots[iCut][0].dataHist->Integral();
+        cout << " & " << (plots[iCut][0].dataHist?plots[iCut][0].dataHist->Integral():0.);
         cout << " \\\\ \\hline" << endl;
     }
 }

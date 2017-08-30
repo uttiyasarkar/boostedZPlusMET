@@ -15,6 +15,8 @@
 #include "definitions.cc"
 #include "RA2bTree.cc"
 #include "ALPHABET.h"
+#include "TriggerEfficiencySextet.cc"
+#include "defaultArgs.h"
 
 using namespace std;
 using namespace alphabet;
@@ -22,14 +24,9 @@ using namespace alphabet;
 int main(int argc, char** argv){
 
     bool looseCuts(false);
-    int MAX_EVENTS(99999999);
-
-    if( argc >= 2 ){
-        looseCuts = atoi(argv[1]);
-        if( argc >= 3 )
-            MAX_EVENTS = atoi(argv[2]);    
-    }else
-        cout << "Running with default cuts region ... " << endl;
+    defaultOptions options(argv[0],"");
+    options.opts->add_options()("l,loose_cuts","apply loose jet pt cuts",cxxopts::value<bool>(looseCuts));
+    options.opts->parse(argc, argv);
 
     gROOT->ProcessLine(".L tdrstyle.C");
     gROOT->ProcessLine("setTDRStyle()");
@@ -149,9 +146,9 @@ int main(int argc, char** argv){
         int bin;
         double jetMass1;
         float weight;
-        for( int iEvt = 0 ; iEvt < min(MAX_EVENTS,numEvents) ; iEvt++ ){
+        for( int iEvt = 0 ; iEvt < min(options.MAX_EVENTS,numEvents) ; iEvt++ ){
             ntuple->GetEntry(iEvt);
-            if( iEvt % 100000 == 0 ) cout << skims.sampleName[iSample] << ": " << iEvt << "/" << min(MAX_EVENTS,numEvents) << endl;
+            if( iEvt % 100000 == 0 ) cout << skims.sampleName[iSample] << ": " << iEvt << "/" << min(options.MAX_EVENTS,numEvents) << endl;
             if( looseCuts ){
                 if( !photonBaselineCut_loose(ntuple) ) continue;
             }else{
@@ -231,9 +228,9 @@ int main(int argc, char** argv){
     ntupleBranchStatus<RA2bTree>(ntuple);
     int bin;
     double jetMass1;
-    for( int iEvt = 0 ; iEvt < min(MAX_EVENTS,numEvents) ; iEvt++ ){
+    for( int iEvt = 0 ; iEvt < min(options.MAX_EVENTS,numEvents) ; iEvt++ ){
         ntuple->GetEntry(iEvt);
-        if( iEvt % 100000 == 0 ) cout << "data: " << iEvt << "/" << min(MAX_EVENTS,numEvents) << endl;
+        if( iEvt % 100000 == 0 ) cout << "data: " << iEvt << "/" << min(options.MAX_EVENTS,numEvents) << endl;
         if( looseCuts ){
             if( !photonBaselineCut_loose(ntuple) ) continue;
         }else{

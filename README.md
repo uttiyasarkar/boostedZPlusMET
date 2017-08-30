@@ -9,6 +9,7 @@ cmsrel CMSSW_7_4_2
 cd CMSSW_7_4_2/src/
 cmsenv
 git clone https://github.com/awhitbeck/boostedZPlusMET.git
+git clone https://github.com/jarro2783/cxxopts.git
 cd boostedZPlusMET
 source setup.csh
 cd src
