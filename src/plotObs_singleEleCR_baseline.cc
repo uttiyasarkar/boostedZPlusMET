@@ -131,29 +131,6 @@ int main(int argc, char** argv){
         }
     }
 
-    /*
-    // Signal samples
-    for( int iSample = 0 ; iSample < skims.signalNtuples.size() ; iSample++){
-
-    RA2bTree* ntuple = skims.signalNtuples[iSample];
-    for( int iPlot = 0 ; iPlot < plots.size() ; iPlot++){
-    plots[iPlot].addSignalNtuple(ntuple,skims.signalSampleName[iSample]);
-    plots[iPlot].setLineColor(ntuple,skims.lineColor[iSample]);
-    }
-
-    int numEvents = ntuple->fChain->GetEntries();
-    ntupleBranchStatus<RA2bTree>(ntuple);
-    for( int iEvt = 0 ; iEvt < min(options.MAX_EVENTS,numEvents) ; iEvt++ ){
-    ntuple->GetEntry(iEvt);
-    if( iEvt % 1000000 == 0 ) cout << skims.signalSampleName[iSample] << ": " << iEvt << "/" << min(options.MAX_EVENTS,numEvents) << endl;
-    if(! singleMuBaselineCut(ntuple) ) continue;
-    for( int iPlot = 0 ; iPlot < plots.size() ; iPlot++){
-	plots[iPlot].fillSignal(ntuple,ntuple->Weight*lumi*ntuple->puWeight);
-    }
-    }
-    }
-    */
-
     // Data samples
     RA2bTree* ntuple = skims.dataNtuple;
     for( int iPlot = 0 ; iPlot < plots.size() ; iPlot++){
