@@ -3,10 +3,10 @@
 // constants
 // ==============================================
 const double bbtagCut = 0.3;
-const double tau21Cut = 0.5;
-const double ZmassWindowLow = 70.;
-const double ZmassWindowHigh = 100.;
-const double baselineMassLow = 50.;
+const double tau21Cut = 0.55;
+const double ZmassWindowLow = 75.;
+const double ZmassWindowHigh = 105.;
+const double baselineMassLow = 40.;
 const double baselineMassHigh = 250.;
 TFile* puWeightFile = new TFile("../data/PileupHistograms_0121_69p2mb_pm4p6.root");
 TH1F* puWeightHist = (TH1F*) puWeightFile->Get("pu_weights_down");
@@ -1066,7 +1066,6 @@ template<typename ntupleType> bool baselineCut(ntupleType* ntuple){
  
   return ( ntuple->MET > 300.             &&
            ntuple->HT > 600.                         &&
-           ntuple->Jets->size() >=4 && 
            ntuple->JetsAK8->size() >= 2 &&
            ntuple->JetsAK8->at(0).Pt() > 200. && 
            ntuple->JetsAK8_prunedMass->at(0) > baselineMassLow && 
@@ -1096,7 +1095,6 @@ template<typename ntupleType> bool singleMuBaselineCut(ntupleType* ntuple){
     return ( singleMuCut(ntuple) && 
              ntuple->MET > 100.             &&
              ntuple->HT > 600.                         &&
-             ntuple->Jets->size() >=4 && 
              ntuple->JetsAK8->size() >= 2 &&
              ntuple->JetsAK8->at(0).Pt() > 200. && 
              ntuple->JetsAK8_prunedMass->at(0) > baselineMassLow && 
@@ -1122,7 +1120,6 @@ template<typename ntupleType> bool singleEleBaselineCut(ntupleType* ntuple){
     return ( singleEleCut(ntuple) && 
              ntuple->MET > 100.             &&
              ntuple->HT > 600.                         &&
-             ntuple->Jets->size() >=4 && 
              ntuple->JetsAK8->size() >= 2 &&
              ntuple->JetsAK8->at(0).Pt() > 200. && 
              ntuple->JetsAK8_prunedMass->at(0) > baselineMassLow && 
@@ -1140,7 +1137,6 @@ template<typename ntupleType> bool lowDphiBaselineCut(ntupleType* ntuple){
 
     return ( ntuple->MET > 300.             &&
              ntuple->HT > 600.                         &&
-             ntuple->Jets->size() >=4 && 
              ntuple->JetsAK8->size() >= 2 &&
              ntuple->JetsAK8->at(0).Pt() > 200. && 
              ntuple->JetsAK8_prunedMass->at(0) > baselineMassLow && 
@@ -1160,7 +1156,6 @@ template<typename ntupleType> bool photonBaselineCut(ntupleType* ntuple){
              ntuple->Photons_fullID->at(0) == 1 &&
              ntuple->METclean > 100.             &&
              ntuple->HTclean > 400.                         &&
-             ntuple->Jets->size() >=4 && 
              ntuple->JetsAK8Clean->size()>=2 && 
              ntuple->JetsAK8Clean->at(0).Pt() > 200. && 
              ntuple->JetsAK8Clean_prunedMass->at(0) > baselineMassLow && 
@@ -1188,7 +1183,6 @@ template<typename ntupleType> bool photonBaselineCut_loose(ntupleType* ntuple){
              ntuple->Photons_fullID->at(0) == 1 &&
              ntuple->METclean > 100.             &&
              ntuple->HTclean > 400.                         &&
-             ntuple->Jets->size() >=4 && 
              ntuple->JetsAK8Clean->size()>=2 && 
              ntuple->DeltaPhi1clean>0.5 && 
              ntuple->DeltaPhi2clean>0.5 &&
