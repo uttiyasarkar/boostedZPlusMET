@@ -47,7 +47,7 @@ def main():
     ps=[]
     for i,command in enumerate(commands):
         with open(command[0]+"_unit_test.log","w") as out : 
-            print "Running test {0}: {1}".format(alphabet[i],command[0])
+            print "Running test {0}: {1}".format(alphabet[i]," ".join(command))
             ps.append(subprocess.Popen(command,stdout=out,stderr=out))
 
     print " ".join(alphabet[:len(commands)])
