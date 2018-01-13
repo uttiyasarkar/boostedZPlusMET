@@ -182,11 +182,12 @@ int main(int argc, char** argv){
 	newtree->SetBranchStatus("*",0);
         newtree->SetBranchStatus("BTags",1);
         newtree->SetBranchStatus("MET",1);
-        newtree->SetBranchStatus("Weight",1);  
+        //newtree->SetBranchStatus("Weight",1);  
         //newtree->SetBranchStatus("JetsAK8*",1);
 	int BTags;	
         double MET,Weight,JetPt1, JetPt2,PrunedMass1, PrunedMass2, Jet1_tau2overtau1, Jet2_tau2overtau1;
-        TBranch*b_BTags, *b_MET,*b_Weight,*b_JetPt1, *b_JetPt2,*b_PrunedMass1, *b_PrunedMass2, *b_Jet1_tau2overtau1, *b_Jet2_tau2overtau1;
+        TBranch*b_BTags, *b_Weight,*b_MET,*b_JetPt1, *b_JetPt2,*b_PrunedMass1, *b_PrunedMass2, *b_Jet1_tau2overtau1, *b_Jet2_tau2overtau1;
+
 	
         newtree->Branch("JetPt1", &JetPt1, "JetPt1/D");	
         newtree->Branch("JetPt2", &JetPt2, "JetPt/D");	
@@ -194,7 +195,7 @@ int main(int argc, char** argv){
         newtree->Branch("PrunedMass2", &PrunedMass2, "PrunedMass/D");	
         newtree->Branch("Jet1_tau2overtau1", &Jet1_tau2overtau1, "Jet1_tau2overtau1/D");	
         newtree->Branch("Jet2_tau2overtau2", &Jet2_tau2overtau1, "Jet2_tau2overtau1/D");	
-        newtree->Branch("Weight",&Weight, "Weight/D");  
+        newtree->Branch("Evtweight",&Weight, "Evtweight/D");  
 
 /*	
         newtree->SetBranchAddress("JetPt1", &JetPt1, &b_JetPt1);	
@@ -216,7 +217,7 @@ int main(int argc, char** argv){
         double jetMass1,jetMass2;
         TString filename;
        for( int iEvt = 0 ; iEvt < min(options.MAX_EVENTS,numEvents) ; iEvt++ ){
-       // for( int iEvt = 0 ; iEvt <10; iEvt++ ){
+       //for( int iEvt = 0 ; iEvt <10; iEvt++ ){
             ntuple->GetEntry(iEvt);
             if( iEvt % 100000 == 0 ) cout << skims.sampleName[iSample] << ": " << iEvt << "/" << min(options.MAX_EVENTS,numEvents) << endl;
              passBaseline=true;
@@ -227,8 +228,19 @@ int main(int argc, char** argv){
             filename = ntuple->fChain->GetFile()->GetName();
             if( ( filename.Contains("SingleLept") || filename.Contains("DiLept") ) && ntuple->madHT>600. )continue;
             bin = -1;
-	    weight = fabs(ntuple->Weight)*lumi*trigWeight*customPUweights(ntuple);    
-
+            if(reg == skimSamples::kSignal ){
+                std::vector<double> EfficiencyCenterUpDown = Eff_MetMhtSextetReal_CenterUpDown(ntuple->HT, ntuple->MHT, ntuple->NJets);
+                trigWeight=EfficiencyCenterUpDown[0];
+            }else if( reg == skimSamples::kSLm ){
+                trigWeight=singleMuonTrigWeights(ntuple);
+            }else if( reg == skimSamples::kSLe ){
+                trigWeight=singleElectronTrigWeights(ntuple);
+            }else if( reg == skimSamples::kLowDphi ){
+                trigWeight=lowDphiTrigWeights(ntuple);
+	    }
+	    weight = ntuple->Weight*lumi*customPUweights(ntuple)*trigWeight;
+	    //weight = ntuple->Weight *lumi*trigWeight*customPUweights(ntuple);    
+	    //std::cout<<"Weight "<<ntuple->Weight<<std::endl;
             Weight=weight;
 	    MET=ntuple->MET;
 	    BTags=ntuple->BTags;

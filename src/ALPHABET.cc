@@ -231,6 +231,7 @@ int main(int argc, char** argv){
             if( ( filename.Contains("SingleLept") || filename.Contains("DiLept") ) && ntuple->madHT>600. )continue;
             bin = -1;
             weight = ntuple->Weight*lumi*trigWeight*customPUweights(ntuple);	   
+	    std::cout<<"Weight "<<weight<<std::endl;
             //if( skims.sampleName[iSample] == "TT" ){
             //    weight *= ISRweights(ntuple);
             //}
