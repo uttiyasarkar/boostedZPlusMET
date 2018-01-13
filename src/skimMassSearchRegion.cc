@@ -194,6 +194,8 @@ int main(int argc, char** argv){
         newtree->Branch("PrunedMass2", &PrunedMass2, "PrunedMass/D");	
         newtree->Branch("Jet1_tau2overtau1", &Jet1_tau2overtau1, "Jet1_tau2overtau1/D");	
         newtree->Branch("Jet2_tau2overtau2", &Jet2_tau2overtau1, "Jet2_tau2overtau1/D");	
+        newtree->Branch("Weight",&Weight, "Weight/D");  
+
 /*	
         newtree->SetBranchAddress("JetPt1", &JetPt1, &b_JetPt1);	
         newtree->SetBranchAddress("JetPt2", &JetPt2, &b_JetPt2);	
@@ -204,7 +206,6 @@ int main(int argc, char** argv){
 */
         newtree->SetBranchAddress("BTags",&BTags,&b_BTags);
         newtree->SetBranchAddress("MET",&MET, &b_MET);
-        newtree->SetBranchAddress("Weight",&Weight, &b_Weight);  
          	
         int numEvents = ntuple->fChain->GetEntries();
         ntupleBranchStatus<RA2bTree>(ntuple);
@@ -226,14 +227,15 @@ int main(int argc, char** argv){
             filename = ntuple->fChain->GetFile()->GetName();
             if( ( filename.Contains("SingleLept") || filename.Contains("DiLept") ) && ntuple->madHT>600. )continue;
             bin = -1;
-	    weight = ntuple->Weight*lumi*trigWeight*customPUweights(ntuple);    
+	    weight = fabs(ntuple->Weight)*lumi*trigWeight*customPUweights(ntuple);    
+
             Weight=weight;
 	    MET=ntuple->MET;
 	    BTags=ntuple->BTags;
             JetPt1=ntuple->JetsAK8->at(0).Pt();  
             JetPt2=ntuple->JetsAK8->at(1).Pt();
-	    jetMass1=ntuple->JetsAK8_prunedMass->at(0);
-	    jetMass2=ntuple->JetsAK8_prunedMass->at(1);
+	    PrunedMass1=ntuple->JetsAK8_prunedMass->at(0);
+	    PrunedMass2=ntuple->JetsAK8_prunedMass->at(1);
 	    Jet1_tau2overtau1=ntuple->JetsAK8_NsubjettinessTau2->at(0)/ntuple->JetsAK8_NsubjettinessTau1->at(0);
 	    Jet2_tau2overtau1=ntuple->JetsAK8_NsubjettinessTau2->at(1)/ntuple->JetsAK8_NsubjettinessTau1->at(1);
 	    //std::cout<<"MET"<<MET<<std::endl;
