@@ -23,6 +23,7 @@ photonSkim:photonSkim.cc
 WtaggingEfficiency:WtaggingEfficiency.cc
 plotWtagDist:plotWtagDist.cc
 unblindSignalRegion:unblindSignalRegion.cc
+skimMassSearchRegion:skimMassSearchRegion.cc
 
 all:$(EXECS) 
 
@@ -64,5 +65,8 @@ plotObs_singleMuCR_baseline:
 	$(CC) $(CFLAGS) $(LIBS) $(INCLUDES) plotObs_singleMuCR_baseline.cc -o ../bin/$@	
 datacardInputs:
 	$(CC) $(CFLAGS) $(LIBS) $(ROOFITLIBS) $(INCLUDES) datacardInputs.cc -o ../bin/$@
+skimMassSearchRegion:
+	$(CC) $(CFLAGS) $(LIBS) $(ROOFITLIBS) $(INCLUDES) skimMassSearchRegion.cc -o ../bin/$@
+
 clean : 
 	rm ../bin/*
