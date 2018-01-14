@@ -182,8 +182,6 @@ int main(int argc, char** argv){
 	newtree->SetBranchStatus("*",0);
         newtree->SetBranchStatus("BTags",1);
         newtree->SetBranchStatus("MET",1);
-        //newtree->SetBranchStatus("Weight",1);  
-        //newtree->SetBranchStatus("JetsAK8*",1);
 	int BTags;	
         double MET,Weight,JetPt1, JetPt2,PrunedMass1, PrunedMass2, Jet1_tau2overtau1, Jet2_tau2overtau1;
         TBranch*b_BTags, *b_Weight,*b_MET,*b_JetPt1, *b_JetPt2,*b_PrunedMass1, *b_PrunedMass2, *b_Jet1_tau2overtau1, *b_Jet2_tau2overtau1;
@@ -197,14 +195,6 @@ int main(int argc, char** argv){
         newtree->Branch("Jet2_tau2overtau2", &Jet2_tau2overtau1, "Jet2_tau2overtau1/D");	
         newtree->Branch("Evtweight",&Weight, "Evtweight/D");  
 
-/*	
-        newtree->SetBranchAddress("JetPt1", &JetPt1, &b_JetPt1);	
-        newtree->SetBranchAddress("JetPt2", &JetPt2, &b_JetPt2);	
-        newtree->SetBranchAddress("PrunedMass1", &PrunedMass1, &b_PrunedMass1);	
-        newtree->SetBranchAddress("PrunedMass2", &PrunedMass2, &b_PrunedMass2);	
-        newtree->SetBranchAddress("Jet1_tau2overtau1", &Jet1_tau2overtau1, &b_Jet1_tau2overtau1);	
-        newtree->SetBranchAddress("Jet2_tau2overtau2", &Jet2_tau2overtau1, &b_Jet2_tau2overtau1);	
-*/
         newtree->SetBranchAddress("BTags",&BTags,&b_BTags);
         newtree->SetBranchAddress("MET",&MET, &b_MET);
          	
@@ -253,12 +243,67 @@ int main(int argc, char** argv){
 	    //std::cout<<"MET"<<MET<<std::endl;
 	    newtree->Fill(); 
         }// end event loop
-	newtree->SetName(filename);
+	//newtree->SetName(filename);
 	outputFile->cd();
 	newtree->Write(skims.sampleName[iSample]);
 	  
   }// end sample loop
-    
+  
+
+    for( int iSample = 0 ; iSample < skims.signalNtuples.size() ; iSample++){
+        RA2bTree* ntuple = skims.signalNtuples[iSample];
+
+        ntupleBranchStatus<RA2bTree>(ntuple);
+ 	TTree*newtree=(TTree*)ntuple->fChain->CloneTree(0);
+	newtree->SetBranchStatus("*",0);
+        newtree->SetBranchStatus("BTags",1);
+        newtree->SetBranchStatus("MET",1);
+	int BTags;	
+        double MET,Weight,JetPt1, JetPt2,PrunedMass1, PrunedMass2, Jet1_tau2overtau1, Jet2_tau2overtau1;
+        TBranch*b_BTags, *b_Weight,*b_MET,*b_JetPt1, *b_JetPt2,*b_PrunedMass1, *b_PrunedMass2, *b_Jet1_tau2overtau1, *b_Jet2_tau2overtau1;
+	
+        newtree->Branch("JetPt1", &JetPt1, "JetPt1/D");	
+        newtree->Branch("JetPt2", &JetPt2, "JetPt/D");	
+        newtree->Branch("PrunedMass1", &PrunedMass1, "PrunedMass1/D");	
+        newtree->Branch("PrunedMass2", &PrunedMass2, "PrunedMass/D");	
+        newtree->Branch("Jet1_tau2overtau1", &Jet1_tau2overtau1, "Jet1_tau2overtau1/D");	
+        newtree->Branch("Jet2_tau2overtau2", &Jet2_tau2overtau1, "Jet2_tau2overtau1/D");	
+        newtree->Branch("Evtweight",&Weight, "Evtweight/D");  
+
+        newtree->SetBranchAddress("BTags",&BTags,&b_BTags);
+        newtree->SetBranchAddress("MET",&MET, &b_MET);
+
+        int numEvents = ntuple->fChain->GetEntries();
+        float trigWeight,weight;
+        double jetMass1,jetMass2;
+        vector<double> EfficiencyCenterUpDown;
+      // for( int iEvt = 0 ; iEvt <10; iEvt++ ){
+
+        for( int iEvt = 0 ; iEvt < numEvents ; iEvt++ ){
+            ntuple->GetEntry(iEvt);
+            if( iEvt % 10000 == 0 ) cout << skims.signalSampleName[iSample] << ": " << iEvt << "/" << numEvents << endl;
+            if(!baselineCut(ntuple) ) continue;
+            //                        //std::cout<<"Gen Higgs Content "<<getNumGenHiggses(ntuple)<<std::endl;
+            if(getNumGenZs(ntuple)!=2) continue;
+            EfficiencyCenterUpDown = Eff_MetMhtSextetReal_CenterUpDown(ntuple->HT, ntuple->MHT, ntuple->NJets);
+            trigWeight=EfficiencyCenterUpDown[0];
+            weight = trigWeight;
+            weight*=SignalISRCorrection(ntuple);
+            Weight=weight;
+	    MET=ntuple->MET;
+	    BTags=ntuple->BTags;
+            JetPt1=ntuple->JetsAK8->at(0).Pt();  
+            JetPt2=ntuple->JetsAK8->at(1).Pt();
+	    PrunedMass1=ntuple->JetsAK8_prunedMass->at(0);
+	    PrunedMass2=ntuple->JetsAK8_prunedMass->at(1);
+	    Jet1_tau2overtau1=ntuple->JetsAK8_NsubjettinessTau2->at(0)/ntuple->JetsAK8_NsubjettinessTau1->at(0);
+	    Jet2_tau2overtau1=ntuple->JetsAK8_NsubjettinessTau2->at(1)/ntuple->JetsAK8_NsubjettinessTau1->at(1);
+	    newtree->Fill(); 
+      }
+	//newtree->SetName(filename);
+	outputFile->cd();
+	newtree->Write(skims.signalSampleName[iSample]);
+   } 
 
  /* 
     for( int iBin = 0 ; iBin < numMETbins ; iBin++){
