@@ -159,11 +159,9 @@ int main(int argc, char** argv){
 			float deta=ntuple->JetsAK8->at(0).Eta()-ntuple->GenParticles->at(i).Eta();
 			float dphi=ntuple->JetsAK8->at(0).Phi()-ntuple->GenParticles->at(i).Phi();
 			if(sqrt((deta*deta)+(dphi*dphi))<0.4)WMatchedJet1=1;
-			else WMatchedJet1=0;
 			deta=ntuple->JetsAK8->at(1).Eta()-ntuple->GenParticles->at(i).Eta();
 			dphi=ntuple->JetsAK8->at(1).Phi()-ntuple->GenParticles->at(i).Phi();
 			if(sqrt((deta*deta)+(dphi*dphi))<0.4)WMatchedJet2=1;
-			else WMatchedJet2=0;
 		}
     	     }
 	}
