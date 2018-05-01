@@ -76,6 +76,7 @@ int main(int argc, char** argv){
         ntuple->fChain->SetBranchStatus("*", 1);	
         int numEvents = ntuple->fChain->GetEntries();
         float xsec=1.0;
+/*
         if(skims.signalSampleName[iSample].Contains("750"))xsec=2.26585;
         if(skims.signalSampleName[iSample].Contains("1000"))xsec=0.325388;
         if(skims.signalSampleName[iSample].Contains("1100"))xsec=0.163491;
@@ -89,9 +90,9 @@ int main(int argc, char** argv){
         if(skims.signalSampleName[iSample].Contains("1900"))xsec=0.00163547;
         if(skims.signalSampleName[iSample].Contains("2000"))xsec=0.000981077;
         if(skims.signalSampleName[iSample].Contains("2100"))xsec=0.000591918;
-
-        for( int iEvt = 0 ; iEvt < min(options.MAX_EVENTS,numEvents) ; iEvt++ ){
-            ntuple->fChain->GetEntry(iEvt);
+*/
+        for( int iEvt = 0 ; iEvt < numEvents ; iEvt++ ){
+            ntuple->GetEntry(iEvt);
 	    
             if( iEvt % 100000 == 0 ) cout << skims.sampleName[iSample] << ": " << iEvt << "/" << min(options.MAX_EVENTS,numEvents) << endl;
 	    int nAK8=ntuple->nAK8;
