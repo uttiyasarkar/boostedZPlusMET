@@ -4,7 +4,7 @@ LIBS=`root-config --cflags --glibs` -L $(ROOTSYS)/lib -I$(ROOTSYS)/include
 ROOFITLIBS=-lRooFit -lHtml -lMinuit -lRooFitCore
 INCLUDES=-I$(CMSSW_BASE)/src/AnalysisTools/src/ -I$(CMSSW_BASE)/src/ -I$(CMSSW_BASE)/src/Analysis/btag/ -I$(CMSSW_BASE)/src/cxxopts/include/
 EXECS=fitWpeak flavorFit plotObs_photon_baseline plotObs_singleEleCR_baseline plotObs_lowDPhi_baseline plotObs_singleTag plotObs_doubleTag plotObs_antitag plotObs_baseline plotObs_singleMuCR_baseline cutFlow ALPHABET ALPHABET_photon datacardInputs photonSkim WtaggingEfficiency.cc plotWtagDist.cc unblindSignalRegion.cc
-$(EXECS):RA2bTree.cc definitions.cc skimSamples.cc plotterUtils.cc skimMassSearchRegion.cc skimJetMatching.cc MassMETPlots.cc AnalysisHistos.cc
+$(EXECS):RA2bTree.cc definitions.cc skimSamples.cc plotterUtils.cc skimMassSearchRegion.cc  MassMETPlots.cc AnalysisHistos.cc
 flavorFit:flavorFit.cc
 fitWpeak:fitWpeak.cc
 plotObs_singleEleCR_baseline:plotObs_singleEleCR_baseline.cc
@@ -24,7 +24,6 @@ WtaggingEfficiency:WtaggingEfficiency.cc
 plotWtagDist:plotWtagDist.cc
 unblindSignalRegion:unblindSignalRegion.cc
 skimMassSearchRegion:skimMassSearchRegion.cc
-skimJetMatching:skimJetMatching.cc
 AnalysisHistos:AnalysisHistos.cc
 all:$(EXECS) 
 
@@ -68,8 +67,6 @@ datacardInputs:
 	$(CC) $(CFLAGS) $(LIBS) $(ROOFITLIBS) $(INCLUDES) datacardInputs.cc -o ../bin/$@
 skimMassSearchRegion:
 	$(CC) $(CFLAGS) $(LIBS) $(ROOFITLIBS) $(INCLUDES) skimMassSearchRegion.cc -o ../bin/$@
-skimJetMatching:
-	$(CC) $(CFLAGS) $(LIBS) $(ROOFITLIBS) $(INCLUDES) skimJetMatching.cc -o ../bin/$@
 AnalysisHistos:
 	$(CC) $(CFLAGS) $(LIBS) $(ROOFITLIBS) $(INCLUDES) AnalysisHistos.cc -o ../bin/$@
 clean : 
