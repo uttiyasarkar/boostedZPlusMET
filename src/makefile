@@ -3,8 +3,8 @@ CFLAGS=
 LIBS=`root-config --cflags --glibs` -L $(ROOTSYS)/lib -I$(ROOTSYS)/include
 ROOFITLIBS=-lRooFit -lHtml -lMinuit -lRooFitCore
 INCLUDES=-I$(CMSSW_BASE)/src/AnalysisTools/src/ -I$(CMSSW_BASE)/src/ -I$(CMSSW_BASE)/src/Analysis/btag/ -I$(CMSSW_BASE)/src/cxxopts/include/
-EXECS=fitWpeak flavorFit plotObs_photon_baseline plotObs_singleEleCR_baseline plotObs_lowDPhi_baseline plotObs_singleTag plotObs_doubleTag plotObs_antitag plotObs_baseline plotObs_singleMuCR_baseline cutFlow ALPHABET ALPHABET_photon datacardInputs photonSkim WtaggingEfficiency.cc plotWtagDist.cc unblindSignalRegion.cc
-$(EXECS):RA2bTree.cc definitions.cc skimSamples.cc plotterUtils.cc skimMassSearchRegion.cc  MassMETPlots.cc AnalysisHistos.cc
+EXECS=skimMassSearchRegion datacardInputs 
+$(EXECS):RA2bTree.cc definitions.cc skimSamples.cc plotterUtils.cc skimMassSearchRegion.cc  MassMETPlots.cc AnalysisHistos.cc datacardInputs.cc
 flavorFit:flavorFit.cc
 fitWpeak:fitWpeak.cc
 plotObs_singleEleCR_baseline:plotObs_singleEleCR_baseline.cc

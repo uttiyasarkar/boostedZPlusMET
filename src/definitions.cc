@@ -5,7 +5,7 @@
 const double bbtagCut = 0.3;
 const double tau21Cut = 0.55;
 const double ZmassWindowLow = 75.;
-const double ZmassWindowHigh = 105.;
+const double ZmassWindowHigh = 95.;
 const double baselineMassLow = 50.;
 const double baselineMassHigh = 200.;
 TFile* puWeightFile = new TFile("../data/PileupHistograms_0121_69p2mb_pm4p6.root");
@@ -1067,21 +1067,18 @@ template<typename ntupleType> bool baselineCut(ntupleType* ntuple){
  
   return ( ntuple->MET > 300.             &&
            ntuple->HT > 300.                         &&
-           ntuple->JetsAK8->size() >= 1 &&
-	   ntuple->JetsAK8->at(0).Pt() > 200. && 
+           ntuple->JetsAK8->size() >1 &&
+	   ntuple->JetsAK8->at(0).Pt() > 300. && 
 	   ntuple->JetsAK8_prunedMass->at(0) > baselineMassLow &&
 	   ntuple->JetsAK8_prunedMass->at(0) < baselineMassHigh &&
-	   /* 
-           ntuple->JetsAK8->at(0).Pt() > 200. && 
-           ntuple->JetsAK8_prunedMass->at(0) > baselineMassLow && 
-           ntuple->JetsAK8_prunedMass->at(0) < baselineMassHigh &&
-	   if(ntuple->JetsAK8->size() > 1){
+	   //if(ntuple->JetsAK8->size() > 1){
+	   ( ntuple->JetsAK8->size() >1 &&
            ntuple->JetsAK8->at(1).Pt() > 200. &&
-           ntuple->JetsAK8_prunedMass->at(1) > baselineMassLow && 
-           ntuple->JetsAK8_prunedMass->at(1) < baselineMassHigh
-	   }	
+           ntuple->JetsAK8_prunedMass->at(1) >ZmassWindowLow && 
+           ntuple->JetsAK8_prunedMass->at(1) < ZmassWindowHigh
+	   )
+	   && dRtoClosestB(ntuple)>1.0 	
 	   &&
-	   */
            DeltaPhiCuts(ntuple) && 
            ntuple->Muons->size()+ntuple->Electrons->size()==0 
            && ntuple->isoElectronTracks+ntuple->isoMuonTracks +ntuple->isoPionTracks==0 &&
@@ -1090,6 +1087,20 @@ template<typename ntupleType> bool baselineCut(ntupleType* ntuple){
 
 }
 
+template<typename ntupleType> float dRtoClosestB(ntupleType* ntuple){
+float leadjeteta= ntuple->JetsAK8->at(0).Eta();
+float leadjetphi= ntuple->JetsAK8->at(0).Phi();
+float dRMin=999999.;
+	for(unsigned int j=0; j<ntuple->Jets->size(); ++j){
+		if(ntuple->Jets_bDiscriminatorCSV->at(j)<  0.8484  )continue;
+		float deta=ntuple->Jets->at(j).Eta()-leadjeteta;
+		float dphi=ntuple->Jets->at(j).Phi()-leadjetphi;
+		float dR=sqrt((deta*deta)+(dphi*dphi));
+		if(dR<dRMin)dRMin=dR;		
+	}
+
+return dRMin;
+}
 template<typename ntupleType> bool singleMuCut(ntupleType* ntuple){
     if( ntuple->Muons->size() != 1 || ntuple->Electrons->size() != 0 ) return false;
     double MT = computeMuonMT(ntuple);
@@ -1098,21 +1109,22 @@ template<typename ntupleType> bool singleMuCut(ntupleType* ntuple){
 }
 
 template<typename ntupleType> bool singleMuBaselineCut(ntupleType* ntuple){
+  return ( ntuple->MET > 300.             &&
+           ntuple->HT > 300.                         &&
+           ntuple->JetsAK8->size() >1 &&
+	   ntuple->JetsAK8->at(0).Pt() > 300. && 
+	   ntuple->JetsAK8_prunedMass->at(0) > baselineMassLow &&
+	   ntuple->JetsAK8_prunedMass->at(0) < baselineMassHigh &&
+	   //if(ntuple->JetsAK8->size() > 1){
+           ntuple->JetsAK8->at(1).Pt() > 200. &&
+           ntuple->JetsAK8_prunedMass->at(1) >baselineMassLow && 
+           ntuple->JetsAK8_prunedMass->at(1) < baselineMassHigh
+	   && dRtoClosestB(ntuple)>1.0 	
+	   &&
+           DeltaPhiCuts(ntuple) && 
+           FiltersCut(ntuple) &&
+           ntuple->JetID == 1 && singleMuCut(ntuple));
 
-    return ( singleMuCut(ntuple) && 
-             ntuple->MET > 300.             &&
-             ntuple->HT > 500.                         &&
-	     ntuple->JetsAK8->size() >= 1 &&
-             ntuple->JetsAK8->at(0).Pt() > 300. && 
-             ntuple->JetsAK8_prunedMass->at(0) > baselineMassLow && 
-             ntuple->JetsAK8_prunedMass->at(0) < baselineMassHigh &&
-             /*ntuple->JetsAK8->at(1).Pt() > 200. &&
-             ntuple->JetsAK8_prunedMass->at(1) > baselineMassLow && 
-             ntuple->JetsAK8_prunedMass->at(1) < baselineMassHigh&&
-	    */
-             DeltaPhiCuts( ntuple ) && 
-             FiltersCut(ntuple) &&
-             ntuple->JetID == 1);
     
 }
 
@@ -1124,23 +1136,21 @@ template<typename ntupleType> bool singleEleCut(ntupleType* ntuple){
 }
 template<typename ntupleType> bool singleEleBaselineCut(ntupleType* ntuple){
 
-
-    return ( singleEleCut(ntuple) && 
-             ntuple->MET > 300.             &&
-             ntuple->HT > 500.                         &&
-             ntuple->JetsAK8->size() >= 1 &&
-             ntuple->JetsAK8->at(0).Pt() > 300. && 
-             ntuple->JetsAK8_prunedMass->at(0) > baselineMassLow && 
-             ntuple->JetsAK8_prunedMass->at(0) < baselineMassHigh && 
-/* 
-            ntuple->JetsAK8->at(1).Pt() > 200. &&
-             ntuple->JetsAK8_prunedMass->at(1) > baselineMassLow && 
-             ntuple->JetsAK8_prunedMass->at(1) < baselineMassHigh&&
-*/
-             DeltaPhiCuts( ntuple ) && 
-             FiltersCut(ntuple) &&
-             ntuple->JetID == 1);
-    
+  return ( ntuple->MET > 300.             &&
+           ntuple->HT > 300.                         &&
+           ntuple->JetsAK8->size() >1 &&
+	   ntuple->JetsAK8->at(0).Pt() > 300. && 
+	   ntuple->JetsAK8_prunedMass->at(0) > baselineMassLow &&
+	   ntuple->JetsAK8_prunedMass->at(0) < baselineMassHigh &&
+	   //if(ntuple->JetsAK8->size() > 1){
+           ntuple->JetsAK8->at(1).Pt() > 200. &&
+           ntuple->JetsAK8_prunedMass->at(1) >baselineMassLow && 
+           ntuple->JetsAK8_prunedMass->at(1) < baselineMassHigh
+	   && dRtoClosestB(ntuple)>1.0 	
+	   &&
+           DeltaPhiCuts(ntuple) && 
+           FiltersCut(ntuple) &&
+           ntuple->JetID == 1 && singleEleCut(ntuple));
 }
 
 template<typename ntupleType> bool lowDphiBaselineCut(ntupleType* ntuple){

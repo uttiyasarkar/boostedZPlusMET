@@ -22,7 +22,7 @@ using namespace std;
 int main(int argc, char** argv){
 
     skimSamples::region reg;
-    int reg_(0);
+    int reg_(1);
     bool looseCuts(false);
     defaultOptions options(argv[0],"");
     options.opts->add_options()("l,loose_cuts","apply loose jet pt cuts",cxxopts::value<bool>(looseCuts))("r,region","region to analyze",cxxopts::value<int>(reg_));
@@ -47,6 +47,7 @@ int main(int argc, char** argv){
         }
         if( reg == skimSamples::kSLm ){
             baselineCuts.push_back(*singleMuCut<RA2bTree>);
+		std::cout<<"Single Lepton "<<std::endl;
         }
         if( reg == skimSamples::kSLe ){
             baselineCuts.push_back(*singleEleCut<RA2bTree>);
@@ -87,9 +88,11 @@ int main(int argc, char** argv){
     outputFile = new TFile("SkimFileMass"+cutName+regionName+".root","RECREATE");
     // background MC samples - 0 lepton regions
    for( int iSample = 0 ; iSample < skims.ntuples.size() ; iSample++){
-
+   ///for( int iSample = 0 ; iSample < 0 ; iSample++){
         RA2bTree* ntuple = skims.ntuples[iSample];
- 	TTree*newtree=(TTree*)ntuple->fChain->CloneTree(0);
+ 	//TTree*newtree=(TTree*)ntuple->fChain->CloneTree(0);
+ 	TTree*newtree=new TTree("newtree","");//(TTree*)ntuple->fChain->CloneTree(0);
+	/*
 	newtree->SetBranchStatus("*",0);
 	newtree->SetBranchStatus("HT",1);
         newtree->SetBranchStatus("BTags",1);
@@ -98,14 +101,15 @@ int main(int argc, char** argv){
         newtree->SetBranchStatus("Jets",1);
         newtree->SetBranchStatus("Jets_bDiscriminatorCSV",1);
 	newtree->SetBranchStatus("Jets_partonFlavor",1);
+	*/
 	int BTags;	
-        double MET,Weight,JetPt1, JetPt2,PrunedMass1, PrunedMass2, Jet1_tau2overtau1, Jet2_tau2overtau1;
-        TBranch*b_BTags, *b_Weight,*b_MET,*b_JetPt1, *b_JetPt2,*b_PrunedMass1, *b_PrunedMass2, *b_Jet1_tau2overtau1, *b_Jet2_tau2overtau1, *b_GenHadTau;
+        double MET,HT,Weight,JetPt1, JetPt2,PrunedMass1, PrunedMass2, Jet1_tau2overtau1, Jet2_tau2overtau1;
+        //TBranch*b_BTags, *b_Weight,*b_MET,*b_HT,*b_JetPt1, *b_JetPt2,*b_PrunedMass1, *b_PrunedMass2, *b_Jet1_tau2overtau1, *b_Jet2_tau2overtau1, *b_GenHadTau;
     	int WMatchedJet1, WMatchedJet2;
 	int GenHadTau=0;
 	int nAK8=0;
         newtree->Branch("WMatchedJet1", &WMatchedJet1, "WMatchedJet1/I");	
-       newtree->Branch("WMatchedJet2", &WMatchedJet2, "WMatchedJet2/I");	
+        newtree->Branch("WMatchedJet2", &WMatchedJet2, "WMatchedJet2/I");	
         newtree->Branch("JetPt1", &JetPt1, "JetPt1/D");	
         newtree->Branch("JetPt2", &JetPt2, "JetPt2/D");	
         newtree->Branch("PrunedMass1", &PrunedMass1, "PrunedMass1/D");	
@@ -115,9 +119,9 @@ int main(int argc, char** argv){
         newtree->Branch("Evtweight",&Weight, "Evtweight/D");  
         newtree->Branch("GenHadTau", &GenHadTau, "GenHadTau/I");
         newtree->Branch("nAK8", &nAK8, "nAK8/I");
-
-        newtree->SetBranchAddress("BTags",&BTags,&b_BTags);
-        newtree->SetBranchAddress("MET",&MET, &b_MET);
+	newtree->Branch("HT", &HT, "HT/D");
+        //newtree->SetBranchAddress("BTags",&BTags,&b_BTags);
+        newtree->Branch("MET",&MET, "MET/D");
         int numEvents = ntuple->fChain->GetEntries();
         ntupleBranchStatus<RA2bTree>(ntuple);
         int bin = -1;
@@ -154,6 +158,7 @@ int main(int argc, char** argv){
 	    //std::cout<<"Weight "<<ntuple->Weight<<std::endl;
             Weight=weight;
 	    MET=ntuple->MET;
+	    HT=ntuple->HT;
 	    BTags=ntuple->BTags;
 	    nAK8=ntuple->JetsAK8->size();
 	    if(nAK8>0){
@@ -199,7 +204,8 @@ if(reg == skimSamples::kSignal ){
     for( int iSample = 0 ; iSample < skims.signalNtuples.size() ; iSample++){
 
         RA2bTree* ntuple = skims.signalNtuples[iSample];
- 	TTree*newtree=(TTree*)ntuple->fChain->CloneTree(0);
+ 	TTree*newtree=new TTree("newtree", "");//ntuple->fChain->CloneTree(0);
+	/*
 	newtree->SetBranchStatus("*",0);
 	newtree->SetBranchStatus("HT",1);
         newtree->SetBranchStatus("BTags",1);
@@ -208,9 +214,10 @@ if(reg == skimSamples::kSignal ){
         newtree->SetBranchStatus("Jets",1);
         newtree->SetBranchStatus("Jets_bDiscriminatorCSV",1);
 	newtree->SetBranchStatus("Jets_partonFlavor",1);
+	*/
 	int BTags;	
-        double MET,Weight,JetPt1, JetPt2,PrunedMass1, PrunedMass2, Jet1_tau2overtau1, Jet2_tau2overtau1;
-        TBranch*b_BTags, *b_Weight,*b_MET,*b_JetPt1, *b_JetPt2,*b_PrunedMass1, *b_PrunedMass2, *b_Jet1_tau2overtau1, *b_Jet2_tau2overtau1, *b_GenHadTau;
+        double MET,HT,Weight,JetPt1, JetPt2,PrunedMass1, PrunedMass2, Jet1_tau2overtau1, Jet2_tau2overtau1;
+        //TBranch*b_BTags, *b_Weight,*b_MET,*b_JetPt1, *b_JetPt2,*b_PrunedMass1, *b_PrunedMass2, *b_Jet1_tau2overtau1, *b_Jet2_tau2overtau1, *b_GenHadTau;
     	int WMatchedJet1, WMatchedJet2;
 	int GenHadTau=0;
 	int nAK8=0;
@@ -225,9 +232,12 @@ if(reg == skimSamples::kSignal ){
         newtree->Branch("Evtweight",&Weight, "Evtweight/D");  
         newtree->Branch("GenHadTau", &GenHadTau, "GenHadTau/I");
         newtree->Branch("nAK8", &nAK8, "nAK8/I");
+	newtree->Branch("HT", &HT, "HT/D");
+        //newtree->SetBranchAddress("BTags",&BTags,&b_BTags);
+        newtree->Branch("MET",&MET, "MET/D");
 
-        newtree->SetBranchAddress("BTags",&BTags,&b_BTags);
-        newtree->SetBranchAddress("MET",&MET, &b_MET);
+        //newtree->SetBranchAddress("BTags",&BTags,&b_BTags);
+        //newtree->SetBranchAddress("MET",&MET, &b_MET);
         int numEvents = ntuple->fChain->GetEntries();
         ntupleBranchStatus<RA2bTree>(ntuple);
         int bin = -1;
@@ -237,7 +247,7 @@ if(reg == skimSamples::kSignal ){
         double jetMass1,jetMass2;
         TString filename;
     for( int iEvt = 0 ; iEvt < min(options.MAX_EVENTS,numEvents) ; iEvt++ ){
-      // for( int iEvt = 0 ; iEvt <1000; iEvt++ ){
+    //  for( int iEvt = 0 ; iEvt <1000; iEvt++ ){
             ntuple->GetEntry(iEvt);
             if( iEvt % 100000 == 0 ) cout << skims.signalSampleName[iSample] << ": " << iEvt << "/" << min(options.MAX_EVENTS,numEvents) << endl;
 	                 passBaseline=true;
@@ -249,8 +259,9 @@ if(reg == skimSamples::kSignal ){
 		//std::cout<<"Here ZZ "<<std::endl;	
                 std::vector<double> EfficiencyCenterUpDown = Eff_MetMhtSextetReal_CenterUpDown(ntuple->HT, ntuple->MHT, ntuple->NJets);
                 trigWeight=EfficiencyCenterUpDown[0];
-	   weight=lumi*trigWeight/(numEvents*0.25);
+	   weight=ntuple->Weight*lumi*trigWeight/0.25;
             Weight=weight;
+	    HT=ntuple->HT;
 	    MET=ntuple->MET;
 	    BTags=ntuple->BTags;
 	    nAK8=ntuple->JetsAK8->size();
