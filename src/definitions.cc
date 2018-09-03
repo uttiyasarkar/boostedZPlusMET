@@ -1067,7 +1067,7 @@ template<typename ntupleType> bool baselineCut(ntupleType* ntuple){
  
   return ( ntuple->MET > 300.             &&
            ntuple->HT > 300.                         &&
-           ntuple->JetsAK8->size() >1 &&
+           ntuple->JetsAK8->size() ==1 &&
 	   ntuple->JetsAK8->at(0).Pt() > 300. && 
 	   ntuple->JetsAK8_prunedMass->at(0) > baselineMassLow &&
 	   ntuple->JetsAK8_prunedMass->at(0) < baselineMassHigh &&
@@ -1076,8 +1076,8 @@ template<typename ntupleType> bool baselineCut(ntupleType* ntuple){
            ntuple->JetsAK8->at(1).Pt() > 200. &&
            ntuple->JetsAK8_prunedMass->at(1) >ZmassWindowLow && 
            ntuple->JetsAK8_prunedMass->at(1) < ZmassWindowHigh
-	   )
-	   && dRtoClosestB(ntuple)>1.0 	
+	   ) &&
+	   dRtoClosestB(ntuple)>0.8	
 	   &&
            DeltaPhiCuts(ntuple) && 
            ntuple->Muons->size()+ntuple->Electrons->size()==0 
@@ -1110,7 +1110,7 @@ template<typename ntupleType> bool singleMuCut(ntupleType* ntuple){
 
 template<typename ntupleType> bool singleMuBaselineCut(ntupleType* ntuple){
   return ( ntuple->MET > 300.             &&
-           ntuple->HT > 300.                         &&
+           ntuple->HT > 500.                         &&
            ntuple->JetsAK8->size() >1 &&
 	   ntuple->JetsAK8->at(0).Pt() > 300. && 
 	   ntuple->JetsAK8_prunedMass->at(0) > baselineMassLow &&
@@ -1119,7 +1119,7 @@ template<typename ntupleType> bool singleMuBaselineCut(ntupleType* ntuple){
            ntuple->JetsAK8->at(1).Pt() > 200. &&
            ntuple->JetsAK8_prunedMass->at(1) >baselineMassLow && 
            ntuple->JetsAK8_prunedMass->at(1) < baselineMassHigh
-	   && dRtoClosestB(ntuple)>1.0 	
+	   && dRtoClosestB(ntuple)>0.8
 	   &&
            DeltaPhiCuts(ntuple) && 
            FiltersCut(ntuple) &&
@@ -1137,7 +1137,7 @@ template<typename ntupleType> bool singleEleCut(ntupleType* ntuple){
 template<typename ntupleType> bool singleEleBaselineCut(ntupleType* ntuple){
 
   return ( ntuple->MET > 300.             &&
-           ntuple->HT > 300.                         &&
+           ntuple->HT > 500.                         &&
            ntuple->JetsAK8->size() >1 &&
 	   ntuple->JetsAK8->at(0).Pt() > 300. && 
 	   ntuple->JetsAK8_prunedMass->at(0) > baselineMassLow &&
@@ -1146,7 +1146,7 @@ template<typename ntupleType> bool singleEleBaselineCut(ntupleType* ntuple){
            ntuple->JetsAK8->at(1).Pt() > 200. &&
            ntuple->JetsAK8_prunedMass->at(1) >baselineMassLow && 
            ntuple->JetsAK8_prunedMass->at(1) < baselineMassHigh
-	   && dRtoClosestB(ntuple)>1.0 	
+	   && dRtoClosestB(ntuple)>0.8	
 	   &&
            DeltaPhiCuts(ntuple) && 
            FiltersCut(ntuple) &&
