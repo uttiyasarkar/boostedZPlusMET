@@ -270,8 +270,15 @@ public :
             data = new TChain("tree");
             for( int i = 0 ; i < SingleElectronNames.size() ; i++ ){
                 data->Add(skimType+"/"+SingleElectronNames[i]);
+	    	sampleName.push_back("data"); 
+	
             }
             dataNtuple = new RA2bTree(data);
+	    ntuples.push_back(dataNtuple);
+	    sampleName.push_back("data"); 
+	    fillColor.push_back(kBlack);
+	    lineColor.push_back(1);
+
         }
 
         std::vector<TString> SingleMuonNames;
@@ -289,6 +296,10 @@ public :
                 data->Add(skimType+"/"+SingleMuonNames[i]);
             }
             dataNtuple = new RA2bTree(data);
+	    ntuples.push_back(dataNtuple);
+	    sampleName.push_back("data"); 
+	    fillColor.push_back(kBlack);
+	    lineColor.push_back(1);
         }
 
         std::vector<TString> SinglePhotonFileNames;
