@@ -1176,15 +1176,13 @@ template<typename ntupleType> bool photonBaselineCut(ntupleType* ntuple){
              ntuple->Photons_fullID->at(0) == 1 &&
              ntuple->MET > 100.             &&
              ntuple->HT > 600.                         &&
-	     /*
-             ntuple->JetsAK8Clean->size()>=2 && 
-             ntuple->JetsAK8Clean->at(0).Pt() > 200. && 
-             ntuple->JetsAK8Clean_prunedMass->at(0) > baselineMassLow && 
-             ntuple->JetsAK8Clean_prunedMass->at(0) < baselineMassHigh && 
-             ntuple->JetsAK8Clean->at(1).Pt() > 200. &&
-             ntuple->JetsAK8Clean_prunedMass->at(1) > baselineMassLow && 
-             ntuple->JetsAK8Clean_prunedMass->at(1) < baselineMassHigh&&
-	     */
+             ntuple->JetsAK8->size()>=2 && 
+             ntuple->JetsAK8->at(0).Pt() > 300. && 
+             ntuple->JetsAK8_prunedMass->at(0) > baselineMassLow && 
+             ntuple->JetsAK8_prunedMass->at(0) < baselineMassHigh && 
+             ntuple->JetsAK8->at(1).Pt() > 200. &&
+             ntuple->JetsAK8_prunedMass->at(1) > baselineMassLow && 
+             ntuple->JetsAK8_prunedMass->at(1) < baselineMassHigh&&
              ntuple->DeltaPhi1>0.5 && 
              ntuple->DeltaPhi2>0.5 &&
              ntuple->DeltaPhi3>0.3 && 

@@ -34,7 +34,7 @@ public :
             skimType=BASE_DIR+"tree_signal/";
         }
         if( r == kPhoton ){
-            skimType=BASE_DIR+"tree_GJet/";
+            skimType=BASE_DIR+"tree_GJet_CleanVars/";
         }
         if( r == kSLm ){
             skimType=BASE_DIR+"tree_SLm/";
@@ -300,6 +300,10 @@ public :
                 data->Add(skimType+"/"+SinglePhotonFileNames[i]);
             }
             dataNtuple = new RA2bTree(data);
+	    ntuples.push_back(dataNtuple);
+	    sampleName.push_back("data"); 
+	    fillColor.push_back(kBlack);
+	    lineColor.push_back(1);
         }
 
         std::vector<TString> T5HH750FilesNames;

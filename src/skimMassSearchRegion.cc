@@ -22,7 +22,7 @@ using namespace std;
 int main(int argc, char** argv){
 
     skimSamples::region reg;
-    int reg_(2);
+    int reg_(4);
     bool looseCuts(false);
     defaultOptions options(argv[0],"");
     options.opts->add_options()("l,loose_cuts","apply loose jet pt cuts",cxxopts::value<bool>(looseCuts))("r,region","region to analyze",cxxopts::value<int>(reg_));
@@ -47,7 +47,6 @@ int main(int argc, char** argv){
         }
         if( reg == skimSamples::kSLm ){
             baselineCuts.push_back(*singleMuCut<RA2bTree>);
-		std::cout<<"Single Lepton "<<std::endl;
         }
         if( reg == skimSamples::kSLe ){
             baselineCuts.push_back(*singleEleCut<RA2bTree>);
@@ -66,6 +65,7 @@ int main(int argc, char** argv){
         }
 	else if(reg==skimSamples::kPhoton){
             baselineCuts.push_back(*photonBaselineCut<RA2bTree>);
+		//std::cout<<"Single Photon "<<std::endl;
 	}
 	else
             assert(1);
@@ -91,7 +91,6 @@ int main(int argc, char** argv){
    ///for( int iSample = 0 ; iSample < 0 ; iSample++){
         RA2bTree* ntuple = skims.ntuples[iSample];
  	//TTree*newtree=(TTree*)ntuple->fChain->CloneTree(0);
-cout << skims.sampleName[iSample] <<endl;
  	TTree*newtree=new TTree("newtree","");//(TTree*)ntuple->fChain->CloneTree(0);
 	/*
 	newtree->SetBranchStatus("*",0);
@@ -131,6 +130,7 @@ cout << skims.sampleName[iSample] <<endl;
         bool passBaseline;
         double jetMass1,jetMass2;
         TString filename;
+        cout << skims.sampleName[iSample]<<numEvents <<endl;
     for( int iEvt = 0 ; iEvt < min(options.MAX_EVENTS,numEvents) ; iEvt++ ){
       // for( int iEvt = 0 ; iEvt <1000; iEvt++ ){
             ntuple->GetEntry(iEvt);
