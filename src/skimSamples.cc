@@ -6,8 +6,7 @@
 // STL libraries
 #include <iostream>
 #include <vector>
-
-static const TString BASE_DIR="root://cmseos.fnal.gov//store/user/lpcsusyhad/SusyRA2Analysis2015/Skims/Run2ProductionV12/";
+static const TString BASE_DIR="root://cmseos.fnal.gov//store/user/lpcsusyhad/SusyRA2Analysis2015/Skims/Run2ProductionV15/";
 
 class skimSamples{
 
@@ -49,7 +48,8 @@ public :
         ///////////////////////////////////////////////////////////////////////
         // - - - - - - - - - - BACKGROUND INPUTS - - - - - - - - - - - - - - //
         ///////////////////////////////////////////////////////////////////////
-
+//ONLY DATA IS AVAILABLE FOR NOW!!
+/*
         std::vector<TString> OtherFileNames;
         OtherFileNames.push_back("tree_WWTo1L1Nu2Q.root");
         OtherFileNames.push_back("tree_WWTo2L2Nu.root");
@@ -138,14 +138,6 @@ public :
         for( int i = 0 ; i < TTincFileNames.size() ; i++ ){
             TTinc->Add(skimType+"/"+TTincFileNames[i]);
         }
-        /*
-        if( r == kSignal || r == kSLm || r == kSLe || r == kLowDphi ){
-            ntuples.push_back(new RA2bTree(TTinc));
-            sampleName.push_back("TT");
-            fillColor.push_back(kCyan);
-            lineColor.push_back(kCyan);
-        }
-        */
 
         std::vector<TString> TTFileNames;
         TTFileNames.push_back("tree_TTJets_HT-600to800.root");
@@ -206,13 +198,6 @@ public :
         for( int i = 0 ; i < GJetsFileNames.size() ; i++ ){
             GJets->Add(skimType+"/"+GJetsFileNames[i]);
         }
-        /*if( r == kPhoton ){
-            ntuples.push_back(new RA2bTree(GJets));
-            sampleName.push_back("GJets");
-            fillColor.push_back(kGreen);
-            lineColor.push_back(1);
-        }*/
-
         std::vector<TString> QCDFileNames;
         QCDFileNames.push_back("tree_QCD_HT-200to300.root");
         QCDFileNames.push_back("tree_QCD_HT-300to500.root");
@@ -232,20 +217,20 @@ public :
             lineColor.push_back(1);
         }
 
-
+*/
         ////////////////////////////////////////////////////////////
         // - - - - - - - - - - - DATA INPUTS - - - - - - - - - -  //
         ////////////////////////////////////////////////////////////
 
         std::vector<TString> HTMHTFileNames;
-        HTMHTFileNames.push_back("tree_HTMHT_re2016B.root");
-        HTMHTFileNames.push_back("tree_HTMHT_re2016C.root");
-        HTMHTFileNames.push_back("tree_HTMHT_re2016D.root");
-        HTMHTFileNames.push_back("tree_HTMHT_re2016E.root");
-        HTMHTFileNames.push_back("tree_HTMHT_re2016F.root");
-        HTMHTFileNames.push_back("tree_HTMHT_re2016G.root");
-        HTMHTFileNames.push_back("tree_HTMHT_re2016H2.root");
-        HTMHTFileNames.push_back("tree_HTMHT_re2016H3.root");
+        HTMHTFileNames.push_back("tree_HTMHT_2016B.root");
+        HTMHTFileNames.push_back("tree_HTMHT_2016C.root");
+        HTMHTFileNames.push_back("tree_HTMHT_2016D.root");
+        HTMHTFileNames.push_back("tree_HTMHT_2016E.root");
+        HTMHTFileNames.push_back("tree_HTMHT_2016F.root");
+        HTMHTFileNames.push_back("tree_HTMHT_2016G.root");
+        HTMHTFileNames.push_back("tree_HTMHT_2016H.root");
+       // HTMHTFileNames.push_back("tree_HTMHT_re2016H3.root");
         if( r == kSignal || r == kLowDphi ){
             data = new TChain("tree");
             for( int i = 0 ; i < HTMHTFileNames.size() ; i++ ){
@@ -259,13 +244,13 @@ public :
         }
 
         std::vector<TString> SingleElectronNames;
-        SingleElectronNames.push_back("tree_SingleElectron_re2016C.root");
-        SingleElectronNames.push_back("tree_SingleElectron_re2016D.root");
-        SingleElectronNames.push_back("tree_SingleElectron_re2016E.root");
-        SingleElectronNames.push_back("tree_SingleElectron_re2016F.root");
-        SingleElectronNames.push_back("tree_SingleElectron_re2016G.root");
-        SingleElectronNames.push_back("tree_SingleElectron_re2016H2.root");
-        SingleElectronNames.push_back("tree_SingleElectron_re2016H3.root");
+        SingleElectronNames.push_back("tree_SingleElectron_2016B.root");
+        SingleElectronNames.push_back("tree_SingleElectron_2016C.root");
+        SingleElectronNames.push_back("tree_SingleElectron_2016D.root");
+        SingleElectronNames.push_back("tree_SingleElectron_2016E.root");
+        SingleElectronNames.push_back("tree_SingleElectron_2016F.root");
+        SingleElectronNames.push_back("tree_SingleElectron_2016G.root");
+        SingleElectronNames.push_back("tree_SingleElectron_2016H.root");
         if( r == kSLe ){
             data = new TChain("tree");
             for( int i = 0 ; i < SingleElectronNames.size() ; i++ ){
@@ -282,14 +267,13 @@ public :
         }
 
         std::vector<TString> SingleMuonNames;
-        SingleMuonNames.push_back("tree_SingleMuon_re2016B.root");
-        SingleMuonNames.push_back("tree_SingleMuon_re2016C.root");
-        SingleMuonNames.push_back("tree_SingleMuon_re2016D.root");
-        SingleMuonNames.push_back("tree_SingleMuon_re2016E.root");
-        SingleMuonNames.push_back("tree_SingleMuon_re2016F.root");
-        SingleMuonNames.push_back("tree_SingleMuon_re2016G.root");
-        SingleMuonNames.push_back("tree_SingleMuon_re2016H2.root");
-        SingleMuonNames.push_back("tree_SingleMuon_re2016H3.root");
+        SingleMuonNames.push_back("tree_SingleMuon_2016B.root");
+        SingleMuonNames.push_back("tree_SingleMuon_2016C.root");
+        SingleMuonNames.push_back("tree_SingleMuon_2016D.root");
+        SingleMuonNames.push_back("tree_SingleMuon_2016E.root");
+        SingleMuonNames.push_back("tree_SingleMuon_2016F.root");
+        SingleMuonNames.push_back("tree_SingleMuon_2016G.root");
+        SingleMuonNames.push_back("tree_SingleMuon_2016H.root");
         if( r == kSLm ){
             data = new TChain("tree");
             for( int i = 0 ; i < SingleMuonNames.size() ; i++ ){
@@ -303,14 +287,13 @@ public :
         }
 
         std::vector<TString> SinglePhotonFileNames;
-        SinglePhotonFileNames.push_back("tree_SinglePhoton_re2016B.root");
-        SinglePhotonFileNames.push_back("tree_SinglePhoton_re2016C.root");
-        SinglePhotonFileNames.push_back("tree_SinglePhoton_re2016D.root");
-        SinglePhotonFileNames.push_back("tree_SinglePhoton_re2016E.root");
-        SinglePhotonFileNames.push_back("tree_SinglePhoton_re2016F.root");
-        SinglePhotonFileNames.push_back("tree_SinglePhoton_re2016G.root");
-        SinglePhotonFileNames.push_back("tree_SinglePhoton_re2016H2.root");
-        SinglePhotonFileNames.push_back("tree_SinglePhoton_re2016H3.root");
+        SinglePhotonFileNames.push_back("tree_SinglePhoton_2016B.root");
+        SinglePhotonFileNames.push_back("tree_SinglePhoton_2016C.root");
+        SinglePhotonFileNames.push_back("tree_SinglePhoton_2016D.root");
+        SinglePhotonFileNames.push_back("tree_SinglePhoton_2016E.root");
+        SinglePhotonFileNames.push_back("tree_SinglePhoton_2016F.root");
+        SinglePhotonFileNames.push_back("tree_SinglePhoton_2016G.root");
+        SinglePhotonFileNames.push_back("tree_SinglePhoton_2016H.root");
         if( r == kPhoton ){
             data = new TChain("tree");
             for( int i = 0 ; i < SinglePhotonFileNames.size() ; i++ ){

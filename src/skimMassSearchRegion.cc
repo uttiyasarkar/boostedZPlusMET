@@ -22,7 +22,7 @@ using namespace std;
 int main(int argc, char** argv){
 
     skimSamples::region reg;
-    int reg_(1);
+    int reg_(2);
     bool looseCuts(false);
     defaultOptions options(argv[0],"");
     options.opts->add_options()("l,loose_cuts","apply loose jet pt cuts",cxxopts::value<bool>(looseCuts))("r,region","region to analyze",cxxopts::value<int>(reg_));
@@ -91,6 +91,7 @@ int main(int argc, char** argv){
    ///for( int iSample = 0 ; iSample < 0 ; iSample++){
         RA2bTree* ntuple = skims.ntuples[iSample];
  	//TTree*newtree=(TTree*)ntuple->fChain->CloneTree(0);
+cout << skims.sampleName[iSample] <<endl;
  	TTree*newtree=new TTree("newtree","");//(TTree*)ntuple->fChain->CloneTree(0);
 	/*
 	newtree->SetBranchStatus("*",0);
@@ -163,12 +164,12 @@ int main(int argc, char** argv){
 	    nAK8=ntuple->JetsAK8->size();
 	    if(nAK8>0){
             JetPt1=ntuple->JetsAK8->at(0).Pt();  
-	    PrunedMass1=ntuple->JetsAK8_prunedMass->at(0);
+	    PrunedMass1=ntuple->JetsAK8_softDropMass->at(0);
 	   Jet1_tau2overtau1=ntuple->JetsAK8_NsubjettinessTau2->at(0)/ntuple->JetsAK8_NsubjettinessTau1->at(0);
 	   }
 	    if(nAK8>1){
             JetPt2=ntuple->JetsAK8->at(1).Pt();
-	    PrunedMass2=ntuple->JetsAK8_prunedMass->at(1);
+	    PrunedMass2=ntuple->JetsAK8_softDropMass->at(1);
 	    Jet2_tau2overtau1=ntuple->JetsAK8_NsubjettinessTau2->at(1)/ntuple->JetsAK8_NsubjettinessTau1->at(1);
 	    }
 	    //std::cout<<"MET"<<MET<<std::endl;
@@ -200,21 +201,12 @@ int main(int argc, char** argv){
 	newtree->Write(skims.sampleName[iSample]);
 	  
   }// end sample loop
+/*
 if(reg == skimSamples::kSignal ){
     for( int iSample = 0 ; iSample < skims.signalNtuples.size() ; iSample++){
 
         RA2bTree* ntuple = skims.signalNtuples[iSample];
  	TTree*newtree=new TTree("newtree", "");//ntuple->fChain->CloneTree(0);
-	/*
-	newtree->SetBranchStatus("*",0);
-	newtree->SetBranchStatus("HT",1);
-        newtree->SetBranchStatus("BTags",1);
-        newtree->SetBranchStatus("MET",1);
-        newtree->SetBranchStatus("JetsAK8*",1);
-        newtree->SetBranchStatus("Jets",1);
-        newtree->SetBranchStatus("Jets_bDiscriminatorCSV",1);
-	newtree->SetBranchStatus("Jets_partonFlavor",1);
-	*/
 	int BTags;	
         double MET,HT,Weight,JetPt1, JetPt2,PrunedMass1, PrunedMass2, Jet1_tau2overtau1, Jet2_tau2overtau1;
         //TBranch*b_BTags, *b_Weight,*b_MET,*b_JetPt1, *b_JetPt2,*b_PrunedMass1, *b_PrunedMass2, *b_Jet1_tau2overtau1, *b_Jet2_tau2overtau1, *b_GenHadTau;
@@ -267,12 +259,12 @@ if(reg == skimSamples::kSignal ){
 	    nAK8=ntuple->JetsAK8->size();
 	    if(nAK8>0){
             JetPt1=ntuple->JetsAK8->at(0).Pt();  
-	    PrunedMass1=ntuple->JetsAK8_prunedMass->at(0);
+	    PrunedMass1=ntuple->JetsAK8_softDropMass->at(0);
 	   Jet1_tau2overtau1=ntuple->JetsAK8_NsubjettinessTau2->at(0)/ntuple->JetsAK8_NsubjettinessTau1->at(0);
 	   }
 	    if(nAK8>1){
             JetPt2=ntuple->JetsAK8->at(1).Pt();
-	    PrunedMass2=ntuple->JetsAK8_prunedMass->at(1);
+	    PrunedMass2=ntuple->JetsAK8_softDropMass->at(1);
 	    Jet2_tau2overtau1=ntuple->JetsAK8_NsubjettinessTau2->at(1)/ntuple->JetsAK8_NsubjettinessTau1->at(1);
 	    }
                newtree->Fill();
@@ -281,6 +273,7 @@ if(reg == skimSamples::kSignal ){
         newtree->Write(skims.signalSampleName[iSample]);
    }
 }  
+*/
     outputFile->Close();
 
 }
