@@ -6,8 +6,8 @@
 // STL libraries
 #include <iostream>
 #include <vector>
-static const TString BASE_DIRData="root://cmseos.fnal.gov//store/user/lpcsusyhad/SusyRA2Analysis2015/Skims/Run2ProductionV15/";
-static const TString BASE_DIR="root://cmseos.fnal.gov//store/user/lpcsusyhad/SusyRA2Analysis2015/Skims/Run2ProductionV12/";
+static const TString BASE_DIRMC="root://cmseos.fnal.gov//store/user/lpcsusyhad/SusyRA2Analysis2015/Skims/Run2ProductionV12/";
+static const TString BASE_DIR="root://cmseos.fnal.gov//store/user/lpcsusyhad/SusyRA2Analysis2015/Skims/Run2ProductionV15/";
 
 class skimSamples{
 
@@ -28,7 +28,7 @@ public :
     TString regionNames[kNumRegions]={"signal","SLm","SLe","kLowDphi","photon"};
 
     TString skimType;
-    TString skimTypeData;
+    TString skimTypeMC;
 
     skimSamples(region r=kSignal){
 
@@ -36,23 +36,23 @@ public :
 
         if( r == kSignal ){
             skimType=BASE_DIR+"tree_signal/";
-            skimTypeData=BASE_DIRData+"tree_signal/";
+            skimTypeMC=BASE_DIRMC+"tree_signal/";
         }
         if( r == kPhoton ){
             skimType=BASE_DIR+"tree_GJet_CleanVars/";
-            skimTypeData=BASE_DIRData+"tree_GJet_CleanVars/";
+            skimTypeMC=BASE_DIRMC+"tree_GJet_CleanVars/";
         }
         if( r == kSLm ){
             skimType=BASE_DIR+"tree_SLm/";
-           skimTypeData=BASE_DIRData+"tree_SLm/";
+           skimTypeMC=BASE_DIRMC+"tree_SLm/";
         }
         if( r == kSLe ){
             skimType=BASE_DIR+"tree_SLe/";
-            skimTypeData=BASE_DIRData+"tree_SLe/";
+            skimTypeMC=BASE_DIRMC+"tree_SLe/";
         }
         if(r==kLowDphi){
             skimType=BASE_DIR+"tree_LDP/";
-            skimTypeData=BASE_DIRData+"tree_LDP/";
+            skimTypeMC=BASE_DIRMC+"tree_LDP/";
         }
         ///////////////////////////////////////////////////////////////////////
         // - - - - - - - - - - BACKGROUND INPUTS - - - - - - - - - - - - - - //
@@ -76,7 +76,7 @@ public :
         OtherFileNames.push_back("tree_TTZToQQ.root");
         Other = new TChain("tree");
         for( int i = 0 ; i < OtherFileNames.size() ; i++ ){
-            Other->Add(skimType+"/"+OtherFileNames[i]);
+            Other->Add(skimTypeMC+"/"+OtherFileNames[i]);
         }
         if( r == kSignal || r == kSLm || r == kSLe || r == kLowDphi || r == kPhoton ){
             ntuples.push_back(new RA2bTree(Other));
@@ -95,7 +95,7 @@ public :
         ZJetsFileNames.push_back("tree_ZJetsToNuNu_HT-2500toInf.root");
         ZJets = new TChain("tree");
         for( int i = 0 ; i < ZJetsFileNames.size() ; i++ ){
-            ZJets->Add(skimType+"/"+ZJetsFileNames[i]);
+            ZJets->Add(skimTypeMC+"/"+ZJetsFileNames[i]);
         }
         if( r == kSignal || r == kLowDphi ){ 
             ntuples.push_back(new RA2bTree(ZJets));
@@ -114,7 +114,7 @@ public :
         WJetsFileNames.push_back("tree_WJetsToLNu_HT-800to1200.root");
         WJets = new TChain("tree");
         for( int i = 0 ; i < WJetsFileNames.size() ; i++ ){
-            WJets->Add(skimType+"/"+WJetsFileNames[i]);
+            WJets->Add(skimTypeMC+"/"+WJetsFileNames[i]);
         }
         if( r == kSignal || r == kSLm || r == kSLe || r == kLowDphi ){
             ntuples.push_back(new RA2bTree(WJets));
@@ -131,7 +131,7 @@ public :
         SnglTFileNames.push_back("tree_ST_tW_top.root");
         SnglT = new TChain("tree");
         for( int i = 0 ; i < SnglTFileNames.size() ; i++ ) {
-            SnglT->Add(skimType+"/"+SnglTFileNames[i]);
+            SnglT->Add(skimTypeMC+"/"+SnglTFileNames[i]);
         }
         if( r == kSignal || r == kSLm || r == kSLe ){
             ntuples.push_back(new RA2bTree(SnglT));
@@ -144,7 +144,7 @@ public :
         TTincFileNames.push_back("tree_TTJets.root");
         TTinc = new TChain("tree");
         for( int i = 0 ; i < TTincFileNames.size() ; i++ ){
-            TTinc->Add(skimType+"/"+TTincFileNames[i]);
+            TTinc->Add(skimTypeMC+"/"+TTincFileNames[i]);
         }
 
         std::vector<TString> TTFileNames;
@@ -157,7 +157,7 @@ public :
         TTFileNames.push_back("tree_TTJets_DiLept.root");        
         TT = new TChain("tree");
         for( int i = 0 ; i < TTFileNames.size() ; i++ ){
-            TT->Add(skimType+"/"+TTFileNames[i]);
+            TT->Add(skimTypeMC+"/"+TTFileNames[i]);
         }
         if( r == kSignal || r == kSLm || r == kSLe || r == kLowDphi ){
             ntuples.push_back(new RA2bTree(TT));
@@ -173,7 +173,7 @@ public :
         DYFileNames.push_back("tree_DYJetsToLL_M-50_HT-600toInf.root");
         DY = new TChain("tree");
         for( int i = 0 ; i < DYFileNames.size() ; i++ ){
-            DY->Add(skimType+"/"+DYFileNames[i]);
+            DY->Add(skimTypeMC+"/"+DYFileNames[i]);
             //DY->Add(skimTypeLDP+"/"+DYFileNames[i]);
         }
         //ntuples.push_back(new RA2bTree(DY));
@@ -188,7 +188,7 @@ public :
         GJets0p4FileNames.push_back("tree_GJets_DR-0p4_HT-600toInf.root");
         GJets0p4 = new TChain("tree");
         for( int i = 0 ; i < GJets0p4FileNames.size() ; i++ ){
-            GJets0p4->Add(skimType+"/"+GJets0p4FileNames[i]);
+            GJets0p4->Add(skimTypeMC+"/"+GJets0p4FileNames[i]);
         }
         if( r == kPhoton ){
             ntuples.push_back(new RA2bTree(GJets0p4));
@@ -204,7 +204,7 @@ public :
         GJetsFileNames.push_back("tree_GJets_HT-600toInf.root");
         GJets = new TChain("tree");
         for( int i = 0 ; i < GJetsFileNames.size() ; i++ ){
-            GJets->Add(skimType+"/"+GJetsFileNames[i]);
+            GJets->Add(skimTypeMC+"/"+GJetsFileNames[i]);
         }
         std::vector<TString> QCDFileNames;
         QCDFileNames.push_back("tree_QCD_HT-200to300.root");
@@ -216,7 +216,7 @@ public :
         QCDFileNames.push_back("tree_QCD_HT-2000toInf.root");
         QCD = new TChain("tree");
         for( int i = 0 ; i < QCDFileNames.size() ; i++ ){
-            QCD->Add(skimType+"/"+QCDFileNames[i]);
+            QCD->Add(skimTypeMC+"/"+QCDFileNames[i]);
         }
         if( r == kSignal || r == kPhoton || r == kLowDphi ){
             ntuples.push_back(new RA2bTree(QCD));
@@ -303,7 +303,7 @@ public :
         if( r == kSLe ){
             data2017 = new TChain("tree");
             for( int i = 0 ; i < SingleElectronNames.size() ; i++ ){
-                data2017->Add(skimTypeData+"/"+SingleElectronNames[i]);
+                data2017->Add(skimType+"/"+SingleElectronNames[i]);
 	
             }
             dataNtuple2017 = new RA2bTree(data2017);
@@ -322,7 +322,7 @@ public :
         if( r == kSLm ){
             data2017 = new TChain("tree");
             for( int i = 0 ; i < SingleMuonNames.size() ; i++ ){
-                data2017->Add(skimTypeData+"/"+SingleMuonNames[i]);
+                data2017->Add(skimType+"/"+SingleMuonNames[i]);
             }
             dataNtuple2017 = new RA2bTree(data2017);
 	    ntuples.push_back(dataNtuple2017);
@@ -338,7 +338,7 @@ public :
         if( r == kSLe ){
             data2018 = new TChain("tree");
             for( int i = 0 ; i < SingleElectronNames.size() ; i++ ){
-                data2018->Add(skimTypeData+"/"+SingleElectronNames[i]);
+                data2018->Add(skimType+"/"+SingleElectronNames[i]);
 	
             }
             dataNtuple2018 = new RA2bTree(data2018);
@@ -356,7 +356,7 @@ public :
         if( r == kSLm ){
             data2018 = new TChain("tree");
             for( int i = 0 ; i < SingleMuonNames.size() ; i++ ){
-                data2018->Add(skimTypeData+"/"+SingleMuonNames[i]);
+                data2018->Add(skimType+"/"+SingleMuonNames[i]);
             }
             dataNtuple2018 = new RA2bTree(data2018);
 	    ntuples.push_back(dataNtuple2018);
@@ -393,7 +393,7 @@ public :
         if( r == kPhoton ){
             data2017 = new TChain("tree");
             for( int i = 0 ; i < SinglePhotonFileNames.size() ; i++ ){
-                data2017->Add(skimTypeData+"/"+SinglePhotonFileNames[i]);
+                data2017->Add(skimType+"/"+SinglePhotonFileNames[i]);
             }
             dataNtuple = new RA2bTree(data2017);
 	    ntuples.push_back(dataNtuple);
