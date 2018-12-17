@@ -263,7 +263,6 @@ public :
             data = new TChain("tree");
             for( int i = 0 ; i < SingleElectronNames.size() ; i++ ){
                 data->Add(skimType+"/"+SingleElectronNames[i]);
-	    	sampleName.push_back("data"); 
 	
             }
             dataNtuple = new RA2bTree(data);
@@ -330,24 +329,6 @@ public :
 	    fillColor.push_back(kBlack);
 	    lineColor.push_back(1);
         }
-        SingleElectronNames.resize(0);
-        SingleElectronNames.push_back("tree_SingleElectron_2018A1.root");
-        SingleElectronNames.push_back("tree_SingleElectron_2018A2.root");
-        SingleElectronNames.push_back("tree_SingleElectron_2018A3.root");
-        SingleElectronNames.push_back("tree_SingleElectron_2018B1.root");
-        if( r == kSLe ){
-            data2018 = new TChain("tree");
-            for( int i = 0 ; i < SingleElectronNames.size() ; i++ ){
-                data2018->Add(skimType+"/"+SingleElectronNames[i]);
-	
-            }
-            dataNtuple2018 = new RA2bTree(data2018);
-	    ntuples.push_back(dataNtuple2018);
-	    sampleName.push_back("data2018"); 
-	    fillColor.push_back(kBlack);
-	    lineColor.push_back(1);
-
-        }
         SingleMuonNames.resize(0);
         SingleMuonNames.push_back("tree_SingleMuon_2018A1.root");
         SingleMuonNames.push_back("tree_SingleMuon_2018A2.root");
@@ -365,14 +346,14 @@ public :
 	    lineColor.push_back(1);
         }
         std::vector<TString> SinglePhotonFileNames;
-        SinglePhotonFileNames.push_back("tree_SinglePhoton_re2016B.root");
-        SinglePhotonFileNames.push_back("tree_SinglePhoton_re2016C.root");
-        SinglePhotonFileNames.push_back("tree_SinglePhoton_re2016D.root");
-        SinglePhotonFileNames.push_back("tree_SinglePhoton_re2016E.root");
-        SinglePhotonFileNames.push_back("tree_SinglePhoton_re2016F.root");
-        SinglePhotonFileNames.push_back("tree_SinglePhoton_re2016G.root");
-        SinglePhotonFileNames.push_back("tree_SinglePhoton_re2016H2.root");
-        SinglePhotonFileNames.push_back("tree_SinglePhoton_re2016H3.root");
+        SinglePhotonFileNames.push_back("tree_SinglePhoton_2016B.root");
+        SinglePhotonFileNames.push_back("tree_SinglePhoton_2016C.root");
+        SinglePhotonFileNames.push_back("tree_SinglePhoton_2016D.root");
+        SinglePhotonFileNames.push_back("tree_SinglePhoton_2016E.root");
+        SinglePhotonFileNames.push_back("tree_SinglePhoton_2016F.root");
+        SinglePhotonFileNames.push_back("tree_SinglePhoton_2016G.root");
+        SinglePhotonFileNames.push_back("tree_SinglePhoton_2016H2.root");
+        SinglePhotonFileNames.push_back("tree_SinglePhoton_2016H3.root");
         if( r == kPhoton ){
             data = new TChain("tree");
             for( int i = 0 ; i < SinglePhotonFileNames.size() ; i++ ){
