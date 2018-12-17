@@ -175,7 +175,7 @@ int main(int argc, char** argv){
 	    //std::cout<<"MET"<<MET<<std::endl;
 	WMatchedJet1=0;
 	WMatchedJet2=0;
-	if(skims.sampleName[iSample]!="data" && skims.sampleName[iSample]!="data2017"){
+	if(skims.sampleName[iSample]!="data" && skims.sampleName[iSample]!="data2017" && skims.sampleName[iSample]!="data2018"){
 	for( int i=0 ; i < ntuple->GenParticles->size() ; i++ ){
         	if( abs(ntuple->GenParticles_PdgId->at(i)) == 24){ //&& ntuple->JetsAK8->at(0).DeltaR(ntuple->GenParticles->at(i))<0.4){
 			if(nAK8<1)continue;
@@ -189,7 +189,7 @@ int main(int argc, char** argv){
 		}
     	     }
 	}
-	   if(skims.sampleName[iSample]!="data" && skims.sampleName[iSample]!="data2017"){
+	   if(skims.sampleName[iSample]!="data" && skims.sampleName[iSample]!="data2017" && skims.sampleName[iSample]!="data2018"){
 		bool HadTau=false;
 		GenHadTau=0;
 	   	for(unsigned int t=0; t<ntuple->GenTaus_had->size(); ++t) if(ntuple->GenTaus_had->at(t))++GenHadTau ;
