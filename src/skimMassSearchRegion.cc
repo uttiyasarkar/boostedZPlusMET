@@ -22,7 +22,7 @@ using namespace std;
 int main(int argc, char** argv){
 
     skimSamples::region reg;
-    int reg_(4);
+    int reg_(1);
     bool looseCuts(false);
     defaultOptions options(argv[0],"");
     options.opts->add_options()("l,loose_cuts","apply loose jet pt cuts",cxxopts::value<bool>(looseCuts))("r,region","region to analyze",cxxopts::value<int>(reg_));
@@ -132,7 +132,7 @@ int main(int argc, char** argv){
         TString filename;
         cout << skims.sampleName[iSample]<<numEvents <<endl;
     for( int iEvt = 0 ; iEvt < min(options.MAX_EVENTS,numEvents) ; iEvt++ ){
-      // for( int iEvt = 0 ; iEvt <1000; iEvt++ ){
+       //for( int iEvt = 0 ; iEvt <100000; iEvt++ ){
             ntuple->GetEntry(iEvt);
             if( iEvt % 100000 == 0 ) cout << skims.sampleName[iSample] << ": " << iEvt << "/" << min(options.MAX_EVENTS,numEvents) << endl;
              passBaseline=true;
@@ -175,7 +175,7 @@ int main(int argc, char** argv){
 	    //std::cout<<"MET"<<MET<<std::endl;
 	WMatchedJet1=0;
 	WMatchedJet2=0;
-	if(skims.sampleName[iSample]!="data"){
+	if(skims.sampleName[iSample]!="data" && skims.sampleName[iSample]!="data2017"){
 	for( int i=0 ; i < ntuple->GenParticles->size() ; i++ ){
         	if( abs(ntuple->GenParticles_PdgId->at(i)) == 24){ //&& ntuple->JetsAK8->at(0).DeltaR(ntuple->GenParticles->at(i))<0.4){
 			if(nAK8<1)continue;
@@ -189,7 +189,7 @@ int main(int argc, char** argv){
 		}
     	     }
 	}
-	   if(skims.sampleName[iSample]!="data"){
+	   if(skims.sampleName[iSample]!="data" && skims.sampleName[iSample]!="data2017"){
 		bool HadTau=false;
 		GenHadTau=0;
 	   	for(unsigned int t=0; t<ntuple->GenTaus_had->size(); ++t) if(ntuple->GenTaus_had->at(t))++GenHadTau ;
@@ -201,7 +201,6 @@ int main(int argc, char** argv){
 	newtree->Write(skims.sampleName[iSample]);
 	  
   }// end sample loop
-/*
 if(reg == skimSamples::kSignal ){
     for( int iSample = 0 ; iSample < skims.signalNtuples.size() ; iSample++){
 
@@ -259,12 +258,12 @@ if(reg == skimSamples::kSignal ){
 	    nAK8=ntuple->JetsAK8->size();
 	    if(nAK8>0){
             JetPt1=ntuple->JetsAK8->at(0).Pt();  
-	    PrunedMass1=ntuple->JetsAK8_softDropMass->at(0);
+	    PrunedMass1=ntuple->JetsAK8_prunedMass->at(0);
 	   Jet1_tau2overtau1=ntuple->JetsAK8_NsubjettinessTau2->at(0)/ntuple->JetsAK8_NsubjettinessTau1->at(0);
 	   }
 	    if(nAK8>1){
             JetPt2=ntuple->JetsAK8->at(1).Pt();
-	    PrunedMass2=ntuple->JetsAK8_softDropMass->at(1);
+	    PrunedMass2=ntuple->JetsAK8_prunedMass->at(1);
 	    Jet2_tau2overtau1=ntuple->JetsAK8_NsubjettinessTau2->at(1)/ntuple->JetsAK8_NsubjettinessTau1->at(1);
 	    }
                newtree->Fill();
@@ -272,8 +271,7 @@ if(reg == skimSamples::kSignal ){
         outputFile->cd();
         newtree->Write(skims.signalSampleName[iSample]);
    }
-}  
-*/
+}
     outputFile->Close();
 
 }

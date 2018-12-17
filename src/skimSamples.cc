@@ -6,7 +6,8 @@
 // STL libraries
 #include <iostream>
 #include <vector>
-static const TString BASE_DIR="root://cmseos.fnal.gov//store/user/lpcsusyhad/SusyRA2Analysis2015/Skims/Run2ProductionV15/";
+static const TString BASE_DIRData="root://cmseos.fnal.gov//store/user/lpcsusyhad/SusyRA2Analysis2015/Skims/Run2ProductionV15/";
+static const TString BASE_DIR="root://cmseos.fnal.gov//store/user/lpcsusyhad/SusyRA2Analysis2015/Skims/Run2ProductionV12/";
 
 class skimSamples{
 
@@ -15,8 +16,10 @@ public :
     TChain *WJets,*ZJets,*QCD,*SnglT,*TT,*GJets,*GJets0p4,*Other,*DY,*TTinc;
     TChain *T5HH750, *T5HH1000, *T5HH1100,*T5HH1200,*T5HH1300,*T5HH1400,*T5HH1500,*T5HH1600,*T5HH1700,*T5HH1800,*T5HH1900,*T5HH2000,*T5HH2100;
     TChain *data;
+    TChain *data2017;
+    TChain *data2018;
     std::vector<RA2bTree*> ntuples,signalNtuples;
-    RA2bTree* dataNtuple;
+    RA2bTree* dataNtuple; RA2bTree* dataNtuple2017; RA2bTree* dataNtuple2018;
     std::vector<TString> sampleName, signalSampleName;
     std::vector<TString> dataSampleName; 
     std::vector<int> fillColor, lineColor, sigLineColor;
@@ -25,6 +28,7 @@ public :
     TString regionNames[kNumRegions]={"signal","SLm","SLe","kLowDphi","photon"};
 
     TString skimType;
+    TString skimTypeData;
 
     skimSamples(region r=kSignal){
 
@@ -32,24 +36,28 @@ public :
 
         if( r == kSignal ){
             skimType=BASE_DIR+"tree_signal/";
+            skimTypeData=BASE_DIRData+"tree_signal/";
         }
         if( r == kPhoton ){
             skimType=BASE_DIR+"tree_GJet_CleanVars/";
+            skimTypeData=BASE_DIRData+"tree_GJet_CleanVars/";
         }
         if( r == kSLm ){
             skimType=BASE_DIR+"tree_SLm/";
+           skimTypeData=BASE_DIRData+"tree_SLm/";
         }
         if( r == kSLe ){
             skimType=BASE_DIR+"tree_SLe/";
+            skimTypeData=BASE_DIRData+"tree_SLe/";
         }
         if(r==kLowDphi){
             skimType=BASE_DIR+"tree_LDP/";
+            skimTypeData=BASE_DIRData+"tree_LDP/";
         }
         ///////////////////////////////////////////////////////////////////////
         // - - - - - - - - - - BACKGROUND INPUTS - - - - - - - - - - - - - - //
         ///////////////////////////////////////////////////////////////////////
 //ONLY DATA IS AVAILABLE FOR NOW!!
-/*
         std::vector<TString> OtherFileNames;
         OtherFileNames.push_back("tree_WWTo1L1Nu2Q.root");
         OtherFileNames.push_back("tree_WWTo2L2Nu.root");
@@ -217,19 +225,18 @@ public :
             lineColor.push_back(1);
         }
 
-*/
         ////////////////////////////////////////////////////////////
         // - - - - - - - - - - - DATA INPUTS - - - - - - - - - -  //
         ////////////////////////////////////////////////////////////
 
         std::vector<TString> HTMHTFileNames;
-        HTMHTFileNames.push_back("tree_HTMHT_2017B.root");
-        HTMHTFileNames.push_back("tree_HTMHT_2017C.root");
-        HTMHTFileNames.push_back("tree_HTMHT_2017D.root");
-        HTMHTFileNames.push_back("tree_HTMHT_2017E.root");
-        HTMHTFileNames.push_back("tree_HTMHT_2017F.root");
-        HTMHTFileNames.push_back("tree_HTMHT_2017G.root");
-        HTMHTFileNames.push_back("tree_HTMHT_2017H.root");
+        HTMHTFileNames.push_back("tree_HTMHT_2016B.root");
+        HTMHTFileNames.push_back("tree_HTMHT_2016C.root");
+        HTMHTFileNames.push_back("tree_HTMHT_2016D.root");
+        HTMHTFileNames.push_back("tree_HTMHT_2016E.root");
+        HTMHTFileNames.push_back("tree_HTMHT_2016F.root");
+        HTMHTFileNames.push_back("tree_HTMHT_2016G.root");
+        HTMHTFileNames.push_back("tree_HTMHT_2016H.root");
        // HTMHTFileNames.push_back("tree_HTMHT_re2016H3.root");
         if( r == kSignal || r == kLowDphi ){
             data = new TChain("tree");
@@ -244,13 +251,14 @@ public :
         }
 
         std::vector<TString> SingleElectronNames;
-        SingleElectronNames.push_back("tree_SingleElectron_2016B.root");
-        SingleElectronNames.push_back("tree_SingleElectron_2016C.root");
-        SingleElectronNames.push_back("tree_SingleElectron_2016D.root");
-        SingleElectronNames.push_back("tree_SingleElectron_2016E.root");
-        SingleElectronNames.push_back("tree_SingleElectron_2016F.root");
-        SingleElectronNames.push_back("tree_SingleElectron_2016G.root");
-        SingleElectronNames.push_back("tree_SingleElectron_2016H.root");
+        SingleElectronNames.push_back("tree_SingleElectron_re2016B.root");
+        SingleElectronNames.push_back("tree_SingleElectron_re2016C.root");
+        SingleElectronNames.push_back("tree_SingleElectron_re2016D.root");
+        SingleElectronNames.push_back("tree_SingleElectron_re2016E.root");
+        SingleElectronNames.push_back("tree_SingleElectron_re2016F.root");
+        SingleElectronNames.push_back("tree_SingleElectron_re2016G.root");
+        SingleElectronNames.push_back("tree_SingleElectron_re2016H2.root");
+        SingleElectronNames.push_back("tree_SingleElectron_re2016H3.root");
         if( r == kSLe ){
             data = new TChain("tree");
             for( int i = 0 ; i < SingleElectronNames.size() ; i++ ){
@@ -267,13 +275,14 @@ public :
         }
 
         std::vector<TString> SingleMuonNames;
-        SingleMuonNames.push_back("tree_SingleMuon_2016B.root");
-        SingleMuonNames.push_back("tree_SingleMuon_2016C.root");
-        SingleMuonNames.push_back("tree_SingleMuon_2016D.root");
-        SingleMuonNames.push_back("tree_SingleMuon_2016E.root");
-        SingleMuonNames.push_back("tree_SingleMuon_2016F.root");
-        SingleMuonNames.push_back("tree_SingleMuon_2016G.root");
-        SingleMuonNames.push_back("tree_SingleMuon_2016H.root");
+        SingleMuonNames.push_back("tree_SingleMuon_re2016B.root");
+        SingleMuonNames.push_back("tree_SingleMuon_re2016C.root");
+        SingleMuonNames.push_back("tree_SingleMuon_re2016D.root");
+        SingleMuonNames.push_back("tree_SingleMuon_re2016E.root");
+        SingleMuonNames.push_back("tree_SingleMuon_re2016F.root");
+        SingleMuonNames.push_back("tree_SingleMuon_re2016G.root");
+        SingleMuonNames.push_back("tree_SingleMuon_re2016H2.root");
+        SingleMuonNames.push_back("tree_SingleMuon_re2016H3.root");
         if( r == kSLm ){
             data = new TChain("tree");
             for( int i = 0 ; i < SingleMuonNames.size() ; i++ ){
@@ -285,15 +294,85 @@ public :
 	    fillColor.push_back(kBlack);
 	    lineColor.push_back(1);
         }
+        SingleElectronNames.resize(0);
+        SingleElectronNames.push_back("tree_SingleElectron_2017B.root");
+        SingleElectronNames.push_back("tree_SingleElectron_2017C.root");
+        SingleElectronNames.push_back("tree_SingleElectron_2017D.root");
+        SingleElectronNames.push_back("tree_SingleElectron_2017E.root");
+        SingleElectronNames.push_back("tree_SingleElectron_2017F.root");
+        if( r == kSLe ){
+            data2017 = new TChain("tree");
+            for( int i = 0 ; i < SingleElectronNames.size() ; i++ ){
+                data2017->Add(skimTypeData+"/"+SingleElectronNames[i]);
+	
+            }
+            dataNtuple2017 = new RA2bTree(data2017);
+	    ntuples.push_back(dataNtuple2017);
+	    sampleName.push_back("data2017"); 
+	    fillColor.push_back(kBlack);
+	    lineColor.push_back(1);
 
+        }
+        SingleMuonNames.resize(0);
+        SingleMuonNames.push_back("tree_SingleMuon_2017B.root");
+        SingleMuonNames.push_back("tree_SingleMuon_2017C.root");
+        SingleMuonNames.push_back("tree_SingleMuon_2017D.root");
+        SingleMuonNames.push_back("tree_SingleMuon_2017E.root");
+        SingleMuonNames.push_back("tree_SingleMuon_2017F.root");
+        if( r == kSLm ){
+            data2017 = new TChain("tree");
+            for( int i = 0 ; i < SingleMuonNames.size() ; i++ ){
+                data2017->Add(skimTypeData+"/"+SingleMuonNames[i]);
+            }
+            dataNtuple2017 = new RA2bTree(data2017);
+	    ntuples.push_back(dataNtuple2017);
+	    sampleName.push_back("data2017"); 
+	    fillColor.push_back(kBlack);
+	    lineColor.push_back(1);
+        }
+        SingleElectronNames.resize(0);
+        SingleElectronNames.push_back("tree_SingleElectron_2018A1.root");
+        SingleElectronNames.push_back("tree_SingleElectron_2018A2.root");
+        SingleElectronNames.push_back("tree_SingleElectron_2018A3.root");
+        SingleElectronNames.push_back("tree_SingleElectron_2018B1.root");
+        if( r == kSLe ){
+            data2018 = new TChain("tree");
+            for( int i = 0 ; i < SingleElectronNames.size() ; i++ ){
+                data2018->Add(skimTypeData+"/"+SingleElectronNames[i]);
+	
+            }
+            dataNtuple2018 = new RA2bTree(data2018);
+	    ntuples.push_back(dataNtuple2018);
+	    sampleName.push_back("data2018"); 
+	    fillColor.push_back(kBlack);
+	    lineColor.push_back(1);
+
+        }
+        SingleMuonNames.resize(0);
+        SingleMuonNames.push_back("tree_SingleMuon_2018A1.root");
+        SingleMuonNames.push_back("tree_SingleMuon_2018A2.root");
+        SingleMuonNames.push_back("tree_SingleMuon_2018A3.root");
+        SingleMuonNames.push_back("tree_SingleMuon_2018B1.root");
+        if( r == kSLm ){
+            data2018 = new TChain("tree");
+            for( int i = 0 ; i < SingleMuonNames.size() ; i++ ){
+                data2018->Add(skimTypeData+"/"+SingleMuonNames[i]);
+            }
+            dataNtuple2018 = new RA2bTree(data2018);
+	    ntuples.push_back(dataNtuple2018);
+	    sampleName.push_back("data2018"); 
+	    fillColor.push_back(kBlack);
+	    lineColor.push_back(1);
+        }
         std::vector<TString> SinglePhotonFileNames;
-        SinglePhotonFileNames.push_back("tree_SinglePhoton_2016B.root");
-        SinglePhotonFileNames.push_back("tree_SinglePhoton_2016C.root");
-        SinglePhotonFileNames.push_back("tree_SinglePhoton_2016D.root");
-        SinglePhotonFileNames.push_back("tree_SinglePhoton_2016E.root");
-        SinglePhotonFileNames.push_back("tree_SinglePhoton_2016F.root");
-        SinglePhotonFileNames.push_back("tree_SinglePhoton_2016G.root");
-        SinglePhotonFileNames.push_back("tree_SinglePhoton_2016H.root");
+        SinglePhotonFileNames.push_back("tree_SinglePhoton_re2016B.root");
+        SinglePhotonFileNames.push_back("tree_SinglePhoton_re2016C.root");
+        SinglePhotonFileNames.push_back("tree_SinglePhoton_re2016D.root");
+        SinglePhotonFileNames.push_back("tree_SinglePhoton_re2016E.root");
+        SinglePhotonFileNames.push_back("tree_SinglePhoton_re2016F.root");
+        SinglePhotonFileNames.push_back("tree_SinglePhoton_re2016G.root");
+        SinglePhotonFileNames.push_back("tree_SinglePhoton_re2016H2.root");
+        SinglePhotonFileNames.push_back("tree_SinglePhoton_re2016H3.root");
         if( r == kPhoton ){
             data = new TChain("tree");
             for( int i = 0 ; i < SinglePhotonFileNames.size() ; i++ ){
@@ -305,7 +384,23 @@ public :
 	    fillColor.push_back(kBlack);
 	    lineColor.push_back(1);
         }
-
+        SinglePhotonFileNames.resize(0);
+        SinglePhotonFileNames.push_back("tree_SinglePhoton_2017B.root");
+        SinglePhotonFileNames.push_back("tree_SinglePhoton_2017C.root");
+        SinglePhotonFileNames.push_back("tree_SinglePhoton_2017D.root");
+        SinglePhotonFileNames.push_back("tree_SinglePhoton_2017E.root");
+        SinglePhotonFileNames.push_back("tree_SinglePhoton_2017F.root");
+        if( r == kPhoton ){
+            data2017 = new TChain("tree");
+            for( int i = 0 ; i < SinglePhotonFileNames.size() ; i++ ){
+                data2017->Add(skimTypeData+"/"+SinglePhotonFileNames[i]);
+            }
+            dataNtuple = new RA2bTree(data2017);
+	    ntuples.push_back(dataNtuple);
+	    sampleName.push_back("data2017"); 
+	    fillColor.push_back(kBlack);
+	    lineColor.push_back(1);
+        }
         std::vector<TString> T5HH750FilesNames;
         std::vector<TString> T5HH1000FilesNames;
         std::vector<TString> T5HH1100FilesNames;
