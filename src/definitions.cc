@@ -4,8 +4,8 @@
 // ==============================================
 const double bbtagCut = 0.3;
 const double tau21Cut = 0.55;
-const double ZmassWindowLow = 75.;
-const double ZmassWindowHigh = 95.;
+const double ZmassWindowLow = 70.;
+const double ZmassWindowHigh = 100.;
 const double baselineMassLow = 50.;
 const double baselineMassHigh = 200.;
 TFile* puWeightFile = new TFile("../data/PileupHistograms_0121_69p2mb_pm4p6.root");
@@ -398,9 +398,9 @@ template<typename ntupleType> double muonSubleadJetdR(ntupleType* ntuple){
 template<typename ntupleType> double leadJetMuondR_mass(ntupleType* ntuple){
     if( ntuple->Muons->size() == 1 ){
         if( ntuple->Muons->at(0).DeltaR(ntuple->JetsAK8->at(0)) < ntuple->Muons->at(0).DeltaR(ntuple->JetsAK8->at(1)) )
-            return ntuple->JetsAK8_softDropMass->at(1);
+            return ntuple->JetsAK8_prunedMass->at(1);
         else 
-            return ntuple->JetsAK8_softDropMass->at(0);
+            return ntuple->JetsAK8_prunedMass->at(0);
     }else 
         return -99.;
 }
@@ -408,9 +408,9 @@ template<typename ntupleType> double leadJetMuondR_mass(ntupleType* ntuple){
 template<typename ntupleType> double subleadJetMuondR_mass(ntupleType* ntuple){
     if( ntuple->Muons->size() == 1 ){
         if( ntuple->Muons->at(0).DeltaR(ntuple->JetsAK8->at(0)) < ntuple->Muons->at(0).DeltaR(ntuple->JetsAK8->at(1)) )
-            return ntuple->JetsAK8_softDropMass->at(0);
+            return ntuple->JetsAK8_prunedMass->at(0);
         else 
-            return ntuple->JetsAK8_softDropMass->at(1);
+            return ntuple->JetsAK8_prunedMass->at(1);
     }else 
         return -99.;
 }
@@ -631,7 +631,7 @@ template<typename ntupleType> double fillLeadingJetMinDRB(ntupleType* ntuple){
 
 template<typename ntupleType> double fillLeadingJetMass(ntupleType* ntuple){
   if(ntuple->JetsAK8->size()==0) return -99999.;
-  return ntuple->JetsAK8_softDropMass->at(0);
+  return ntuple->JetsAK8_prunedMass->at(0);
 }
 
 template<typename ntupleType> double fillLeadingJetMass_photon(ntupleType* ntuple){
@@ -695,7 +695,7 @@ template<typename ntupleType> double fillLeadingTau21(ntupleType* ntuple){
 //////////////////////////////////////////
 template<typename ntupleType> double fillSubLeadingJetMass(ntupleType* ntuple){
   if(ntuple->JetsAK8->size()<=1) return-99999.;
-  return ntuple->JetsAK8_softDropMass->at(1);
+  return ntuple->JetsAK8_prunedMass->at(1);
 }
 
 template<typename ntupleType> double fillSubLeadingJetFlavor(ntupleType* ntuple){
@@ -753,7 +753,7 @@ template<typename ntupleType> double fillLeadingBBtagJetMass(ntupleType* ntuple)
   if(ntuple->JetsAK8->size()==1) index = 0;
   else{
     index = int( ntuple->JetsAK8_doubleBDiscriminator->at(0) < ntuple->JetsAK8_doubleBDiscriminator->at(1) );
-    return ntuple->JetsAK8_softDropMass->at(index);
+    return ntuple->JetsAK8_prunedMass->at(index);
   }
 }
 
@@ -805,7 +805,7 @@ template<typename ntupleType> double fillLeadingBBtagJetTau21(ntupleType* ntuple
 /////////////////////////////////////////////
 template<typename ntupleType> double fillSubLeadingBBtagJetMass(ntupleType* ntuple){
   int index = int( ntuple->JetsAK8_doubleBDiscriminator->at(0) > ntuple->JetsAK8_doubleBDiscriminator->at(1) );
-  return ntuple->JetsAK8_softDropMass->at(index);
+  return ntuple->JetsAK8_prunedMass->at(index);
 }
 
 template<typename ntupleType> double fillSubLeadingBBtagJetFlavor(ntupleType* ntuple){
@@ -861,8 +861,8 @@ template<typename ntupleType> double fillLeadingMassJetMass(ntupleType* ntuple){
   int index;
   if(ntuple->JetsAK8->size()==1) index = 0;
   else{
-    index = int( ntuple->JetsAK8_softDropMass->at(0) < ntuple->JetsAK8_softDropMass->at(1) );
-    return ntuple->JetsAK8_softDropMass->at(index);
+    index = int( ntuple->JetsAK8_prunedMass->at(0) < ntuple->JetsAK8_prunedMass->at(1) );
+    return ntuple->JetsAK8_prunedMass->at(index);
   }
 }
 
@@ -871,7 +871,7 @@ template<typename ntupleType> double fillLeadingMassJetFlavor(ntupleType* ntuple
   int index;
   if(ntuple->JetsAK8->size()==1) index = 0;
   else{
-    index = int( ntuple->JetsAK8_softDropMass->at(0) < ntuple->JetsAK8_softDropMass->at(1) );
+    index = int( ntuple->JetsAK8_prunedMass->at(0) < ntuple->JetsAK8_prunedMass->at(1) );
     if( ntuple->JetsAK8_NumBhadrons->at(index)==2 ) 
       return 21.;
     else if( ntuple->JetsAK8_NumBhadrons->at(index)==1 )
@@ -885,7 +885,7 @@ template<typename ntupleType> double fillLeadingMassJetPt(ntupleType* ntuple){
   int index;
   if(ntuple->JetsAK8->size()==1) index = 0;
   else{
-    index = int( ntuple->JetsAK8_softDropMass->at(0) < ntuple->JetsAK8_softDropMass->at(1) );
+    index = int( ntuple->JetsAK8_prunedMass->at(0) < ntuple->JetsAK8_prunedMass->at(1) );
     return ntuple->JetsAK8->at(index).Pt();
   }
 }
@@ -894,7 +894,7 @@ template<typename ntupleType> double fillLeadingMassJetBBtag(ntupleType* ntuple)
   int index;
   if(ntuple->JetsAK8->size()==1) index = 0;
   else{
-      index = int( ntuple->JetsAK8_softDropMass->at(0) < ntuple->JetsAK8_softDropMass->at(1) );
+      index = int( ntuple->JetsAK8_prunedMass->at(0) < ntuple->JetsAK8_prunedMass->at(1) );
       return ntuple->JetsAK8_doubleBDiscriminator->at(index);
   }
 }
@@ -904,7 +904,7 @@ template<typename ntupleType> double fillLeadingMassJetTau21(ntupleType* ntuple)
   int index;
   if(ntuple->JetsAK8->size()==1) index = 0;
   else{
-      index = int( ntuple->JetsAK8_softDropMass->at(0) < ntuple->JetsAK8_softDropMass->at(1) );
+      index = int( ntuple->JetsAK8_prunedMass->at(0) < ntuple->JetsAK8_prunedMass->at(1) );
       return ntuple->JetsAK8_NsubjettinessTau2->at(index)/ntuple->JetsAK8_NsubjettinessTau1->at(index);
   }
 }
@@ -913,8 +913,8 @@ template<typename ntupleType> double fillLeadingMassJetTau21(ntupleType* ntuple)
 // SECOND HIGHEST Mass AK8 JET PROPERTIES //
 /////////////////////////////////////////////
 template<typename ntupleType> double fillSubLeadingMassJetMass(ntupleType* ntuple){
-  int index = int( ntuple->JetsAK8_softDropMass->at(0) > ntuple->JetsAK8_softDropMass->at(1) );
-  return ntuple->JetsAK8_softDropMass->at(index);
+  int index = int( ntuple->JetsAK8_prunedMass->at(0) > ntuple->JetsAK8_prunedMass->at(1) );
+  return ntuple->JetsAK8_prunedMass->at(index);
 }
 
 template<typename ntupleType> double fillSubLeadingMassJetFlavor(ntupleType* ntuple){
@@ -922,7 +922,7 @@ template<typename ntupleType> double fillSubLeadingMassJetFlavor(ntupleType* ntu
   int index;
   if(ntuple->JetsAK8->size()==1) index = 0;
   else{
-    index = int( ntuple->JetsAK8_softDropMass->at(0) > ntuple->JetsAK8_softDropMass->at(1) );
+    index = int( ntuple->JetsAK8_prunedMass->at(0) > ntuple->JetsAK8_prunedMass->at(1) );
     if( ntuple->JetsAK8_NumBhadrons->at(index)==2 ) 
       return 21.;
     else if (ntuple->JetsAK8_NumBhadrons->at(index)==1 )
@@ -936,7 +936,7 @@ template<typename ntupleType> double fillSubLeadingMassJetPt(ntupleType* ntuple)
   int index;
   if(ntuple->JetsAK8->size()==1) index = 0;
   else{
-    index = int( ntuple->JetsAK8_softDropMass->at(0) > ntuple->JetsAK8_softDropMass->at(1) );
+    index = int( ntuple->JetsAK8_prunedMass->at(0) > ntuple->JetsAK8_prunedMass->at(1) );
     return ntuple->JetsAK8->at(index).Pt();
   }
 }
@@ -946,7 +946,7 @@ template<typename ntupleType> double fillSubLeadingMassJetBBtag(ntupleType* ntup
   int index;
   if(ntuple->JetsAK8->size()==1) index = 0;
   else{
-    index = int( ntuple->JetsAK8_softDropMass->at(0) > ntuple->JetsAK8_softDropMass->at(1) );
+    index = int( ntuple->JetsAK8_prunedMass->at(0) > ntuple->JetsAK8_prunedMass->at(1) );
     return ntuple->JetsAK8_doubleBDiscriminator->at(index);
   }
 }
@@ -956,7 +956,7 @@ template<typename ntupleType> double fillSubLeadingMassJetTau21(ntupleType* ntup
   int index;
   if(ntuple->JetsAK8->size()==1) index = 0;
   else{
-    index = int( ntuple->JetsAK8_softDropMass->at(0) > ntuple->JetsAK8_softDropMass->at(1) );
+    index = int( ntuple->JetsAK8_prunedMass->at(0) > ntuple->JetsAK8_prunedMass->at(1) );
     return ntuple->JetsAK8_NsubjettinessTau2->at(index)/ntuple->JetsAK8_NsubjettinessTau1->at(index);
   }
 }
@@ -966,30 +966,30 @@ template<typename ntupleType> double fillSubLeadingMassJetTau21(ntupleType* ntup
 /////////////////////////////////////////////
 
 template<typename ntupleType> double fillClosestJetMass(ntupleType* ntuple){
-    if(ntuple->JetsAK8_softDropMass->size() == 0)
+    if(ntuple->JetsAK8_prunedMass->size() == 0)
         return -999.;
-    else if( ntuple->JetsAK8_softDropMass->size() == 1 )
-        return ntuple->JetsAK8_softDropMass->at(0);
+    else if( ntuple->JetsAK8_prunedMass->size() == 1 )
+        return ntuple->JetsAK8_prunedMass->at(0);
     else{       
         double J1diff,J2diff;
-        J1diff = ntuple->JetsAK8_softDropMass->at(0)-110.;
-        J2diff = ntuple->JetsAK8_softDropMass->at(1)-110.;
-        //cout << "J1: " << ntuple->JetsAK8_softDropMass->at(0) << " J2: " << ntuple->JetsAK8_softDropMass->at(1) << endl;
-        return fabs(J1diff)>fabs(J2diff) ?  ntuple->JetsAK8_softDropMass->at(1) :  ntuple->JetsAK8_softDropMass->at(0) ;       
+        J1diff = ntuple->JetsAK8_prunedMass->at(0)-110.;
+        J2diff = ntuple->JetsAK8_prunedMass->at(1)-110.;
+        //cout << "J1: " << ntuple->JetsAK8_prunedMass->at(0) << " J2: " << ntuple->JetsAK8_prunedMass->at(1) << endl;
+        return fabs(J1diff)>fabs(J2diff) ?  ntuple->JetsAK8_prunedMass->at(1) :  ntuple->JetsAK8_prunedMass->at(0) ;       
     }
 }
 
 template<typename ntupleType> double fillFarthestJetMass(ntupleType* ntuple){
-    if(ntuple->JetsAK8_softDropMass->size() == 0)
+    if(ntuple->JetsAK8_prunedMass->size() == 0)
         return -999.;
-    else if( ntuple->JetsAK8_softDropMass->size() == 1 )
-        return ntuple->JetsAK8_softDropMass->at(0);
+    else if( ntuple->JetsAK8_prunedMass->size() == 1 )
+        return ntuple->JetsAK8_prunedMass->at(0);
     else{       
         double J1diff,J2diff;
-        J1diff = ntuple->JetsAK8_softDropMass->at(0)-110.;
-        J2diff = ntuple->JetsAK8_softDropMass->at(1)-110.;
-        //cout << "J1: " << ntuple->JetsAK8_softDropMass->at(0) << " J2: " << ntuple->JetsAK8_softDropMass->at(1) << endl;
-        return fabs(J1diff)<fabs(J2diff) ?  ntuple->JetsAK8_softDropMass->at(1) :  ntuple->JetsAK8_softDropMass->at(0) ;       
+        J1diff = ntuple->JetsAK8_prunedMass->at(0)-110.;
+        J2diff = ntuple->JetsAK8_prunedMass->at(1)-110.;
+        //cout << "J1: " << ntuple->JetsAK8_prunedMass->at(0) << " J2: " << ntuple->JetsAK8_prunedMass->at(1) << endl;
+        return fabs(J1diff)<fabs(J2diff) ?  ntuple->JetsAK8_prunedMass->at(1) :  ntuple->JetsAK8_prunedMass->at(0) ;       
     }
 }
 
@@ -1056,26 +1056,26 @@ template<typename ntupleType> bool AK8JetPtCut(ntupleType* ntuple){
 }
 
 template<typename ntupleType> bool AK8JetLooseMassCut(ntupleType* ntuple){
-  return ( ntuple->JetsAK8_softDropMass->at(0) > baselineMassLow &&
-	   ntuple->JetsAK8_softDropMass->at(0) < baselineMassHigh &&
-           ntuple->JetsAK8_softDropMass->at(1) > baselineMassLow &&
-	   ntuple->JetsAK8_softDropMass->at(1) < baselineMassHigh );	   
+  return ( ntuple->JetsAK8_prunedMass->at(0) > baselineMassLow &&
+	   ntuple->JetsAK8_prunedMass->at(0) < baselineMassHigh &&
+           ntuple->JetsAK8_prunedMass->at(1) > baselineMassLow &&
+	   ntuple->JetsAK8_prunedMass->at(1) < baselineMassHigh );	   
 }
 
 
 template<typename ntupleType> bool baselineCut(ntupleType* ntuple){
  
   return ( ntuple->MET > 300.             &&
-           ntuple->HT > 300.                         &&
+           ntuple->HT > 500.                         &&
            ntuple->JetsAK8->size() >1 &&
 	   ntuple->JetsAK8->at(0).Pt() > 300. && 
-	   ntuple->JetsAK8_softDropMass->at(0) > baselineMassLow &&
-	   ntuple->JetsAK8_softDropMass->at(0) < baselineMassHigh &&
+	   ntuple->JetsAK8_prunedMass->at(0) > baselineMassLow &&
+	   ntuple->JetsAK8_prunedMass->at(0) < baselineMassHigh &&
 	   //if(ntuple->JetsAK8->size() > 1){
 	   ( ntuple->JetsAK8->size() >1 &&
            ntuple->JetsAK8->at(1).Pt() > 200. &&
-           ntuple->JetsAK8_softDropMass->at(1) >ZmassWindowLow && 
-           ntuple->JetsAK8_softDropMass->at(1) < ZmassWindowHigh
+           ntuple->JetsAK8_prunedMass->at(1) >baselineMassLow && 
+           ntuple->JetsAK8_prunedMass->at(1) < baselineMassHigh
 	   ) &&
 	   dRtoClosestB(ntuple)>0.8	
 	   &&
@@ -1084,7 +1084,6 @@ template<typename ntupleType> bool baselineCut(ntupleType* ntuple){
            && ntuple->isoElectronTracks+ntuple->isoMuonTracks +ntuple->isoPionTracks==0 &&
            FiltersCut(ntuple) &&
            ntuple->JetID == 1);
-
 }
 
 template<typename ntupleType> float dRtoClosestB(ntupleType* ntuple){
@@ -1136,7 +1135,7 @@ template<typename ntupleType> bool singleEleCut(ntupleType* ntuple){
 }
 template<typename ntupleType> bool singleEleBaselineCut(ntupleType* ntuple){
 
-  return ( ntuple->MET > 300.             &&
+  return ( ntuple->MET > 100.             &&
            ntuple->HT > 500.                         &&
            ntuple->JetsAK8->size() >1 &&
 	   ntuple->JetsAK8->at(0).Pt() > 300. && 
@@ -1159,11 +1158,11 @@ template<typename ntupleType> bool lowDphiBaselineCut(ntupleType* ntuple){
              ntuple->HT > 600.                         &&
              ntuple->JetsAK8->size() >= 2 &&
              ntuple->JetsAK8->at(0).Pt() > 200. && 
-             ntuple->JetsAK8_softDropMass->at(0) > baselineMassLow && 
-             ntuple->JetsAK8_softDropMass->at(0) < baselineMassHigh && 
+             ntuple->JetsAK8_prunedMass->at(0) > baselineMassLow && 
+             ntuple->JetsAK8_prunedMass->at(0) < baselineMassHigh && 
              ntuple->JetsAK8->at(1).Pt() > 200. &&
-             ntuple->JetsAK8_softDropMass->at(1) > baselineMassLow && 
-             ntuple->JetsAK8_softDropMass->at(1) < baselineMassHigh&&
+             ntuple->JetsAK8_prunedMass->at(1) > baselineMassLow && 
+             ntuple->JetsAK8_prunedMass->at(1) < baselineMassHigh&&
              ! DeltaPhiCuts( ntuple ) && 
              FiltersCut(ntuple) &&
              ntuple->JetID == 1);
@@ -1237,69 +1236,69 @@ template<typename ntupleType> bool doubleTaggingLooseCut(ntupleType* ntuple ){
 }
 
 template<typename ntupleType> bool doubleMassCut(ntupleType* ntuple ){
-    return ( ntuple->JetsAK8_softDropMass->at(0) > ZmassWindowLow &&
-             ntuple->JetsAK8_softDropMass->at(0) < ZmassWindowHigh &&
-             ntuple->JetsAK8_softDropMass->at(1) > ZmassWindowLow &&
-             ntuple->JetsAK8_softDropMass->at(1) < ZmassWindowHigh 
+    return ( ntuple->JetsAK8_prunedMass->at(0) > ZmassWindowLow &&
+             ntuple->JetsAK8_prunedMass->at(0) < ZmassWindowHigh &&
+             ntuple->JetsAK8_prunedMass->at(1) > ZmassWindowLow &&
+             ntuple->JetsAK8_prunedMass->at(1) < ZmassWindowHigh 
              );
 }
 
 template<typename ntupleType> bool singleTagCut(ntupleType* ntuple ){
-  return ( (ntuple->JetsAK8_softDropMass->at(0) > ZmassWindowLow && 
-            ntuple->JetsAK8_softDropMass->at(0) < ZmassWindowHigh && 
+  return ( (ntuple->JetsAK8_prunedMass->at(0) > ZmassWindowLow && 
+            ntuple->JetsAK8_prunedMass->at(0) < ZmassWindowHigh && 
             ntuple->JetsAK8_NsubjettinessTau2->at(0)/ntuple->JetsAK8_NsubjettinessTau1->at(0) > tau21Cut ) ||
-           (ntuple->JetsAK8_softDropMass->at(1) > ZmassWindowLow && 
-            ntuple->JetsAK8_softDropMass->at(1) < ZmassWindowHigh && 
+           (ntuple->JetsAK8_prunedMass->at(1) > ZmassWindowLow && 
+            ntuple->JetsAK8_prunedMass->at(1) < ZmassWindowHigh && 
             ntuple->JetsAK8_NsubjettinessTau2->at(1)/ntuple->JetsAK8_NsubjettinessTau1->at(1) > tau21Cut ) );
 }
 
 template<typename ntupleType> bool doubleTagCut(ntupleType* ntuple ){
-  return ( ntuple->JetsAK8_softDropMass->at(0) > ZmassWindowLow && 
-           ntuple->JetsAK8_softDropMass->at(0) < ZmassWindowHigh && 
+  return ( ntuple->JetsAK8_prunedMass->at(0) > ZmassWindowLow && 
+           ntuple->JetsAK8_prunedMass->at(0) < ZmassWindowHigh && 
            ntuple->JetsAK8_NsubjettinessTau2->at(0)/ntuple->JetsAK8_NsubjettinessTau1->at(0) < tau21Cut && 
-           ntuple->JetsAK8_softDropMass->at(1) > ZmassWindowLow && 
-           ntuple->JetsAK8_softDropMass->at(1) < ZmassWindowHigh && 
+           ntuple->JetsAK8_prunedMass->at(1) > ZmassWindowLow && 
+           ntuple->JetsAK8_prunedMass->at(1) < ZmassWindowHigh && 
            ntuple->JetsAK8_NsubjettinessTau2->at(1)/ntuple->JetsAK8_NsubjettinessTau1->at(1) < tau21Cut );
 }
 
 template<typename ntupleType> bool tagSR(ntupleType* ntuple, int i){
     if( ntuple->JetsAK8_doubleBDiscriminator->size() <= i || 
-        ntuple->JetsAK8_softDropMass->size() <= i ) return false;
+        ntuple->JetsAK8_prunedMass->size() <= i ) return false;
     return ( ntuple->JetsAK8_NsubjettinessTau2->at(i)/ntuple->JetsAK8_NsubjettinessTau1->at(i) < tau21Cut &&
-             ntuple->JetsAK8_softDropMass->at(i) > ZmassWindowLow && 
-             ntuple->JetsAK8_softDropMass->at(i) < ZmassWindowHigh );
+             ntuple->JetsAK8_prunedMass->at(i) > ZmassWindowLow && 
+             ntuple->JetsAK8_prunedMass->at(i) < ZmassWindowHigh );
 }
 
 template<typename ntupleType> bool tagSB(ntupleType* ntuple, int i ){
     if( ntuple->JetsAK8_doubleBDiscriminator->size() <= i || 
-        ntuple->JetsAK8_softDropMass->size() <= i ) return false;
+        ntuple->JetsAK8_prunedMass->size() <= i ) return false;
     return ( ntuple->JetsAK8_NsubjettinessTau2->at(i)/ntuple->JetsAK8_NsubjettinessTau1->at(i) < tau21Cut &&
              (
-              ( ntuple->JetsAK8_softDropMass->at(i) < ZmassWindowLow &&
-                ntuple->JetsAK8_softDropMass->at(i) > baselineMassLow ) ||
-              ( ntuple->JetsAK8_softDropMass->at(i) > ZmassWindowHigh &&
-                ntuple->JetsAK8_softDropMass->at(i) < baselineMassHigh ) 
+              ( ntuple->JetsAK8_prunedMass->at(i) < ZmassWindowLow &&
+                ntuple->JetsAK8_prunedMass->at(i) > baselineMassLow ) ||
+              ( ntuple->JetsAK8_prunedMass->at(i) > ZmassWindowHigh &&
+                ntuple->JetsAK8_prunedMass->at(i) < baselineMassHigh ) 
               ) 
              );
 }
 
 template<typename ntupleType> bool antitagSR(ntupleType* ntuple, int i){
         if( ntuple->JetsAK8_doubleBDiscriminator->size() <= i || 
-        ntuple->JetsAK8_softDropMass->size() <= i ) return false;
+        ntuple->JetsAK8_prunedMass->size() <= i ) return false;
         return ( ntuple->JetsAK8_NsubjettinessTau2->at(i)/ntuple->JetsAK8_NsubjettinessTau1->at(i) > tau21Cut && 
-             ( ntuple->JetsAK8_softDropMass->at(i) > ZmassWindowLow &&
-               ntuple->JetsAK8_softDropMass->at(i) < ZmassWindowHigh ) );
+             ( ntuple->JetsAK8_prunedMass->at(i) > ZmassWindowLow &&
+               ntuple->JetsAK8_prunedMass->at(i) < ZmassWindowHigh ) );
 }
         
 template<typename ntupleType> bool antitagSB(ntupleType* ntuple, int i){
     if( ntuple->JetsAK8_doubleBDiscriminator->size() <= i || 
-        ntuple->JetsAK8_softDropMass->size() <= i ) return false;
+        ntuple->JetsAK8_prunedMass->size() <= i ) return false;
     return ( ntuple->JetsAK8_NsubjettinessTau2->at(i)/ntuple->JetsAK8_NsubjettinessTau1->at(i) > tau21Cut && 
              (
-              ( ntuple->JetsAK8_softDropMass->at(i) < ZmassWindowLow &&
-                ntuple->JetsAK8_softDropMass->at(i) > baselineMassLow ) ||
-              ( ntuple->JetsAK8_softDropMass->at(i) > ZmassWindowHigh &&
-                ntuple->JetsAK8_softDropMass->at(i) < baselineMassHigh ) 
+              ( ntuple->JetsAK8_prunedMass->at(i) < ZmassWindowLow &&
+                ntuple->JetsAK8_prunedMass->at(i) > baselineMassLow ) ||
+              ( ntuple->JetsAK8_prunedMass->at(i) > ZmassWindowHigh &&
+                ntuple->JetsAK8_prunedMass->at(i) < baselineMassHigh ) 
               )
              );
 }
@@ -1521,7 +1520,7 @@ template<typename ntupleType> int getClosestGenZ(ntupleType* ntuple, double jete
 template<typename ntupleType>double ResolutionSmear(ntupleType* ntuple, int j,unsigned int seed, bool SFUp=false){
     TRandom3 rand(seed);
     double sigmaJMR=0;
-    if(ntuple->JetsAK8_NumBhadrons->at(j)!=2)return ntuple->JetsAK8_softDropMass->at(j);
+    if(ntuple->JetsAK8_NumBhadrons->at(j)!=2)return ntuple->JetsAK8_prunedMass->at(j);
     if(ntuple->JetsAK8->at(j).Pt()>300. && ntuple->JetsAK8->at(j).Pt()<=600.)sigmaJMR=12.55;
     if(ntuple->JetsAK8->at(j).Pt()>600. && ntuple->JetsAK8->at(j).Pt()<=800.)sigmaJMR=10.24;
     if(ntuple->JetsAK8->at(j).Pt()>800. && ntuple->JetsAK8->at(j).Pt()<=1000.)sigmaJMR= 9.85;
@@ -1539,7 +1538,7 @@ template<typename ntupleType>double ResolutionSmear(ntupleType* ntuple, int j,un
         sigmaJMR=sigmaJMR/83.;
     }
     double gausSmear=rand.Gaus(0, sigmaJMR)*sqrt((sigmaJMRSF*sigmaJMRSF -1));
-    double smearmass=(gausSmear+1.)*ntuple->JetsAK8_softDropMass->at(j);
+    double smearmass=(gausSmear+1.)*ntuple->JetsAK8_prunedMass->at(j);
     return smearmass;
 }
 template<typename ntupleType>double SignalISRCorrection(ntupleType* ntuple){
