@@ -6,8 +6,8 @@
 // STL libraries
 #include <iostream>
 #include <vector>
-static const TString BASE_DIRMC="root://cmseos.fnal.gov//store/user/lpcsusyhad/SusyRA2Analysis2015/Skims/Run2ProductionV12/";
-static const TString BASE_DIR="root://cmseos.fnal.gov//store/user/lpcsusyhad/SusyRA2Analysis2015/Skims/Run2ProductionV15/";
+static const TString BASE_DIRMC="root://cmseos.fnal.gov//store/user/lpcsusyhad/SusyRA2Analysis2015/Skims/Run2ProductionV16/";
+static const TString BASE_DIR="root://cmseos.fnal.gov//store/user/lpcsusyhad/SusyRA2Analysis2015/Skims/Run2ProductionV16/";
 
 class skimSamples{
 
@@ -59,21 +59,21 @@ public :
         ///////////////////////////////////////////////////////////////////////
 //ONLY DATA IS AVAILABLE FOR NOW!!
         std::vector<TString> OtherFileNames;
-        OtherFileNames.push_back("tree_WWTo1L1Nu2Q.root");
-        OtherFileNames.push_back("tree_WWTo2L2Nu.root");
-        OtherFileNames.push_back("tree_WWZ.root");
-        OtherFileNames.push_back("tree_WZTo1L1Nu2Q.root");
-        OtherFileNames.push_back("tree_WZTo1L3Nu.root");
-        OtherFileNames.push_back("tree_WZZ.root");
-        OtherFileNames.push_back("tree_ZZTo2L2Q.root");
-        OtherFileNames.push_back("tree_ZZTo2Q2Nu.root");
-        OtherFileNames.push_back("tree_ZZZ.root");
-        OtherFileNames.push_back("tree_TTTT.root");
-        OtherFileNames.push_back("tree_TTWJetsToLNu.root");
-        OtherFileNames.push_back("tree_TTWJetsToQQ.root");
-        OtherFileNames.push_back("tree_TTGJets.root");
-        OtherFileNames.push_back("tree_TTZToLLNuNu.root");
-        OtherFileNames.push_back("tree_TTZToQQ.root");
+        OtherFileNames.push_back("tree_WWTo1L1Nu2Q_MC2017.root");
+        OtherFileNames.push_back("tree_WWTo2L2Nu_MC2017.root");
+        OtherFileNames.push_back("tree_WWZ_MC2017.root");
+        OtherFileNames.push_back("tree_WZTo1L1Nu2Q_MC2017.root");
+        OtherFileNames.push_back("tree_WZTo1L3Nu_MC2017.root");
+        OtherFileNames.push_back("tree_WZZ_MC2017.root");
+        OtherFileNames.push_back("tree_ZZTo2L2Q_MC2017.root");
+        OtherFileNames.push_back("tree_ZZTo2Q2Nu_MC2017.root");
+        OtherFileNames.push_back("tree_ZZZ_MC2017.root");
+        OtherFileNames.push_back("tree_TTTT_MC2017.root");
+        OtherFileNames.push_back("tree_TTWJetsToLNu_MC2017.root");
+        OtherFileNames.push_back("tree_TTWJetsToQQ_MC2017.root");
+        OtherFileNames.push_back("tree_TTGJets_MC2017.root");
+        OtherFileNames.push_back("tree_TTZToLLNuNu_MC2017.root");
+        OtherFileNames.push_back("tree_TTZToQQ_MC2017.root");
         Other = new TChain("tree");
         for( int i = 0 ; i < OtherFileNames.size() ; i++ ){
             Other->Add(skimTypeMC+"/"+OtherFileNames[i]);
@@ -86,13 +86,13 @@ public :
         }
 
         std::vector<TString> ZJetsFileNames;
-        ZJetsFileNames.push_back("tree_ZJetsToNuNu_HT-100to200.root");
-        ZJetsFileNames.push_back("tree_ZJetsToNuNu_HT-200to400.root");
-        ZJetsFileNames.push_back("tree_ZJetsToNuNu_HT-400to600.root");
-        ZJetsFileNames.push_back("tree_ZJetsToNuNu_HT-600to800.root");
-        ZJetsFileNames.push_back("tree_ZJetsToNuNu_HT-800to1200.root");
-        ZJetsFileNames.push_back("tree_ZJetsToNuNu_HT-1200to2500.root");
-        ZJetsFileNames.push_back("tree_ZJetsToNuNu_HT-2500toInf.root");
+        ZJetsFileNames.push_back("tree_ZJetsToNuNu_HT-100to200_MC2017.root");
+        ZJetsFileNames.push_back("tree_ZJetsToNuNu_HT-200to400_MC2017.root");
+        ZJetsFileNames.push_back("tree_ZJetsToNuNu_HT-400to600_MC2017.root");
+        ZJetsFileNames.push_back("tree_ZJetsToNuNu_HT-600to800_MC2017.root");
+        ZJetsFileNames.push_back("tree_ZJetsToNuNu_HT-800to1200_MC2017.root");
+        ZJetsFileNames.push_back("tree_ZJetsToNuNu_HT-1200to2500_MC2017.root");
+        ZJetsFileNames.push_back("tree_ZJetsToNuNu_HT-2500toInf_MC2017.root");
         ZJets = new TChain("tree");
         for( int i = 0 ; i < ZJetsFileNames.size() ; i++ ){
             ZJets->Add(skimTypeMC+"/"+ZJetsFileNames[i]);
@@ -105,13 +105,13 @@ public :
         }
 
         std::vector<TString> WJetsFileNames;
-        WJetsFileNames.push_back("tree_WJetsToLNu_HT-100to200.root");
-        WJetsFileNames.push_back("tree_WJetsToLNu_HT-1200to2500.root");
-        WJetsFileNames.push_back("tree_WJetsToLNu_HT-200to400.root");
-        WJetsFileNames.push_back("tree_WJetsToLNu_HT-2500toInf.root");
-        WJetsFileNames.push_back("tree_WJetsToLNu_HT-400to600.root");
-        WJetsFileNames.push_back("tree_WJetsToLNu_HT-600to800.root");
-        WJetsFileNames.push_back("tree_WJetsToLNu_HT-800to1200.root");
+        WJetsFileNames.push_back("tree_WJetsToLNu_HT-100to200_MC2017.root");
+        WJetsFileNames.push_back("tree_WJetsToLNu_HT-1200to2500_MC2017.root");
+        WJetsFileNames.push_back("tree_WJetsToLNu_HT-200to400_MC2017.root");
+        WJetsFileNames.push_back("tree_WJetsToLNu_HT-2500toInf_MC2017.root");
+        WJetsFileNames.push_back("tree_WJetsToLNu_HT-400to600_MC2017.root");
+        WJetsFileNames.push_back("tree_WJetsToLNu_HT-600to800_MC2017.root");
+        WJetsFileNames.push_back("tree_WJetsToLNu_HT-800to1200_MC2017.root");
         WJets = new TChain("tree");
         for( int i = 0 ; i < WJetsFileNames.size() ; i++ ){
             WJets->Add(skimTypeMC+"/"+WJetsFileNames[i]);
@@ -124,11 +124,11 @@ public :
         }
 
         std::vector<TString> SnglTFileNames;
-        SnglTFileNames.push_back("tree_ST_s-channel.root");
-        SnglTFileNames.push_back("tree_ST_t-channel_antitop.root");
-        SnglTFileNames.push_back("tree_ST_t-channel_top.root");
-        SnglTFileNames.push_back("tree_ST_tW_antitop.root");
-        SnglTFileNames.push_back("tree_ST_tW_top.root");
+        SnglTFileNames.push_back("tree_ST_s-channel_MC2017.root");
+        SnglTFileNames.push_back("tree_ST_t-channel_antitop_MC2017.root");
+        SnglTFileNames.push_back("tree_ST_t-channel_top_MC2017.root");
+        SnglTFileNames.push_back("tree_ST_tW_antitop_MC2017.root");
+        SnglTFileNames.push_back("tree_ST_tW_top_MC2017.root");
         SnglT = new TChain("tree");
         for( int i = 0 ; i < SnglTFileNames.size() ; i++ ) {
             SnglT->Add(skimTypeMC+"/"+SnglTFileNames[i]);
@@ -141,20 +141,20 @@ public :
         }
 
         std::vector<TString> TTincFileNames;
-        TTincFileNames.push_back("tree_TTJets.root");
+        TTincFileNames.push_back("tree_TTJets_MC2017.root");
         TTinc = new TChain("tree");
         for( int i = 0 ; i < TTincFileNames.size() ; i++ ){
             TTinc->Add(skimTypeMC+"/"+TTincFileNames[i]);
         }
 
         std::vector<TString> TTFileNames;
-        TTFileNames.push_back("tree_TTJets_HT-600to800.root");
-        TTFileNames.push_back("tree_TTJets_HT-800to1200.root");
-        TTFileNames.push_back("tree_TTJets_HT-1200to2500.root");
-        TTFileNames.push_back("tree_TTJets_HT-2500toInf.root");
-        TTFileNames.push_back("tree_TTJets_SingleLeptFromT.root");
-        TTFileNames.push_back("tree_TTJets_SingleLeptFromTbar.root");
-        TTFileNames.push_back("tree_TTJets_DiLept.root");        
+        TTFileNames.push_back("tree_TTJets_HT-600to800_MC2017.root");
+        TTFileNames.push_back("tree_TTJets_HT-800to1200_MC2017.root");
+        TTFileNames.push_back("tree_TTJets_HT-1200to2500_MC2017.root");
+        TTFileNames.push_back("tree_TTJets_HT-2500toInf_MC2017.root");
+        TTFileNames.push_back("tree_TTJets_SingleLeptFromT_MC2017.root");
+        TTFileNames.push_back("tree_TTJets_SingleLeptFromTbar_MC2017.root");
+        TTFileNames.push_back("tree_TTJets_DiLept_MC2017.root");        
         TT = new TChain("tree");
         for( int i = 0 ; i < TTFileNames.size() ; i++ ){
             TT->Add(skimTypeMC+"/"+TTFileNames[i]);
@@ -167,10 +167,10 @@ public :
         }
 
         std::vector<TString> DYFileNames;
-        DYFileNames.push_back("tree_DYJetsToLL_M-50_HT-100to200.root");
-        DYFileNames.push_back("tree_DYJetsToLL_M-50_HT-200to400.root");
-        DYFileNames.push_back("tree_DYJetsToLL_M-50_HT-400to600.root");
-        DYFileNames.push_back("tree_DYJetsToLL_M-50_HT-600toInf.root");
+        DYFileNames.push_back("tree_DYJetsToLL_M-50_HT-100to200_MC2017.root");
+        DYFileNames.push_back("tree_DYJetsToLL_M-50_HT-200to400_MC2017.root");
+        DYFileNames.push_back("tree_DYJetsToLL_M-50_HT-400to600_MC2017.root");
+        DYFileNames.push_back("tree_DYJetsToLL_M-50_HT-600toInf_MC2017.root");
         DY = new TChain("tree");
         for( int i = 0 ; i < DYFileNames.size() ; i++ ){
             DY->Add(skimTypeMC+"/"+DYFileNames[i]);
@@ -182,10 +182,10 @@ public :
         //lineColor.push_back(1);
 
         std::vector<TString> GJets0p4FileNames;
-        GJets0p4FileNames.push_back("tree_GJets_DR-0p4_HT-100to200.root");
-        GJets0p4FileNames.push_back("tree_GJets_DR-0p4_HT-200to400.root");
-        GJets0p4FileNames.push_back("tree_GJets_DR-0p4_HT-400to600.root");
-        GJets0p4FileNames.push_back("tree_GJets_DR-0p4_HT-600toInf.root");
+        GJets0p4FileNames.push_back("tree_GJets_DR-0p4_HT-100to200_MC2017.root");
+        GJets0p4FileNames.push_back("tree_GJets_DR-0p4_HT-200to400_MC2017.root");
+        GJets0p4FileNames.push_back("tree_GJets_DR-0p4_HT-400to600_MC2017.root");
+        GJets0p4FileNames.push_back("tree_GJets_DR-0p4_HT-600toInf_MC2017.root");
         GJets0p4 = new TChain("tree");
         for( int i = 0 ; i < GJets0p4FileNames.size() ; i++ ){
             GJets0p4->Add(skimTypeMC+"/"+GJets0p4FileNames[i]);
@@ -198,22 +198,22 @@ public :
         }
 
         std::vector<TString> GJetsFileNames;
-        GJetsFileNames.push_back("tree_GJets_HT-100to200.root");
-        GJetsFileNames.push_back("tree_GJets_HT-200to400.root");
-        GJetsFileNames.push_back("tree_GJets_HT-400to600.root");
-        GJetsFileNames.push_back("tree_GJets_HT-600toInf.root");
+        GJetsFileNames.push_back("tree_GJets_HT-100to200_MC2017.root");
+        GJetsFileNames.push_back("tree_GJets_HT-200to400_MC2017.root");
+        GJetsFileNames.push_back("tree_GJets_HT-400to600_MC2017.root");
+        GJetsFileNames.push_back("tree_GJets_HT-600toInf_MC2017.root");
         GJets = new TChain("tree");
         for( int i = 0 ; i < GJetsFileNames.size() ; i++ ){
             GJets->Add(skimTypeMC+"/"+GJetsFileNames[i]);
         }
         std::vector<TString> QCDFileNames;
-        QCDFileNames.push_back("tree_QCD_HT-200to300.root");
-        QCDFileNames.push_back("tree_QCD_HT-300to500.root");
-        QCDFileNames.push_back("tree_QCD_HT-500to700.root");
-        QCDFileNames.push_back("tree_QCD_HT-700to1000.root");
-        QCDFileNames.push_back("tree_QCD_HT-1000to1500.root");
-        QCDFileNames.push_back("tree_QCD_HT-1500to2000.root");
-        QCDFileNames.push_back("tree_QCD_HT-2000toInf.root");
+        QCDFileNames.push_back("tree_QCD_HT-200to300_MC2017.root");
+        QCDFileNames.push_back("tree_QCD_HT-300to500_MC2017.root");
+        QCDFileNames.push_back("tree_QCD_HT-500to700_MC2017.root");
+        QCDFileNames.push_back("tree_QCD_HT-700to1000_MC2017.root");
+        QCDFileNames.push_back("tree_QCD_HT-1000to1500_MC2017.root");
+        QCDFileNames.push_back("tree_QCD_HT-1500to2000_MC2017.root");
+        QCDFileNames.push_back("tree_QCD_HT-2000toInf_MC2017.root");
         QCD = new TChain("tree");
         for( int i = 0 ; i < QCDFileNames.size() ; i++ ){
             QCD->Add(skimTypeMC+"/"+QCDFileNames[i]);
@@ -329,6 +329,7 @@ public :
 	    fillColor.push_back(kBlack);
 	    lineColor.push_back(1);
         }
+	/*
         SingleMuonNames.resize(0);
         SingleMuonNames.push_back("tree_SingleMuon_2018A1.root");
         SingleMuonNames.push_back("tree_SingleMuon_2018A2.root");
@@ -345,6 +346,7 @@ public :
 	    fillColor.push_back(kBlack);
 	    lineColor.push_back(1);
         }
+       */
         std::vector<TString> SinglePhotonFileNames;
         SinglePhotonFileNames.push_back("tree_SinglePhoton_2016B.root");
         SinglePhotonFileNames.push_back("tree_SinglePhoton_2016C.root");

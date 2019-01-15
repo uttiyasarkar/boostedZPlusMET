@@ -22,7 +22,7 @@ using namespace std;
 int main(int argc, char** argv){
 
     skimSamples::region reg;
-    int reg_(2);
+    int reg_(0);
     bool looseCuts(false);
     defaultOptions options(argv[0],"");
     options.opts->add_options()("l,loose_cuts","apply loose jet pt cuts",cxxopts::value<bool>(looseCuts))("r,region","region to analyze",cxxopts::value<int>(reg_));
@@ -201,6 +201,7 @@ int main(int argc, char** argv){
 	newtree->Write(skims.sampleName[iSample]);
 	  
   }// end sample loop
+/*
 if(reg == skimSamples::kSignal ){
     for( int iSample = 0 ; iSample < skims.signalNtuples.size() ; iSample++){
 
@@ -272,6 +273,7 @@ if(reg == skimSamples::kSignal ){
         newtree->Write(skims.signalSampleName[iSample]);
    }
 }
+*/
     outputFile->Close();
 
 }
