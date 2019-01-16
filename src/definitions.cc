@@ -1008,7 +1008,7 @@ template<typename ntupleType> bool FiltersCut(ntupleType* ntuple){
         ntuple->NVtx>0 && 
         ntuple->MET/ntuple->CaloMET < 5. &&
         ntuple->BadPFMuonFilter == 1 &&
-        ntuple->BadChargedCandidateFilter == 1 && ntuple->globalSuperTightHalo2016Filter==1;
+        ntuple->BadChargedCandidateFilter == 1  && ntuple->globalSuperTightHalo2016Filter==1;
 }
 
 template<typename ntupleType> bool AK8MultCut(ntupleType* ntuple){

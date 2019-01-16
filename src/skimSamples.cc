@@ -276,8 +276,7 @@ public :
         SingleElectronNames.push_back("tree_SingleElectron_2016E.root");
         SingleElectronNames.push_back("tree_SingleElectron_2016F.root");
         SingleElectronNames.push_back("tree_SingleElectron_2016G.root");
-        SingleElectronNames.push_back("tree_SingleElectron_2016H2.root");
-        SingleElectronNames.push_back("tree_SingleElectron_2016H3.root");
+        SingleElectronNames.push_back("tree_SingleElectron_2016H.root");
         if( r == kSLe ){
             data = new TChain("tree");
             for( int i = 0 ; i < SingleElectronNames.size() ; i++ ){
@@ -299,8 +298,7 @@ public :
         SingleMuonNames.push_back("tree_SingleMuon_2016E.root");
         SingleMuonNames.push_back("tree_SingleMuon_2016F.root");
         SingleMuonNames.push_back("tree_SingleMuon_2016G.root");
-        SingleMuonNames.push_back("tree_SingleMuon_2016H2.root");
-        SingleMuonNames.push_back("tree_SingleMuon_2016H3.root");
+        SingleMuonNames.push_back("tree_SingleMuon_2016H.root");
         if( r == kSLm ){
             data = new TChain("tree");
             for( int i = 0 ; i < SingleMuonNames.size() ; i++ ){

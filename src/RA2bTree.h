@@ -658,7 +658,7 @@ void RA2bTree::Init(TChain *tree)
    fChain->SetBranchAddress("GenTaus", &GenTaus, &b_GenTaus);
    fChain->SetBranchAddress("GenTaus_had", &GenTaus_had, &b_GenTaus_had);
    fChain->SetBranchAddress("globalTightHalo2016Filter", &globalTightHalo2016Filter, &b_globalTightHalo2016Filter);
-   fChain->SetBranchAddress("globalSuperTightHalo2016Filter", &globalTightHalo2016Filter, &b_globalTightHalo2016Filter);
+   fChain->SetBranchAddress("globalSuperTightHalo2016Filter", &globalSuperTightHalo2016Filter, &b_globalSuperTightHalo2016Filter);
    fChain->SetBranchAddress("hasGenPromptPhoton", &hasGenPromptPhoton, &b_hasGenPromptPhoton);
    fChain->SetBranchAddress("HBHEIsoNoiseFilter", &HBHEIsoNoiseFilter, &b_HBHEIsoNoiseFilter);
    fChain->SetBranchAddress("HBHENoiseFilter", &HBHENoiseFilter, &b_HBHENoiseFilter);

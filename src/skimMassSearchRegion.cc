@@ -22,7 +22,7 @@ using namespace std;
 int main(int argc, char** argv){
 
     skimSamples::region reg;
-    int reg_(0);
+    int reg_(1);
     bool looseCuts(false);
     defaultOptions options(argv[0],"");
     options.opts->add_options()("l,loose_cuts","apply loose jet pt cuts",cxxopts::value<bool>(looseCuts))("r,region","region to analyze",cxxopts::value<int>(reg_));
@@ -130,7 +130,7 @@ int main(int argc, char** argv){
         bool passBaseline;
         double jetMass1,jetMass2;
         TString filename;
-        cout << skims.sampleName[iSample]<<numEvents <<endl;
+        //cout << skims.sampleName[iSample]<<numEvents <<endl;
     for( int iEvt = 0 ; iEvt < min(options.MAX_EVENTS,numEvents) ; iEvt++ ){
     //for( int iEvt = 0 ; iEvt < min(10,numEvents) ; iEvt++ ){
             ntuple->GetEntry(iEvt);
@@ -140,7 +140,7 @@ int main(int argc, char** argv){
              passBaseline&=baselineCut(ntuple);
              }
             if( ! passBaseline ) continue;
-	    //std::cout<<"Pass Baseline "<<std::endl; 	    
+	    std::cout<<"Pass Baseline "<<std::endl; 	    
             filename = ntuple->fChain->GetFile()->GetName();
             if( ( filename.Contains("SingleLept") || filename.Contains("DiLept") ) && ntuple->madHT>600. )continue;
             bin = -1;
