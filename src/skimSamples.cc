@@ -249,6 +249,25 @@ public :
 	    fillColor.push_back(kWhite);
 	    lineColor.push_back(1);
         }
+        
+	HTMHTFileNames.resize(0);
+        HTMHTFileNames.push_back("tree_HTMHT_2017B.root");
+        HTMHTFileNames.push_back("tree_HTMHT_2017C.root");
+        HTMHTFileNames.push_back("tree_HTMHT_2017D.root");
+        HTMHTFileNames.push_back("tree_HTMHT_2017E.root");
+        HTMHTFileNames.push_back("tree_HTMHT_2017F.root");
+       // HTMHTFileNames.push_back("tree_HTMHT_re2016H3.root");
+        if( r == kSignal || r == kLowDphi ){
+            data2017 = new TChain("tree");
+            for( int i = 0 ; i < HTMHTFileNames.size() ; i++ ){
+                data2017->Add(skimType+"/"+HTMHTFileNames[i]);
+            }    
+            dataNtuple = new RA2bTree(data2017);
+	    ntuples.push_back(dataNtuple);
+	    sampleName.push_back("data2017"); 
+	    fillColor.push_back(kWhite);
+	    lineColor.push_back(1);
+        }
 
         std::vector<TString> SingleElectronNames;
         SingleElectronNames.push_back("tree_SingleElectron_2016B.root");
@@ -329,12 +348,11 @@ public :
 	    fillColor.push_back(kBlack);
 	    lineColor.push_back(1);
         }
-	/*
         SingleMuonNames.resize(0);
-        SingleMuonNames.push_back("tree_SingleMuon_2018A1.root");
-        SingleMuonNames.push_back("tree_SingleMuon_2018A2.root");
-        SingleMuonNames.push_back("tree_SingleMuon_2018A3.root");
-        SingleMuonNames.push_back("tree_SingleMuon_2018B1.root");
+        SingleMuonNames.push_back("tree_SingleMuon_2018A.root");
+        SingleMuonNames.push_back("tree_SingleMuon_2018B.root");
+        SingleMuonNames.push_back("tree_SingleMuon_2018C.root");
+        SingleMuonNames.push_back("tree_SingleMuon_2018D.root");
         if( r == kSLm ){
             data2018 = new TChain("tree");
             for( int i = 0 ; i < SingleMuonNames.size() ; i++ ){
@@ -346,7 +364,6 @@ public :
 	    fillColor.push_back(kBlack);
 	    lineColor.push_back(1);
         }
-       */
         std::vector<TString> SinglePhotonFileNames;
         SinglePhotonFileNames.push_back("tree_SinglePhoton_2016B.root");
         SinglePhotonFileNames.push_back("tree_SinglePhoton_2016C.root");
