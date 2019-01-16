@@ -69,6 +69,7 @@ template<typename ntupleType>void ntupleBranchStatus(ntupleType* ntuple){
   ntuple->fChain->SetBranchStatus("TriggerPass",1);  
   ntuple->fChain->SetBranchStatus("HBHENoiseFilter",1);
   ntuple->fChain->SetBranchStatus("HBHEIsoNoiseFilter",1);
+  ntuple->fChain->SetBranchStatus("globalSuperTightHalo2016Filter",1);
   ntuple->fChain->SetBranchStatus("eeBadScFilter",1);
   ntuple->fChain->SetBranchStatus("EcalDeadCellTriggerPrimitiveFilter",1);
   ntuple->fChain->SetBranchStatus("BadPFMuonFilter",1);
@@ -1007,7 +1008,7 @@ template<typename ntupleType> bool FiltersCut(ntupleType* ntuple){
         ntuple->NVtx>0 && 
         ntuple->MET/ntuple->CaloMET < 5. &&
         ntuple->BadPFMuonFilter == 1 &&
-        ntuple->BadChargedCandidateFilter == 1;
+        ntuple->BadChargedCandidateFilter == 1 && ntuple->globalSuperTightHalo2016Filter==1;
 }
 
 template<typename ntupleType> bool AK8MultCut(ntupleType* ntuple){

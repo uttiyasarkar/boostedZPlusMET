@@ -59,6 +59,7 @@ public :
    vector<int>     *GenParticles_Status;
    vector<TLorentzVector> *GenTaus;
    vector<bool>    *GenTaus_had;
+   Int_t           globalSuperTightHalo2016Filter;
    Int_t           globalTightHalo2016Filter;
    Bool_t          hasGenPromptPhoton;
    Int_t           HBHEIsoNoiseFilter;
@@ -253,6 +254,7 @@ public :
    TBranch        *b_GenParticles_Status;   //!
    TBranch        *b_GenTaus;   //!
    TBranch        *b_GenTaus_had;   //!
+   TBranch        *b_globalSuperTightHalo2016Filter;   //!
    TBranch        *b_globalTightHalo2016Filter;   //!
    TBranch        *b_hasGenPromptPhoton;   //!
    TBranch        *b_HBHEIsoNoiseFilter;   //!
@@ -656,6 +658,7 @@ void RA2bTree::Init(TChain *tree)
    fChain->SetBranchAddress("GenTaus", &GenTaus, &b_GenTaus);
    fChain->SetBranchAddress("GenTaus_had", &GenTaus_had, &b_GenTaus_had);
    fChain->SetBranchAddress("globalTightHalo2016Filter", &globalTightHalo2016Filter, &b_globalTightHalo2016Filter);
+   fChain->SetBranchAddress("globalSuperTightHalo2016Filter", &globalTightHalo2016Filter, &b_globalTightHalo2016Filter);
    fChain->SetBranchAddress("hasGenPromptPhoton", &hasGenPromptPhoton, &b_hasGenPromptPhoton);
    fChain->SetBranchAddress("HBHEIsoNoiseFilter", &HBHEIsoNoiseFilter, &b_HBHEIsoNoiseFilter);
    fChain->SetBranchAddress("HBHENoiseFilter", &HBHENoiseFilter, &b_HBHENoiseFilter);

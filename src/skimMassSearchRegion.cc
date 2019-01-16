@@ -22,7 +22,7 @@ using namespace std;
 int main(int argc, char** argv){
 
     skimSamples::region reg;
-    int reg_(0);
+    int reg_(1);
     bool looseCuts(false);
     defaultOptions options(argv[0],"");
     options.opts->add_options()("l,loose_cuts","apply loose jet pt cuts",cxxopts::value<bool>(looseCuts))("r,region","region to analyze",cxxopts::value<int>(reg_));
@@ -164,12 +164,12 @@ int main(int argc, char** argv){
 	    nAK8=ntuple->JetsAK8->size();
 	    if(nAK8>0){
             JetPt1=ntuple->JetsAK8->at(0).Pt();  
-	    PrunedMass1=ntuple->JetsAK8_prunedMass->at(0);
+	    PrunedMass1=ntuple->JetsAK8_softDropMass->at(0);
 	   Jet1_tau2overtau1=ntuple->JetsAK8_NsubjettinessTau2->at(0)/ntuple->JetsAK8_NsubjettinessTau1->at(0);
 	   }
 	    if(nAK8>1){
             JetPt2=ntuple->JetsAK8->at(1).Pt();
-	    PrunedMass2=ntuple->JetsAK8_prunedMass->at(1);
+	    PrunedMass2=ntuple->JetsAK8_softDropMass->at(1);
 	    Jet2_tau2overtau1=ntuple->JetsAK8_NsubjettinessTau2->at(1)/ntuple->JetsAK8_NsubjettinessTau1->at(1);
 	    }
 	    //std::cout<<"MET"<<MET<<std::endl;
@@ -259,12 +259,12 @@ if(reg == skimSamples::kSignal ){
 	    nAK8=ntuple->JetsAK8->size();
 	    if(nAK8>0){
             JetPt1=ntuple->JetsAK8->at(0).Pt();  
-	    PrunedMass1=ntuple->JetsAK8_prunedMass->at(0);
+	    PrunedMass1=ntuple->JetsAK8_softDropMass->at(0);
 	   Jet1_tau2overtau1=ntuple->JetsAK8_NsubjettinessTau2->at(0)/ntuple->JetsAK8_NsubjettinessTau1->at(0);
 	   }
 	    if(nAK8>1){
             JetPt2=ntuple->JetsAK8->at(1).Pt();
-	    PrunedMass2=ntuple->JetsAK8_prunedMass->at(1);
+	    PrunedMass2=ntuple->JetsAK8_softDropMass->at(1);
 	    Jet2_tau2overtau1=ntuple->JetsAK8_NsubjettinessTau2->at(1)/ntuple->JetsAK8_NsubjettinessTau1->at(1);
 	    }
                newtree->Fill();
