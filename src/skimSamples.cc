@@ -369,8 +369,7 @@ public :
         SinglePhotonFileNames.push_back("tree_SinglePhoton_2016E.root");
         SinglePhotonFileNames.push_back("tree_SinglePhoton_2016F.root");
         SinglePhotonFileNames.push_back("tree_SinglePhoton_2016G.root");
-        SinglePhotonFileNames.push_back("tree_SinglePhoton_2016H2.root");
-        SinglePhotonFileNames.push_back("tree_SinglePhoton_2016H3.root");
+        SinglePhotonFileNames.push_back("tree_SinglePhoton_2016H.root");
         if( r == kPhoton ){
             data = new TChain("tree");
             for( int i = 0 ; i < SinglePhotonFileNames.size() ; i++ ){

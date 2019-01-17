@@ -1078,7 +1078,8 @@ template<typename ntupleType> bool baselineCut(ntupleType* ntuple){
            ntuple->JetsAK8_softDropMass->at(1) >baselineMassLow && 
            ntuple->JetsAK8_softDropMass->at(1) < baselineMassHigh
 	   ) &&
-	   dRtoClosestB(ntuple)>0.8	
+	   //dRtoClosestB(ntuple)>0.8	
+	   dRtoClosestB(ntuple)>1.2
 	   &&
            DeltaPhiCuts(ntuple) && 
            ntuple->Muons->size()+ntuple->Electrons->size()==0 
@@ -1092,8 +1093,8 @@ float leadjeteta= ntuple->JetsAK8->at(0).Eta();
 float leadjetphi= ntuple->JetsAK8->at(0).Phi();
 float dRMin=999999.;
 TString sample = ntuple->fChain->GetFile()->GetName();
-double BTagDiscrimCut=0.6324;
-if(sample.Contains("2017"))BTagDiscrimCut=0.4941;
+double BTagDiscrimCut=0.4941;
+if(sample.Contains("data") && !sample.Contains("2017"))BTagDiscrimCut=0.6324;
 	for(unsigned int j=0; j<ntuple->Jets->size(); ++j){
 		//if(ntuple->Jets_bDiscriminatorCSV->at(j)<  0.8484  )continue;
 		if(ntuple->Jets_bJetTagDeepCSVBvsAll->at(j)<  BTagDiscrimCut  )continue;
