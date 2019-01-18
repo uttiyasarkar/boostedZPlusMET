@@ -1069,7 +1069,7 @@ template<typename ntupleType> bool baselineCut(ntupleType* ntuple){
   return ( ntuple->MET > 300.             &&
            ntuple->HT > 500.                         &&
            ntuple->JetsAK8->size() >1 &&
-	   ntuple->JetsAK8->at(0).Pt() > 300. && 
+	   ntuple->JetsAK8->at(0).Pt() > 200. && 
 	   ntuple->JetsAK8_softDropMass->at(0) > baselineMassLow &&
 	   ntuple->JetsAK8_softDropMass->at(0) < baselineMassHigh &&
 	   //if(ntuple->JetsAK8->size() > 1){
@@ -1078,8 +1078,8 @@ template<typename ntupleType> bool baselineCut(ntupleType* ntuple){
            ntuple->JetsAK8_softDropMass->at(1) >baselineMassLow && 
            ntuple->JetsAK8_softDropMass->at(1) < baselineMassHigh
 	   ) &&
-	   //dRtoClosestB(ntuple)>0.8	
-	   dRtoClosestB(ntuple)>1.2
+	   dRtoClosestB(ntuple)>0.8	
+	   //dRtoClosestB(ntuple)>2.0
 	   &&
            DeltaPhiCuts(ntuple) && 
            ntuple->Muons->size()+ntuple->Electrons->size()==0 
@@ -1094,7 +1094,8 @@ float leadjetphi= ntuple->JetsAK8->at(0).Phi();
 float dRMin=999999.;
 TString sample = ntuple->fChain->GetFile()->GetName();
 double BTagDiscrimCut=0.4941;
-if(sample.Contains("data") && !sample.Contains("2017"))BTagDiscrimCut=0.6324;
+if(sample.Contains("data2018"))BTagDiscrimCut=0.4184;
+if(sample.Contains("data") && !sample.Contains("2017") && !sample.Contains("2018"))BTagDiscrimCut=0.6324;
 	for(unsigned int j=0; j<ntuple->Jets->size(); ++j){
 		//if(ntuple->Jets_bDiscriminatorCSV->at(j)<  0.8484  )continue;
 		if(ntuple->Jets_bJetTagDeepCSVBvsAll->at(j)<  BTagDiscrimCut  )continue;
@@ -1102,8 +1103,15 @@ if(sample.Contains("data") && !sample.Contains("2017"))BTagDiscrimCut=0.6324;
 		float dphi=ntuple->Jets->at(j).Phi()-leadjetphi;
 		float dR=sqrt((deta*deta)+(dphi*dphi));
 		if(dR<dRMin)dRMin=dR;		
+		if(ntuple->JetsAK8->size()==1)continue;
+		float subleadjeteta= ntuple->JetsAK8->at(1).Eta();
+		float subleadjetphi= ntuple->JetsAK8->at(1).Phi();
+	 	deta=ntuple->Jets->at(j).Eta()-subleadjeteta;
+                dphi=ntuple->Jets->at(j).Phi()-subleadjetphi;
+                dR=sqrt((deta*deta)+(dphi*dphi));
+		if(dR<dRMin)dRMin=dR;		
 	}
-
+//std::cout<<"dR to Closest B "<<dRMin<<std::endl;
 return dRMin;
 }
 template<typename ntupleType> bool singleMuCut(ntupleType* ntuple){

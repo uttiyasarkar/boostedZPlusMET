@@ -130,6 +130,7 @@ int main(int argc, char** argv){
         bool passBaseline;
         double jetMass1,jetMass2;
         TString filename;
+	//if(skims.sampleName[iSample]!="TT")continue;
         //cout << skims.sampleName[iSample]<<numEvents <<endl;
     for( int iEvt = 0 ; iEvt < min(options.MAX_EVENTS,numEvents) ; iEvt++ ){
     //for( int iEvt = 0 ; iEvt < min(10,numEvents) ; iEvt++ ){
