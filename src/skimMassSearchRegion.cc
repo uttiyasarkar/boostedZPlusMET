@@ -92,16 +92,6 @@ int main(int argc, char** argv){
         RA2bTree* ntuple = skims.ntuples[iSample];
  	//TTree*newtree=(TTree*)ntuple->fChain->CloneTree(0);
  	TTree*newtree=new TTree("newtree","");//(TTree*)ntuple->fChain->CloneTree(0);
-	/*
-	newtree->SetBranchStatus("*",0);
-	newtree->SetBranchStatus("HT",1);
-        newtree->SetBranchStatus("BTags",1);
-        newtree->SetBranchStatus("MET",1);
-        newtree->SetBranchStatus("JetsAK8*",1);
-        newtree->SetBranchStatus("Jets",1);
-        newtree->SetBranchStatus("Jets_bDiscriminatorCSV",1);
-	newtree->SetBranchStatus("Jets_partonFlavor",1);
-	*/
 	int BTags;	
         double MET,HT,Weight,JetPt1, JetPt2,PrunedMass1, PrunedMass2, Jet1_tau2overtau1, Jet2_tau2overtau1;
         //TBranch*b_BTags, *b_Weight,*b_MET,*b_HT,*b_JetPt1, *b_JetPt2,*b_PrunedMass1, *b_PrunedMass2, *b_Jet1_tau2overtau1, *b_Jet2_tau2overtau1, *b_GenHadTau;
@@ -202,7 +192,7 @@ int main(int argc, char** argv){
 	newtree->Write(skims.sampleName[iSample]);
 	  
   }// end sample loop
-/*
+
 if(reg == skimSamples::kSignal ){
     for( int iSample = 0 ; iSample < skims.signalNtuples.size() ; iSample++){
 
@@ -271,10 +261,9 @@ if(reg == skimSamples::kSignal ){
                newtree->Fill();
 	}
         outputFile->cd();
-        newtree->Write(skims.signalSampleName[iSample]);:1:1
+        newtree->Write(skims.signalSampleName[iSample]);
    }
 }
-*/
     outputFile->Close();
 
 }
