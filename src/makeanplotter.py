@@ -4,7 +4,7 @@ import os
 import sys
 for ivar in range(0, len(data)):
    sys.stdout = open('anplotter{}.C'.format(data[ivar]),'w')
-   print ' #include "string.h"\n#include "tdrstyle.C"\n#include "CMS_lumi.C"\n#include "TH1.h"\n#include "TH1F.h"\n#include "THStack.h"\n#include "hist.C"'
+   print '#include "string.h"\n#include "tdrstyle.C"\n#include "CMS_lumi.C"\n#include "TH1.h"\n#include "TH1F.h"\n#include "THStack.h"\n#include "hist.C"'
    print 'void anplotter%s(){'%(data[ivar])
    print 'gROOT->LoadMacro("tdrstyle.C");'
    print '//setTDRStyle();'
