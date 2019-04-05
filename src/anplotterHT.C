@@ -1,0 +1,106 @@
+#include "string.h"
+#include "tdrstyle.C"
+#include "CMS_lumi.C"
+#include "TH1.h"
+#include "TH1F.h"
+#include "THStack.h"
+#include "hist.C"
+void anplotterHT(){
+gROOT->LoadMacro("CMS_lumi.C");
+//setTDRStyle();
+ TFile* inputFile =new TFile("SkimFileMass.root", "READ");
+ OtherTree=(TTree*)inputFile->Get("Other");
+ ZJetsTree=(TTree*)inputFile->Get("ZJets");
+ WJetsTree=(TTree*)inputFile->Get("WJets");
+ SnglTTree=(TTree*)inputFile->Get("SnglT");
+ TTBarTTree=(TTree*)inputFile->Get("TT");
+ QCDTree=(TTree*)inputFile->Get("QCD");
+ T5HH1300Tree=(TTree*)inputFile->Get("T5HH1300");
+ T5HH1700Tree=(TTree*)inputFile->Get("T5HH1700");
+hist h;
+TH1D *HTOther = h.HTOther;
+TH1D *HTSnglT = h.HTSnglT;
+TH1D *HTZBkg = h.HTZBkg;
+TH1D *HTWBkg = h.HTWBkg;
+TH1D *HTTTBarBkg = h.HTTTBarBkg;
+TH1D *HTQCDBkg = h.HTQCDBkg;
+TH1D *HTT5HH1300Sig = h.HTT5HH1300Sig;
+TH1D *HTT5HH1700Sig = h.HTT5HH1700Sig;
+OtherTree->Draw("HT>>HTOther", "(HT>500 && MET>300 && PrunedMass1>70 && PrunedMass1<100 && PrunedMass2>70 && PrunedMass2<100)*Evtweight*(137/35.9)");
+SnglTTree->Draw("HT>>HTSnglT", "(HT>500 && MET>300 && PrunedMass1>70 && PrunedMass1<100 && PrunedMass2>70 && PrunedMass2<100)*Evtweight*(137/35.9)");
+ZJetsTree->Draw("HT>>HTZBkg", "(HT>500 && MET>300 && PrunedMass1>70 && PrunedMass1<100 && PrunedMass2>70 && PrunedMass2<100)*Evtweight*(137/35.9)");
+WJetsTree->Draw("HT>>HTWBkg", "(HT>500 && MET>300 && PrunedMass1>70 && PrunedMass1<100 && PrunedMass2>70 && PrunedMass2<100)*Evtweight*(137/35.9)");
+TTBarTTree->Draw("HT>>HTTTBarBkg","(HT>500 && MET>300 && PrunedMass1>70 && PrunedMass1<100 && PrunedMass2>70 && PrunedMass2<100)*Evtweight*(137/35.9)");
+QCDTree->Draw("HT>>HTQCDBkg", "(HT>500 && MET>300 && PrunedMass1>70 && PrunedMass1<100 && PrunedMass2>70 && PrunedMass2<100)*Evtweight*(137/35.9)");
+T5HH1300Tree->Draw("HT>>HTT5HH1300Sig", "(HT>500 && MET>300 && PrunedMass1>70 && PrunedMass1<100 && PrunedMass2>70 && PrunedMass2<100)*Evtweight*(137/35.9)");
+T5HH1700Tree->Draw("HT>>HTT5HH1700Sig", "(HT>500 && MET>300 && PrunedMass1>70 && PrunedMass1<100 && PrunedMass2>70 && PrunedMass2<100)*Evtweight*(137/35.9)");
+ hist *h1;
+ HTSnglT->Sumw2(kTRUE);
+ HTOther->Sumw2(kTRUE);
+ HTQCDBkg->Sumw2(kTRUE);
+ HTWBkg->Sumw2(kTRUE);
+ HTZBkg->Sumw2(kTRUE);
+ HTTTBarBkg->Sumw2(kTRUE);
+ HTT5HH1300Sig->Sumw2(kTRUE);
+ HTT5HH1700Sig->Sumw2(kTRUE);
+ THStack*hstack=new THStack("hstack","");
+ HTQCDBkg->SetFillColor(kGray+1);
+ HTOther->SetFillColor(kRed+2);
+ HTSnglT->SetFillColor(kYellow-3);
+ HTWBkg->SetFillColor(kBlue+1);
+ HTZBkg->SetFillColor(kGreen+1);
+ HTTTBarBkg->SetFillColor(kCyan+1);
+ HTT5HH1300Sig->SetLineColor(kRed+1);
+ HTT5HH1700Sig->SetLineColor(kBlack);
+ hstack->Add(HTOther);
+ hstack->Add(HTSnglT);
+ hstack->Add(HTTTBarBkg);
+ hstack->Add(HTWBkg);
+ hstack->Add(HTZBkg);
+ TH1D*TotalBkg=(TH1D*)hstack->GetStack()->Last();
+ TCanvas*c1=new TCanvas("c1", "", 600, 600);
+ int W = 600;
+int H = 600;
+int H_ref = 600;
+int W_ref = 600;
+float T = 0.08*H_ref;
+float B = 0.12*H_ref;
+float L = 0.12*W_ref;
+float R = 0.04*W_ref;
+ c1->SetFillColor(0);c1->SetBorderMode(0);c1->SetFrameFillStyle(0);c1->SetFrameBorderMode(0);c1->SetLeftMargin( L/W );c1->SetRightMargin( R/W );c1->SetTopMargin( T/H );c1->SetBottomMargin( B/H );c1->SetTickx(0);c1->SetTicky(0);
+ c1->Draw();
+c1->Update();
+ hstack->Draw("hist");
+ HTT5HH1300Sig->Draw("hist same");
+ HTT5HH1700Sig->Draw("hist same");
+ hstack->GetXaxis()->SetTitle("HT [GeV]");
+ hstack->GetYaxis()->SetLabelSize(0.023);
+ hstack->GetYaxis()->SetTitleSize(0.04);
+ hstack->GetXaxis()->SetTitleSize(0.04);
+ hstack->GetYaxis()->SetTitle("Events");
+ hstack->GetXaxis()->SetLabelSize(0.023);
+ c1->Modified();
+ writeExtraText = true;
+ extraText  = "     preliminary Simulation";
+ lumi_sqrtS = "137.1 fb^{-1}(13 TeV)";
+ TLegend *leg=new TLegend(0.5488722,0.6825806,0.914787,0.8748387,NULL,"brNDC");
+ leg->AddEntry(HTQCDBkg, "QCD ","F");
+ leg->AddEntry(HTOther, "Other","F");
+ leg->AddEntry(HTSnglT, "SnglT ","F");
+ leg->AddEntry(HTTTBarBkg, "TTJets ","F");
+ leg->AddEntry(HTWBkg, "W+Jets ","F");
+ leg->AddEntry(HTZBkg, "Z+Jets ","F");
+ leg->AddEntry(HTT5HH1300Sig, "T5ZZ1300 ","L");
+ leg->AddEntry(HTT5HH1700Sig, "T5ZZ1700 ","L");
+ gStyle->SetLegendBorderSize(0);
+ gStyle->SetLegendFillColor(0);
+ gStyle->SetLegendFont(10);
+ leg->Draw();
+ CMS_lumi( c1,0,0 );
+ //c1->SetLogy();
+ c1->Update();
+ c1->RedrawAxis();
+ c1->GetFrame()->Draw();
+ c1->Print("HTscaled137_fitting.pdf",".pdf");
+ c1->Print("HTscaled137_fitting.png",".png");
+}

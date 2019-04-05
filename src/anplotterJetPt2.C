@@ -1,0 +1,106 @@
+#include "string.h"
+#include "tdrstyle.C"
+#include "CMS_lumi.C"
+#include "TH1.h"
+#include "TH1F.h"
+#include "THStack.h"
+#include "hist.C"
+void anplotterJetPt2(){
+gROOT->LoadMacro("CMS_lumi.C");
+//setTDRStyle();
+ TFile* inputFile =new TFile("SkimFileMass.root", "READ");
+ OtherTree=(TTree*)inputFile->Get("Other");
+ ZJetsTree=(TTree*)inputFile->Get("ZJets");
+ WJetsTree=(TTree*)inputFile->Get("WJets");
+ SnglTTree=(TTree*)inputFile->Get("SnglT");
+ TTBarTTree=(TTree*)inputFile->Get("TT");
+ QCDTree=(TTree*)inputFile->Get("QCD");
+ T5HH1300Tree=(TTree*)inputFile->Get("T5HH1300");
+ T5HH1700Tree=(TTree*)inputFile->Get("T5HH1700");
+hist h;
+TH1D *JetPt2Other = h.JetPt2Other;
+TH1D *JetPt2SnglT = h.JetPt2SnglT;
+TH1D *JetPt2ZBkg = h.JetPt2ZBkg;
+TH1D *JetPt2WBkg = h.JetPt2WBkg;
+TH1D *JetPt2TTBarBkg = h.JetPt2TTBarBkg;
+TH1D *JetPt2QCDBkg = h.JetPt2QCDBkg;
+TH1D *JetPt2T5HH1300Sig = h.JetPt2T5HH1300Sig;
+TH1D *JetPt2T5HH1700Sig = h.JetPt2T5HH1700Sig;
+OtherTree->Draw("JetPt2>>JetPt2Other", "(HT>500 && MET>300 && PrunedMass1>70 && PrunedMass1<100 && PrunedMass2>70 && PrunedMass2<100)*Evtweight*(137/35.9)");
+SnglTTree->Draw("JetPt2>>JetPt2SnglT", "(HT>500 && MET>300 && PrunedMass1>70 && PrunedMass1<100 && PrunedMass2>70 && PrunedMass2<100)*Evtweight*(137/35.9)");
+ZJetsTree->Draw("JetPt2>>JetPt2ZBkg", "(HT>500 && MET>300 && PrunedMass1>70 && PrunedMass1<100 && PrunedMass2>70 && PrunedMass2<100)*Evtweight*(137/35.9)");
+WJetsTree->Draw("JetPt2>>JetPt2WBkg", "(HT>500 && MET>300 && PrunedMass1>70 && PrunedMass1<100 && PrunedMass2>70 && PrunedMass2<100)*Evtweight*(137/35.9)");
+TTBarTTree->Draw("JetPt2>>JetPt2TTBarBkg","(HT>500 && MET>300 && PrunedMass1>70 && PrunedMass1<100 && PrunedMass2>70 && PrunedMass2<100)*Evtweight*(137/35.9)");
+QCDTree->Draw("JetPt2>>JetPt2QCDBkg", "(HT>500 && MET>300 && PrunedMass1>70 && PrunedMass1<100 && PrunedMass2>70 && PrunedMass2<100)*Evtweight*(137/35.9)");
+T5HH1300Tree->Draw("JetPt2>>JetPt2T5HH1300Sig", "(HT>500 && MET>300 && PrunedMass1>70 && PrunedMass1<100 && PrunedMass2>70 && PrunedMass2<100)*Evtweight*(137/35.9)");
+T5HH1700Tree->Draw("JetPt2>>JetPt2T5HH1700Sig", "(HT>500 && MET>300 && PrunedMass1>70 && PrunedMass1<100 && PrunedMass2>70 && PrunedMass2<100)*Evtweight*(137/35.9)");
+ hist *h1;
+ JetPt2SnglT->Sumw2(kTRUE);
+ JetPt2Other->Sumw2(kTRUE);
+ JetPt2QCDBkg->Sumw2(kTRUE);
+ JetPt2WBkg->Sumw2(kTRUE);
+ JetPt2ZBkg->Sumw2(kTRUE);
+ JetPt2TTBarBkg->Sumw2(kTRUE);
+ JetPt2T5HH1300Sig->Sumw2(kTRUE);
+ JetPt2T5HH1700Sig->Sumw2(kTRUE);
+ THStack*hstack=new THStack("hstack","");
+ JetPt2QCDBkg->SetFillColor(kGray+1);
+ JetPt2Other->SetFillColor(kRed+2);
+ JetPt2SnglT->SetFillColor(kYellow-3);
+ JetPt2WBkg->SetFillColor(kBlue+1);
+ JetPt2ZBkg->SetFillColor(kGreen+1);
+ JetPt2TTBarBkg->SetFillColor(kCyan+1);
+ JetPt2T5HH1300Sig->SetLineColor(kRed+1);
+ JetPt2T5HH1700Sig->SetLineColor(kBlack);
+ hstack->Add(JetPt2Other);
+ hstack->Add(JetPt2SnglT);
+ hstack->Add(JetPt2TTBarBkg);
+ hstack->Add(JetPt2WBkg);
+ hstack->Add(JetPt2ZBkg);
+ TH1D*TotalBkg=(TH1D*)hstack->GetStack()->Last();
+ TCanvas*c1=new TCanvas("c1", "", 600, 600);
+ int W = 600;
+int H = 600;
+int H_ref = 600;
+int W_ref = 600;
+float T = 0.08*H_ref;
+float B = 0.12*H_ref;
+float L = 0.12*W_ref;
+float R = 0.04*W_ref;
+ c1->SetFillColor(0);c1->SetBorderMode(0);c1->SetFrameFillStyle(0);c1->SetFrameBorderMode(0);c1->SetLeftMargin( L/W );c1->SetRightMargin( R/W );c1->SetTopMargin( T/H );c1->SetBottomMargin( B/H );c1->SetTickx(0);c1->SetTicky(0);
+ c1->Draw();
+c1->Update();
+ hstack->Draw("hist");
+ JetPt2T5HH1300Sig->Draw("hist same");
+ JetPt2T5HH1700Sig->Draw("hist same");
+ hstack->GetXaxis()->SetTitle("JetPt2 [GeV]");
+ hstack->GetYaxis()->SetLabelSize(0.023);
+ hstack->GetYaxis()->SetTitleSize(0.04);
+ hstack->GetXaxis()->SetTitleSize(0.04);
+ hstack->GetYaxis()->SetTitle("Events");
+ hstack->GetXaxis()->SetLabelSize(0.023);
+ c1->Modified();
+ writeExtraText = true;
+ extraText  = "     preliminary Simulation";
+ lumi_sqrtS = "137.1 fb^{-1}(13 TeV)";
+ TLegend *leg=new TLegend(0.5488722,0.6825806,0.914787,0.8748387,NULL,"brNDC");
+ leg->AddEntry(JetPt2QCDBkg, "QCD ","F");
+ leg->AddEntry(JetPt2Other, "Other","F");
+ leg->AddEntry(JetPt2SnglT, "SnglT ","F");
+ leg->AddEntry(JetPt2TTBarBkg, "TTJets ","F");
+ leg->AddEntry(JetPt2WBkg, "W+Jets ","F");
+ leg->AddEntry(JetPt2ZBkg, "Z+Jets ","F");
+ leg->AddEntry(JetPt2T5HH1300Sig, "T5ZZ1300 ","L");
+ leg->AddEntry(JetPt2T5HH1700Sig, "T5ZZ1700 ","L");
+ gStyle->SetLegendBorderSize(0);
+ gStyle->SetLegendFillColor(0);
+ gStyle->SetLegendFont(10);
+ leg->Draw();
+ CMS_lumi( c1,0,0 );
+ //c1->SetLogy();
+ c1->Update();
+ c1->RedrawAxis();
+ c1->GetFrame()->Draw();
+ c1->Print("JetPt2scaled137_fitting.pdf",".pdf");
+ c1->Print("JetPt2scaled137_fitting.png",".png");
+}

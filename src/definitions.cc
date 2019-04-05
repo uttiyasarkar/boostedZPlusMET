@@ -1066,18 +1066,16 @@ template<typename ntupleType> bool AK8JetLooseMassCut(ntupleType* ntuple){
 
 template<typename ntupleType> bool baselineCut(ntupleType* ntuple){
  
-  return ( ntuple->MET > 300.             &&
-           ntuple->HT > 500.                         &&
+  return ( ntuple->MET > 200.             &&
+           ntuple->HT > 200.                         &&
            ntuple->JetsAK8->size() >1 &&
 	   ntuple->JetsAK8->at(0).Pt() > 200. && 
 	   ntuple->JetsAK8_softDropMass->at(0) > baselineMassLow &&
 	   ntuple->JetsAK8_softDropMass->at(0) < baselineMassHigh &&
-	   //if(ntuple->JetsAK8->size() > 1){
-	   ( ntuple->JetsAK8->size() >1 &&
-           ntuple->JetsAK8->at(1).Pt() > 200. &&
+           //ntuple->JetsAK8->at(1).Pt() > 200. &&
            ntuple->JetsAK8_softDropMass->at(1) >baselineMassLow && 
            ntuple->JetsAK8_softDropMass->at(1) < baselineMassHigh
-	   ) &&
+	    &&
 	   dRtoClosestB(ntuple)>0.8	
 	   //dRtoClosestB(ntuple)>2.0
 	   &&
@@ -1089,8 +1087,8 @@ template<typename ntupleType> bool baselineCut(ntupleType* ntuple){
 }
 
 template<typename ntupleType> float dRtoClosestB(ntupleType* ntuple){
-float leadjeteta= ntuple->JetsAK8->at(0).Eta();
-float leadjetphi= ntuple->JetsAK8->at(0).Phi();
+//float leadjeteta= ntuple->JetsAK8->at(0).Eta();
+//float leadjetphi= ntuple->JetsAK8->at(0).Phi();
 float dRMin=999999.;
 TString sample = ntuple->fChain->GetFile()->GetName();
 double BTagDiscrimCut=0.4941;
@@ -1099,16 +1097,16 @@ if(sample.Contains("data") && !sample.Contains("2017") && !sample.Contains("2018
 	for(unsigned int j=0; j<ntuple->Jets->size(); ++j){
 		//if(ntuple->Jets_bDiscriminatorCSV->at(j)<  0.8484  )continue;
 		if(ntuple->Jets_bJetTagDeepCSVBvsAll->at(j)<  BTagDiscrimCut  )continue;
-		float deta=ntuple->Jets->at(j).Eta()-leadjeteta;
-		float dphi=ntuple->Jets->at(j).Phi()-leadjetphi;
-		float dR=sqrt((deta*deta)+(dphi*dphi));
-		if(dR<dRMin)dRMin=dR;		
+		//float deta=ntuple->Jets->at(j).Eta()-leadjeteta;
+		//float dphi=ntuple->Jets->at(j).Phi()-leadjetphi;
+		//float dR=sqrt((deta*deta)+(dphi*dphi));
+		//if(dR<dRMin)dRMin=dR;		
 		if(ntuple->JetsAK8->size()==1)continue;
 		float subleadjeteta= ntuple->JetsAK8->at(1).Eta();
 		float subleadjetphi= ntuple->JetsAK8->at(1).Phi();
-	 	deta=ntuple->Jets->at(j).Eta()-subleadjeteta;
-                dphi=ntuple->Jets->at(j).Phi()-subleadjetphi;
-                dR=sqrt((deta*deta)+(dphi*dphi));
+	 	float deta=ntuple->Jets->at(j).Eta()-subleadjeteta;
+                float dphi=ntuple->Jets->at(j).Phi()-subleadjetphi;
+                float dR=sqrt((deta*deta)+(dphi*dphi));
 		if(dR<dRMin)dRMin=dR;		
 	}
 //std::cout<<"dR to Closest B "<<dRMin<<std::endl;
