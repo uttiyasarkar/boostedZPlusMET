@@ -6,17 +6,17 @@
 #include "THStack.h"
 #include "hist.C"
 void anplotterJetPt2(){
-gROOT->LoadMacro("CMS_lumi.C");
+gROOT->LoadMacro("tdrstyle.C");
 //setTDRStyle();
  TFile* inputFile =new TFile("SkimFileMass.root", "READ");
- OtherTree=(TTree*)inputFile->Get("Other");
- ZJetsTree=(TTree*)inputFile->Get("ZJets");
- WJetsTree=(TTree*)inputFile->Get("WJets");
- SnglTTree=(TTree*)inputFile->Get("SnglT");
- TTBarTTree=(TTree*)inputFile->Get("TT");
- QCDTree=(TTree*)inputFile->Get("QCD");
- T5HH1300Tree=(TTree*)inputFile->Get("T5HH1300");
- T5HH1700Tree=(TTree*)inputFile->Get("T5HH1700");
+ TTree *OtherTree=(TTree*)inputFile->Get("Other");
+ TTree *ZJetsTree=(TTree*)inputFile->Get("ZJets");
+ TTree *WJetsTree=(TTree*)inputFile->Get("WJets");
+ TTree *SnglTTree=(TTree*)inputFile->Get("SnglT");
+ TTree *TTBarTTree=(TTree*)inputFile->Get("TT");
+ TTree *QCDTree=(TTree*)inputFile->Get("QCD");
+ TTree *T5HH1300Tree=(TTree*)inputFile->Get("T5HH1300");
+ TTree *T5HH1700Tree=(TTree*)inputFile->Get("T5HH1700");
 hist h;
 TH1D *JetPt2Other = h.JetPt2Other;
 TH1D *JetPt2SnglT = h.JetPt2SnglT;
@@ -34,7 +34,6 @@ TTBarTTree->Draw("JetPt2>>JetPt2TTBarBkg","(HT>500 && MET>300 && PrunedMass1>70 
 QCDTree->Draw("JetPt2>>JetPt2QCDBkg", "(HT>500 && MET>300 && PrunedMass1>70 && PrunedMass1<100 && PrunedMass2>70 && PrunedMass2<100)*Evtweight*(137/35.9)");
 T5HH1300Tree->Draw("JetPt2>>JetPt2T5HH1300Sig", "(HT>500 && MET>300 && PrunedMass1>70 && PrunedMass1<100 && PrunedMass2>70 && PrunedMass2<100)*Evtweight*(137/35.9)");
 T5HH1700Tree->Draw("JetPt2>>JetPt2T5HH1700Sig", "(HT>500 && MET>300 && PrunedMass1>70 && PrunedMass1<100 && PrunedMass2>70 && PrunedMass2<100)*Evtweight*(137/35.9)");
- hist *h1;
  JetPt2SnglT->Sumw2(kTRUE);
  JetPt2Other->Sumw2(kTRUE);
  JetPt2QCDBkg->Sumw2(kTRUE);

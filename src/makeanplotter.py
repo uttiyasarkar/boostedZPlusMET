@@ -9,14 +9,14 @@ for ivar in range(0, len(data)):
    print 'gROOT->LoadMacro("tdrstyle.C");'
    print '//setTDRStyle();'
    print ' TFile* inputFile =new TFile("SkimFileMass.root", "READ");'
-   print ' OtherTree=(TTree*)inputFile->Get("Other");'
-   print ' ZJetsTree=(TTree*)inputFile->Get("ZJets");'
-   print ' WJetsTree=(TTree*)inputFile->Get("WJets");' 
-   print ' SnglTTree=(TTree*)inputFile->Get("SnglT");'
-   print ' TTBarTTree=(TTree*)inputFile->Get("TT");'
-   print ' QCDTree=(TTree*)inputFile->Get("QCD");'
-   print ' T5HH1300Tree=(TTree*)inputFile->Get("T5HH1300");'
-   print ' T5HH1700Tree=(TTree*)inputFile->Get("T5HH1700");'
+   print ' TTree *OtherTree=(TTree*)inputFile->Get("Other");'
+   print ' TTree *ZJetsTree=(TTree*)inputFile->Get("ZJets");'
+   print ' TTree *WJetsTree=(TTree*)inputFile->Get("WJets");' 
+   print ' TTree *SnglTTree=(TTree*)inputFile->Get("SnglT");'
+   print ' TTree *TTBarTTree=(TTree*)inputFile->Get("TT");'
+   print ' TTree *QCDTree=(TTree*)inputFile->Get("QCD");'
+   print ' TTree *T5HH1300Tree=(TTree*)inputFile->Get("T5HH1300");'
+   print ' TTree *T5HH1700Tree=(TTree*)inputFile->Get("T5HH1700");'
    print 'hist h;'
    print 'TH1D *%sOther = h.%sOther;'%(data[ivar],data[ivar])
    print 'TH1D *%sSnglT = h.%sSnglT;'%(data[ivar],data[ivar])
@@ -34,7 +34,6 @@ for ivar in range(0, len(data)):
    print 'QCDTree->Draw("%s>>%sQCDBkg", "(HT>500 && MET>300 && PrunedMass1>70 && PrunedMass1<100 && PrunedMass2>70 && PrunedMass2<100)*Evtweight*(137/35.9)");'%(data[ivar],data[ivar])
    print 'T5HH1300Tree->Draw("%s>>%sT5HH1300Sig", "(HT>500 && MET>300 && PrunedMass1>70 && PrunedMass1<100 && PrunedMass2>70 && PrunedMass2<100)*Evtweight*(137/35.9)");'%(data[ivar],data[ivar])
    print 'T5HH1700Tree->Draw("%s>>%sT5HH1700Sig", "(HT>500 && MET>300 && PrunedMass1>70 && PrunedMass1<100 && PrunedMass2>70 && PrunedMass2<100)*Evtweight*(137/35.9)");'%(data[ivar],data[ivar])
-   print ' hist *h1;'
    print ' %sSnglT->Sumw2(kTRUE);'%(data[ivar])
    print ' %sOther->Sumw2(kTRUE);'%(data[ivar])
    print ' %sQCDBkg->Sumw2(kTRUE);'%(data[ivar])
